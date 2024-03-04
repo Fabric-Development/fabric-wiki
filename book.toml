@@ -7,7 +7,7 @@ src = "src"
 [output.html]
 git-repository-icon = "fa-github"
 git-repository-url = "https://github.com/Fabric-Development/fabric"
-edit-url-template = "https://github.com/Fabric-Development/fabric-wiki/edit/master/{path}"
+edit-url-template = "https://github.com/Fabric-Development/fabric-wiki/edit/main/{path}"
 # input-404 = "not-found.md"
 
 # [preprocessor.alerts]
