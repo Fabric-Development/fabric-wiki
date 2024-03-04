@@ -1,0 +1,13 @@
+[book]
+title = "Fabric Wiki"
+multilingual = false
+language = "en"
+src = "src"
+
+[output.html]
+git-repository-icon = "fa-github"
+git-repository-url = "https://github.com/Fabric-Development/fabric"
+edit-url-template = "https://github.com/Fabric-Development/fabric-wiki/edit/master/{path}"
+# input-404 = "not-found.md"
+
+# [preprocessor.alerts]
