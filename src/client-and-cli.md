@@ -1,9 +1,11 @@
 # The CLI utility and client
-when you start fabric (using the `start` function) Fabric will start executing the GTK main thread and it will also start a DBus client at the same time, this client makes you able to execute code on the fly and get information about your configuration file (still not a lot of features (yet)), Fabric grabs all of your globals and locals so when you execute code using the client you get all of your variables, object or/and modules
 
-the CLI utility is just a command line tool to use the client instead of dealing with DBus communications yourself
+When you start fabric (using the `start` function) Fabric will start executing the GTK main thread and it will also start a DBus client at the same time, this client makes you able to execute code on the fly and get information about your configuration file (still not a lot of features (yet)), Fabric grabs all of your globals and locals so when you execute code using the client you get all of your variables, object or/and modules.
+
+The CLI utility is just a command line tool to use the client instead of dealing with DBus communications yourself.
 
 ## usage
+
 ```
 $ python -m fabric --help
 Usage: python -m fabric [OPTIONS] COMMAND [ARGS]...
@@ -15,6 +17,7 @@ Commands:
   execute  executes a python code within the running fabric instance
   info     gets info about the currently running fabric instance
 ```
+
 ## examples
 
 ```

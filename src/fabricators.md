@@ -1,16 +1,19 @@
 # Fabricator? What is That?
-fabricators are a special classes that gets grabs you info from _somewhere_ , fabricators can poll data from external shell commands or internal python functions, it can also read streams of data, like a shell command that stays running by printing out data over the time to the standard output or _generator_ functions that yield data
 
-fabricators gives you a set of options, here's some of the options it gives you...
-- the initial value this fabricator should be initialized with
-- where to poll the data, it can be a python function/generator or a shell command
-- the interval time of calling the passed command/function and poll data from it (in milliseconds)
-- whether you want data as a stream (for polling data from generators and stream shell commands) 
+Fabricators are a special classes that gets grabs you info from _somewhere_ , fabricators can poll datas from external shell commands or internal python functions, it can also read streams of data, like a shell command that stays running by printing out data over the time to the standard output or _generator_ functions that yield data
 
-without any further ado, lets get some examples of using fabricators
+Fabricators give you a set of options, here's some of the options it gives you...
+
+-   The initial value this fabricator should be initialized with
+-   Where to poll the data, it can be a python function/generator or a shell command
+-   The interval time of calling the passed command/function and poll data from it (in milliseconds)
+-   Whether you want data as a stream (for polling data from generators and stream shell commands)
+
+Without any further ado, lets get some examples of using fabricators
 
 **1. monitor player state:**
 this example utilizes a fabricator to read a stream from a external command (`playerctl -f status`) which will print the current media player state when it changes
+
 ```python
 import fabric
 from fabric.utils.fabricator import Fabricate
@@ -35,8 +38,9 @@ fabric.start()
 # ...
 ```
 
-**2. display periodic updates:**
+**2. Display periodic updates:**
 in this example we use a fabricator to poll data from the shell command `date` every 500ms and print the output of it
+
 ```python
 import fabric
 from fabric.utils.fabricator import Fabricate
@@ -63,8 +67,9 @@ fabric.start()
 # ...
 ```
 
-**3. advanced polling with stopping condition:**
+**3. Advanced polling with stopping condition:**
 in this example we fabricate a function instead of a shell command
+
 ```python
 import fabric
 from fabric.utils.fabricator import Fabricate

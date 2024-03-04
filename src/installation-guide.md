@@ -1,46 +1,54 @@
 # Installing Guide
+
 it's really simple to get Fabric working, you just...
 
 ## 1. Install Python
+
 Fabric requires python version 3.11 or higher
 
-for arch linux you do `pacman -S python` to get the latest version of python
+For arch linux you do `pacman -S python` to get the latest version of python
 
 ## 2. Get The Dependencies
-this step does depend on your system, this command will work for arch linux to install the dependency's using `pacman`
+
+This step does depend on your system, this command will work for arch linux to install the dependency's using `pacman`
 
 `sudo pacman -S gtk3 cairo gtk-layer-shell libgirepository gobject-introspection gobject-introspection-runtime python python-pip python-gobject python-cairo python-loguru pkgconf`
 
 _if you're not on Arch, you will have to figure out yourself what is the package names for your distribution_
 
 ## 3. Install Fabric
+
 > [!TIP]
 > Fabric is available under the arch user repository with the name `python-fabric-git`
 
-you can install Fabric globally using `pip install git+https://github.com/Fabric-Development/fabric.git` although we **don't** prefer this way because it might cause dependency issues, it's better to use a [virtual environment](https://docs.python.org/3/library/venv), to get Fabric in a virtual environment you'll have to do the following
+You can install Fabric globally using `pip install git+https://github.com/Fabric-Development/fabric.git` although we **don't** prefer this way because it might cause dependency issues, it's better to use a [virtual environment](https://docs.python.org/3/library/venv), to get Fabric in a virtual environment you'll have to do the following
 
-make a new folder for your new project
+Make a new folder for your new project
+
 ```bash
 mkdir <your-folder-name>
 ```
 
-change the current directory to this new folder
+Change the current directory to this new folder
+
 ```bash
 cd <your-folder-name>
 ```
 
-create a new virtual environment, this command will create a virtual environment with the name `venv`
+Create a new virtual environment, this command will create a virtual environment with the name `venv`
+
 ```bash
 python -m venv venv
 ```
 
-source the newly created virtual environment
+Activate the newly created virtual environment
 
 ```bash
 source venv/bin/activate
 ```
 
-now you can install packages, we can install Fabric now...
+Now you after installed packages, we can install Fabric now...
+
 ```bash
 pip install git+https://github.com/Fabric-Development/fabric.git
 ```
