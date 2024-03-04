@@ -1,0 +1,360 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+
+<head>
+    <!-- Book generated using mdBook -->
+    <meta charset="UTF-8">
+    <title>First Widget(s) - Fabric Wiki</title>
+
+
+    <!-- Custom HTML head -->
+    
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="icon" href="favicon.svg">
+    <link rel="shortcut icon" href="favicon.png">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/general.css">
+    <link rel="stylesheet" href="css/chrome.css">
+    <link rel="stylesheet" href="css/print.css" media="print">
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+    <link rel="stylesheet" href="fonts/fonts.css">
+
+    <!-- Highlight.js Stylesheets -->
+    <link rel="stylesheet" href="highlight.css">
+    <link rel="stylesheet" href="tomorrow-night.css">
+    <link rel="stylesheet" href="ayu-highlight.css">
+
+    <!-- Custom theme stylesheets -->
+
+</head>
+
+<body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch (e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch (e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+        <!-- hacky way to add a class to active sidebar items -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var chapterItems = document.querySelectorAll('.chapter li.chapter-item');
+
+                chapterItems.forEach(function (item) {
+                    if (item.querySelector('a.active')) {
+                        // if it works, it works.
+                        div = document.createElement('div');
+                        item.insertBefore(div, item.firstChild);
+                        item.classList.add('active');
+                    }
+                });
+            });
+
+        </script>
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> Let's Fabricate Some Stuff!</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.1.</strong> Introduction to Fabric</a></li><li class="chapter-item expanded "><a href="installation-guide.html"><strong aria-hidden="true">1.2.</strong> Installing Fabric</a></li><li class="chapter-item expanded "><a href="installing-stubs.html"><strong aria-hidden="true">1.3.</strong> Stubs Installation Guide</a></li><li class="chapter-item expanded "><a href="prepare.html"><strong aria-hidden="true">1.4.</strong> Prepare</a></li><li class="chapter-item expanded "><a href="first-widget.html" class="active"><strong aria-hidden="true">1.5.</strong> First Widget(s)</a></li><li class="chapter-item expanded "><a href="services.html"><strong aria-hidden="true">1.6.</strong> What is a "Service"</a></li><li class="chapter-item expanded "><a href="fabricators.html"><strong aria-hidden="true">1.7.</strong> What is a "Fabricator"</a></li><li class="chapter-item expanded "><a href="client-and-cli.html"><strong aria-hidden="true">1.8.</strong> CLI usage</a></li><li class="chapter-item expanded "><a href="faq.html"><strong aria-hidden="true">1.9.</strong> FAQ</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> API Reference (TBD)</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Developer Guide</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="hacking-guide.html"><strong aria-hidden="true">3.1.</strong> Hacking into Fabric</a></li><li class="chapter-item expanded "><a href="development-environment.html"><strong aria-hidden="true">3.2.</strong> Setting up a development environment</a></li><li class="chapter-item expanded "><a href="code-style-guide.html"><strong aria-hidden="true">3.3.</strong> Code Style Guidelines</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function (e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor"
+                            title="Toggle Table of Contents" aria-label="Toggle Table of Contents"
+                            aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme"
+                            aria-label="Change theme" aria-haspopup="true" aria-expanded="false"
+                            aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)"
+                            aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S"
+                            aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Fabric Wiki</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/Fabric-Development/fabric" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/Fabric-Development/fabric-wiki/edit/master/src/first-widget.md" title="Edit this page" aria-label="Edit this page">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..."
+                            aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function (link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="creating-your-first-widget"><a class="header" href="#creating-your-first-widget">Creating Your First Widget!</a></h1>
+<p>now (assuming you have Fabric installed) we can write our first widget</p>
+<h1 id="coding-the-basics"><a class="header" href="#coding-the-basics">Coding the Basics...</a></h1>
+<p>here's an example of using Fabric to define a simple widget, you can create a new python file and add this code into it, don't worry, you don't have to understand anything since we'll walk you through every line</p>
+<pre><code class="language-python">import fabric # importing the base pacakge
+from fabric.widgets.window import Window # graps a Window object from fabric
+from fabric.widgets.label import Label # gets a Label object
+
+window = Window() # creates a new instance of the Window object and assign it to the `window` variable
+label = Label("Hello, World") # creates a new Label instance and give it to the `label` variable, this label is set to "Hello, World"
+window.add(label) # adds the label to the window
+window.show_all() # to make the window and it's children appear up
+
+fabric.start() # to start fabric
+</code></pre>
+<p>run the code using <code>python path/to/your/config.py</code></p>
+<p>if everything goes fine, you should see a window that looks like this:
+<img src="assets/first-widget-label.png" alt="" /></p>
+<p>if you didn't already understood the code, it firstly imports Fabric and the used widgets to create this demo which's a <code>Window</code> and a <code>Label</code>, then it creates a new instance of each widget, for the label instance it get's created with the text "Hello, World", then it adds this label widget to the window and show's up that window (and all of it's children), lastly it starts Fabric so the window actually shows up</p>
+<p>"now what?" you might be asking; "now, we do some <em><strong>REAL STUFF</strong></em>" i answer.</p>
+<h1 id="level-1-boxes"><a class="header" href="#level-1-boxes">Level 1: Boxes</a></h1>
+<p>in this level, we're going to start very simple by using some boxes and labels..</p>
+<pre><code class="language-python">import fabric # importing the base pacakge
+from fabric.widgets.window import Window # graps a Window object from fabric
+from fabric.widgets.box import Box # gets a Box object
+from fabric.widgets.label import Label # gets a Label object
+
+box_1 = Box(
+    orientation="v",
+    children=Label("this is the first box")
+)
+box_2 = Box(
+    orientation="h",
+    spacing=28, # adds some spacing between the children
+    children=[
+        Label("this is the first element in this second box"),
+        Label("btw, this box elements will get added horizontally")
+    ]
+)
+
+box_1.add(box_2)
+
+window = Window(
+    children=box_1 # there's no need showing up this window using `show_all()` it'll show itself because the children is already passed
+)
+
+fabric.start()
+</code></pre>
+<p><em>result (notice the alignment of the labels)</em></p>
+<p><img src="assets/first-widget-box.png" alt="" /></p>
+<p>see this visual representation so you understand what's going on more clearly</p>
+<p><img src="assets/first-widget-box-help.png" alt="" /></p>
+<hr />
+<p>now you probably got an idea about how box containers work with different orientations, we can follow up now</p>
+<h1 id="level-2-buttons"><a class="header" href="#level-2-buttons">Level 2: Buttons</a></h1>
+<p>without any further ado, let's see how the code will look like first...</p>
+<pre><code class="language-python">import fabric
+from fabric.widgets.box import Box
+from fabric.widgets.label import Label
+from fabric.widgets.button import Button
+from fabric.widgets.window import Window
+
+def create_button():
+    button = Button(label="click me")
+    button.connect("button-press-event", lambda *args: button.set_label("you clicked me"))
+    return button
+
+box = Box(
+  orientation="v",
+  children=[
+    Label("fabric buttons demo"),
+    Box(
+      orientation="h",
+      children=[
+        create_button(),
+        create_button(),
+        create_button(),
+        create_button(),
+      ],
+    ),
+  ],
+)
+
+window = Window(
+  children=box,
+)
+
+fabric.start()
+</code></pre>
+<p><em>result:</em></p>
+<p><img src="assets/first-widget-button.png" alt="" /></p>
+<p>this demo creates a window with a box inside of it, lets call it "first box", this first box orientation is set to be vertical, first child inside that box is a label with the text "fabric buttons demo", second child inside the first box is another box oriented horizontally, lets call it the "second box" , this second box has 4 buttons, each button is automatically generated using a function to handle creating buttons and connecting each buttons signal for us, since each widget can't be used more than one time as a child for a widget we made this function (<code>create_button</code>), it creates a new instance of a Fabric button and connects its <code>button-press-event</code> signal to a lambda function that basically changes the label of the same button to "you clicked me" when it gets clicked by the user</p>
+<blockquote>
+<p>[!TIP]
+when you write a widget using Fabric, you're actually creating a genuine GTK widget under the hood
+Fabric's purpose is to simplify and add an enjoyable touch to the widget-writing process
+as we delve into widget creation, we might, for instance, nest a button within a box or embed text inside a button. this approach to defining widgets will feel remarkably familiar to frontend developers and those who have experience writing HTML</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        <a rel="prev" href="prepare.html" class="mobile-nav-chapters previous"
+                            title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+
+                        <a rel="next prefetch" href="services.html" class="mobile-nav-chapters next"
+                            title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                <a rel="prev" href="prepare.html" class="nav-chapters previous" title="Previous chapter"
+                    aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+
+                <a rel="next prefetch" href="services.html" class="nav-chapters next" title="Next chapter"
+                    aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+</body>
+
+</html>

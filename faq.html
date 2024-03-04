@@ -1,0 +1,301 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+
+<head>
+    <!-- Book generated using mdBook -->
+    <meta charset="UTF-8">
+    <title>FAQ - Fabric Wiki</title>
+
+
+    <!-- Custom HTML head -->
+    
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="icon" href="favicon.svg">
+    <link rel="shortcut icon" href="favicon.png">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/general.css">
+    <link rel="stylesheet" href="css/chrome.css">
+    <link rel="stylesheet" href="css/print.css" media="print">
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+    <link rel="stylesheet" href="fonts/fonts.css">
+
+    <!-- Highlight.js Stylesheets -->
+    <link rel="stylesheet" href="highlight.css">
+    <link rel="stylesheet" href="tomorrow-night.css">
+    <link rel="stylesheet" href="ayu-highlight.css">
+
+    <!-- Custom theme stylesheets -->
+
+</head>
+
+<body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch (e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch (e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+        <!-- hacky way to add a class to active sidebar items -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var chapterItems = document.querySelectorAll('.chapter li.chapter-item');
+
+                chapterItems.forEach(function (item) {
+                    if (item.querySelector('a.active')) {
+                        // if it works, it works.
+                        div = document.createElement('div');
+                        item.insertBefore(div, item.firstChild);
+                        item.classList.add('active');
+                    }
+                });
+            });
+
+        </script>
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> Let's Fabricate Some Stuff!</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.1.</strong> Introduction to Fabric</a></li><li class="chapter-item expanded "><a href="installation-guide.html"><strong aria-hidden="true">1.2.</strong> Installing Fabric</a></li><li class="chapter-item expanded "><a href="installing-stubs.html"><strong aria-hidden="true">1.3.</strong> Stubs Installation Guide</a></li><li class="chapter-item expanded "><a href="prepare.html"><strong aria-hidden="true">1.4.</strong> Prepare</a></li><li class="chapter-item expanded "><a href="first-widget.html"><strong aria-hidden="true">1.5.</strong> First Widget(s)</a></li><li class="chapter-item expanded "><a href="services.html"><strong aria-hidden="true">1.6.</strong> What is a "Service"</a></li><li class="chapter-item expanded "><a href="fabricators.html"><strong aria-hidden="true">1.7.</strong> What is a "Fabricator"</a></li><li class="chapter-item expanded "><a href="client-and-cli.html"><strong aria-hidden="true">1.8.</strong> CLI usage</a></li><li class="chapter-item expanded "><a href="faq.html" class="active"><strong aria-hidden="true">1.9.</strong> FAQ</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> API Reference (TBD)</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Developer Guide</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="hacking-guide.html"><strong aria-hidden="true">3.1.</strong> Hacking into Fabric</a></li><li class="chapter-item expanded "><a href="development-environment.html"><strong aria-hidden="true">3.2.</strong> Setting up a development environment</a></li><li class="chapter-item expanded "><a href="code-style-guide.html"><strong aria-hidden="true">3.3.</strong> Code Style Guidelines</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function (e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor"
+                            title="Toggle Table of Contents" aria-label="Toggle Table of Contents"
+                            aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme"
+                            aria-label="Change theme" aria-haspopup="true" aria-expanded="false"
+                            aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)"
+                            aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S"
+                            aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Fabric Wiki</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/Fabric-Development/fabric" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/Fabric-Development/fabric-wiki/edit/master/src/faq.md" title="Edit this page" aria-label="Edit this page">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..."
+                            aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function (link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <blockquote>
+<p>[!TIP]
+if you're using Fabric inside a virtual environment managed by something other than the <code>venv</code> module included by <code>python</code> and you're getting import errors (and all dependencies exist) , you can try using Fabric in a virtual environment generated by <code>python -m venv venv</code></p>
+</blockquote>
+<h3 id="audio-servicewidget-is-not-working"><a class="header" href="#audio-servicewidget-is-not-working">audio service/widget is not working</a></h3>
+<p><code>libcvc</code> is missing, clone Fabric and install <code>libcvc</code> using the script included (<code>scripts/install_libcvc</code>)</p>
+<h3 id="my-window-does-not-show-up"><a class="header" href="#my-window-does-not-show-up">my window does not show up</a></h3>
+<p>this can be fixed by following these debugging steps</p>
+<ul>
+<li>check that you don't have any blocking code that runs before Fabric, (i.e doing web requests)</li>
+<li>check if the window is showed using the <code>show_all</code> function</li>
+</ul>
+<hr />
+<h1 id="wayland"><a class="header" href="#wayland">Wayland</a></h1>
+<h3 id="my-window-size-goes-crazy-for-a-second-and-goes-back-to-normal-state"><a class="header" href="#my-window-size-goes-crazy-for-a-second-and-goes-back-to-normal-state">my window size goes crazy for a second and goes back to normal state</a></h3>
+<p>this is a known issue when showing up an empty GTKLayerShell window on wl-roots compositors, a fix is to make sure not to show up any window as long as it's empty, you can set the <code>show_all</code> argument to <code>False</code> until you add a child to the window and later you can use the <code>.show_all()</code> method to show up the window</p>
+<h3 id="my-window-show-up-as-a-normal-window-not-a-layer"><a class="header" href="#my-window-show-up-as-a-normal-window-not-a-layer">my window show up as a normal window not a layer</a></h3>
+<p>this might happen if the <code>GDK_BACKEND</code> environment variable is set to <code>x11</code> or anything other than <code>wayland</code>, also this might happen if your compositor does not support the <code>layer-shell</code> protocol (e.g. GNOME is refusing to implement the protocol, <a href="https://gitlab.gnome.org/GNOME/gnome-shell/-/issues/1141#note_482766">source</a>)</p>
+<p>if your compositor support the protocol, a fix for this issue will be by setting the <code>GDK_BACKEND</code> variable to <code>wayland</code> (e.g. <code>env GDK_BACKEND=wayland python path/to/fabric/config</code>)</p>
+<h3 id="my-eventbox-isnt-eventboxing-properly"><a class="header" href="#my-eventbox-isnt-eventboxing-properly">my eventbox isn't eventboxing properly</a></h3>
+<p>if you're on hyprland try downgrading to <code>0.28.0</code>, this is a known issue with hyprland layer surfaces
+if not hyprland then it's better to provide more information via reporting this issue in our discord server or a github issue</p>
+<h3 id="my-widget-aint-blurring-its-background-on-hyprland"><a class="header" href="#my-widget-aint-blurring-its-background-on-hyprland">my widget ain't blurring it's background on hyprland</a></h3>
+<p>simple as adding these lines into your hyprland config</p>
+<pre><code>layerrule = blur, fabric
+layerrule = ignorezero, fabric
+</code></pre>
+<hr />
+<h1 id="x11xorg"><a class="header" href="#x11xorg">X11/Xorg</a></h1>
+<blockquote>
+<p>[!WARNING]
+Fabric's X11/Xorg backends are still experimental, issues might occur</p>
+</blockquote>
+<h3 id="cant-add-margin-to-my-window"><a class="header" href="#cant-add-margin-to-my-window">can't add margin to my window</a></h3>
+<p>try setting the window type to <code>"popup"</code></p>
+<h3 id="my-window-has-rounded-corners-that-i-didnt-set"><a class="header" href="#my-window-has-rounded-corners-that-i-didnt-set">my window has rounded corners that i didn't set</a></h3>
+<p>checkout your compositor configuration, it might be setting a rounded corners for Fabric windows</p>
+<h3 id="when-i-set-my-window-to-have-transparency-i-get-black-background-color"><a class="header" href="#when-i-set-my-window-to-have-transparency-i-get-black-background-color">when i set my window to have transparency i get black background color</a></h3>
+<p>this might be caused due to you begin having no running compositor, checkout picom or compton</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        <a rel="prev" href="client-and-cli.html" class="mobile-nav-chapters previous"
+                            title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+
+                        <a rel="next prefetch" href="hacking-guide.html" class="mobile-nav-chapters next"
+                            title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                <a rel="prev" href="client-and-cli.html" class="nav-chapters previous" title="Previous chapter"
+                    aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+
+                <a rel="next prefetch" href="hacking-guide.html" class="nav-chapters next" title="Next chapter"
+                    aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+</body>
+
+</html>
