@@ -23,4 +23,4 @@ hacking into Fabric will require you having more knowledge on python and some un
 
 ---
 # Ready?
-assuming you already have Fabric installed by following this [[installation-guide]] guide, let's get started by [writing your first widget](first-widget.md)
+assuming you already have Fabric installed by following [this guide](installation-guide.md), let's get started by [writing your first widget](first-widget.md)
