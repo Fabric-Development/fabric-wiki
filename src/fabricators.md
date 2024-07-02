@@ -11,7 +11,7 @@ Fabricators give you some important options during initalization, including:
 So, let's look at some examples of using fabricators!
 
 ## Media Player State
-This example utilizes a fabricator to read a stream from a external command (`playerctl -f status`) and print the current media status when it changes.
+This example utilizes a fabricator to read a stream from an external command (`playerctl -f status`) and print the current media status when it changes.
 
 ```python
 import fabric
