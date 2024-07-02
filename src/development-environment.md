@@ -2,7 +2,7 @@
 This page will walk you through setting up your development environment for Fabric.
 
 ## Fabric Source
-To start developing, you should grab the latest commit for Fabric so that you're up-to-date.
+To start developing, you should grab the latest commit of Fabric so that you're up-to-date.
 
 To do this, run this command:
 ```bash
