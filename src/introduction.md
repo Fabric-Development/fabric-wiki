@@ -8,4 +8,4 @@ Fabric might be your framework of choice if you already know how to program in P
 Fabric uses [GTK](https://www.gtk.org/) version 3, a widget and application development toolkit. Specifically, Fabric uses the python bindings of GTK ([PyGObject](https://wiki.gnome.org/action/show/Projects/PyGObject)). Without GTK, Fabric wouldn't exist!
 
 # What is Cairo?
-[Cairo](https://www.cairographics.org/) is a 2D graphics library used by GTK to draw surfaces and widgets. GTK allows you to draw custom surfaces and widgets through Cairo, and Fabric extends GTK even more by adding widgets that do not exist in GTK.
+[Cairo](https://www.cairographics.org/) is a 2D graphics library used by GTK to draw surfaces and widgets. GTK allows you to draw custom surfaces and widgets through Cairo, and Fabric extends GTK even more by adding widgets that don't exist in GTK.

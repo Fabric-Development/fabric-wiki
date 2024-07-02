@@ -8,7 +8,7 @@ PyGObject provides a [Python package](https://github.com/pygobject/pygobject-stu
 [FakeGir](https://github.com/strycore/fakegir) is a Python script that generates an overrides file for your editor to use; it's not considered a real stubs package because you will have to configure your editor to use the overrides file instead of the hints from the code.
 
 ## GenGir
-[GenGir](https://github.com/santiagocezar/gengir) generates a stubs package and installs it for you, whether for global Python packages or a virtual environment. Also the chief maintainer's personal favorite tool out of these options.
+[GenGir](https://github.com/santiagocezar/gengir) generates a stubs package and installs it for you, whether for global Python packages or a virtual environment. Also the maintainer's personal favorite tool out of these options.
 
 ## Fabric Stubs
 There is an ongoing process to write a stubs package made to be used with Fabric based on a refined version of the stubs produced by GenGir. This package is not yet public, though that may change in the future...

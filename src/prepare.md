@@ -4,7 +4,7 @@ Here's some stuff to prepare before hopping into Fabric...
 Fabric is an advanced and complex Python library. To take advantage of the full capabilities of Fabric, you should at least know the basics of Python and have some understanding of the following concepts:
 - Packages: Installing packages via `pip` and using virtual environments
 - Variables & Data Types
-- Functions with `def` and `lambda`
+- Functions with both `def` and `lambda`
 - Conditionals
 - Loops: For- and while-loops
 - Exception Handling: `try`, `except`, `finally`
@@ -18,7 +18,7 @@ Fabric is an advanced and complex Python library. To take advantage of the full 
 -   [Codeabbey, exercises for beginners](http://www.codeabbey.com/)
 
 ## GTK
-If you plan to hack into Fabric and create your own widgets or contribute, you will need some understanding of GTK. You can read the [hacking guide](hacking-guide.md) for GTK learning resources.
+If you plan to hack into Fabric and create your own widgets or contribute, you will need some understanding of GTK. GTK learning resources are listed in the [hacking guide](hacking-guide.md).
 
 ---
 ## Ready?

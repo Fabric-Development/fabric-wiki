@@ -26,7 +26,7 @@ Fabric requires the following dependencies to run:
 * `pkgconf`
 
 > [!NOTE]
-> Names of packages and installation instructions vary across  distributions and systems. You may have to do some searching for your repository.
+> Names of packages and installation instructions vary across  distributions and systems. You may have to do some searching for your system.
 
 To install all dependencies:
 * Arch Linux: `sudo pacman -S gtk3 cairo gtk-layer-shell libgirepository gobject-introspection gobject-introspection-runtime python python-pip python-gobject python-cairo python-loguru pkgconf`

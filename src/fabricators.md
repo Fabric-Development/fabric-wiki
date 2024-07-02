@@ -1,5 +1,5 @@
 # What are Fabricators?
-Fabricators are special classes that can grab you info from _somewhere_. Fabricators can poll data from external shell commands or internal Python functions, and read streams of data like a shell command that stays running or a Python generator function.
+Fabricators are special classes that can grab you info from external shell commands or internal Python functions. Fabricators can also read streams of data like a shell command that stays running or a Python generator function.
 
 Fabricators give you some important options during initalization, including:
 

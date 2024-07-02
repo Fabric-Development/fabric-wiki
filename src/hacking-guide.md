@@ -4,7 +4,7 @@ Fabric is made to be a hackable package at its core. This guide will walk you th
 ## Notes
 
 > [!NOTE]
->   Please note that Fabric is built using GTK version 3; widgets from other versions are incompatible or will require more effort to get to work. 
+>   Please note that Fabric is built using GTK version 3; widgets from other versions are either incompatible or will require more effort to get to work. 
 
 > [!TIP]
 > Having knowledge about how GTK and GObject works will greatly enhance your hacking ability while reducing issues along with the way; these are some useful resources to learn more about GTK and GObject.
@@ -17,7 +17,7 @@ Fabric is made to be a hackable package at its core. This guide will walk you th
 > If the widget you're trying to implement was already implemented somewhere else (even if it was in another language) using GTK (version 3) and/or Cairo, porting it will be simple: you can just use the same drawing functions, since the Cairo bindings don't differ from language to another.
 
 ## Development Environment
-Before doing anything else you should prepare your development environment; to do that, read [this page](development-environment.md).
+Before doing anything else, you should prepare your development environment; to do that, read [this page](development-environment.md).
 
 ## Source Tree
 ### Widgets
@@ -42,14 +42,14 @@ class MyUsefulService(Service):
 For more details on services, head over to [this wiki page](services.md).
 
 ## Writing a New Widget
-To start writing your own widget, you you should first check if GTK already includes that widget;  we don't want to reinvent the wheel. If GTK does implement the widget you're looking for, then the work will be much simpler. Even if it doesn't, you don't have to worry, since this page will also teach you how to write your own widget from scratch!
+To start writing your own widget, you you should first check if GTK already includes that widget; after all, we don't want to reinvent the wheel. If GTK does implement the widget you're looking for, then the work will be much simpler. Even if it doesn't, you don't have to worry, since this page will also teach you how to write your own widget from scratch!
 
 ### My Widget Exists Within GTK
 Do one of the following to get the widget:
 
 - Just use it: Fabric is fully compatible with GTK widgets, so you can import the widget and use it however you need to. Note that this will not provide the new widget with all of Fabric's features (i.e setting the style within the construction), so if you require these see the option below.
 
-- Fabricate the widget: _fabricating_ a widget means that you take a GTK widget and convert it into a Fabric widget; this will enable Fabric's features like special methods and properties.
+- Fabricate the widget: _fabricating_ a widget means that you take a GTK widget and convert it into a Fabric widget; this will make it possible to use Fabric's features like special methods and properties.
 
 #### Fabricating a GTK Widget
 To start fabricating a widget, first check the type of the widget you want to fabricate. In general, there are two types of widgets: a regular widget and a container.
