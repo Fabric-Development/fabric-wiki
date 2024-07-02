@@ -1,4 +1,4 @@
-# Creating Your First Widget!
+# Creating Your First Widget
 Assuming you have [Fabric installed](installation-guide.md), it's time to write your first widget!
 
 ## The Basics
