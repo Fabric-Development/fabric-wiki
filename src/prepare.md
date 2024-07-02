@@ -21,5 +21,5 @@ Fabric is an advanced and complex Python library. To take advantage of the full 
 If you plan to hack into Fabric and create your own widgets or contribute, you will need some understanding of GTK. You can read the [hacking guide](hacking-guide.md) for GTK learning resources.
 
 ---
-# Ready?
+## Ready?
 Assuming you already have Fabric installed by following [this guide](installation-guide.md), let's get started by [writing your first widget](first-widget.md)!
