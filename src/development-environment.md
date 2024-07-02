@@ -17,7 +17,7 @@ You can then change your directory into this newly created clone.
 cd fabric
 ```
 
-## Set up Virtual Environment
+## Virtual Environment
 > [!NOTE]
 > You can continue inside an integrated terminal now if you prefer. For this example, we use VSCode:
 > ```bash
