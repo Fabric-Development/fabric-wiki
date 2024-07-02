@@ -1,47 +1,45 @@
 # Development Environment
-this page will walk you through setting up your hacking environment
+This page will walk you through setting up your development environment for Fabric.
 
-# Setup The Source
-to start developing it's better to grab the latest commit for Fabric so you're up-to-date
-for that you use
+## Fabric Source
+To start developing, you should grab the latest commit for Fabric so that you're up-to-date.
+
+To do this, run this command:
 ```bash
 git clone https://github.com/Fabric-Development/fabric
 ```
 
 > [!NOTE]
-> not that when you clone the source it will be located at the same current working directory
+> Cloning the source repository this way will create a new folder in your current working directory.
 
-you can now change the current directory into the newly cloned source
+You can then change your directory into this newly created clone.
 ```bash
 cd fabric
 ```
 
-# Start Hacking
-now you can continue inside using your code editor, this step is optional but using a IDE will make your life easier
+## Set up Virtual Environment
+> [!NOTE]
+> You can continue inside an integrated terminal now if you prefer. For this example, we use VSCode:
+> ```bash
+> code .
+> ```
 
-_for this example we use VSCode as the code editor_
-```
-code .
-```
-
-**now we can start initializing the python environment**
-
-first we will create a new python venv and source it
-
+Create a Python virtual environment:
 ```bash
-python -m venv venv
+python -m venv <your-virtual-environment-name>
 ```
 
+Source your new virtual environment:
 ```bash
 source venv/bin/activate
 ```
 
-_now we have a separated environment from system wide_
+We now have a separate environment for packages.
 
-next we install the current Fabric source in place as a package
+Finally, install the current Fabric source in place as a package:
 ```bash
 pip install -r requirements.txt
 pip install -e .
 ```
 
-everything is now ready, you can continue the hacking from [this page](hacking-guide.md)
+And you're ready! Continue on [this page](hacking-guide.md) to start hacking.
