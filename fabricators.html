@@ -203,23 +203,23 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="fabricator-what-is-that"><a class="header" href="#fabricator-what-is-that">Fabricator? What is That?</a></h1>
-<p>fabricators are a special classes that gets grabs you info from <em>somewhere</em> , fabricators can poll data from external shell commands or internal python functions, it can also read streams of data, like a shell command that stays running by printing out data over the time to the standard output or <em>generator</em> functions that yield data</p>
-<p>fabricators gives you a set of options, here's some of the options it gives you...</p>
+                        <h1 id="what-are-fabricators"><a class="header" href="#what-are-fabricators">What are Fabricators?</a></h1>
+<p>Fabricators are special classes that can grab you info from external shell commands or internal Python functions. Fabricators can also read streams of data like a shell command that stays running or a Python generator function.</p>
+<p>Fabricators give you some important options during initalization, including:</p>
 <ul>
-<li>the initial value this fabricator should be initialized with</li>
-<li>where to poll the data, it can be a python function/generator or a shell command</li>
-<li>the interval time of calling the passed command/function and poll data from it (in milliseconds)</li>
-<li>whether you want data as a stream (for polling data from generators and stream shell commands)</li>
+<li>The initial value the fabricator should be initialized with</li>
+<li>Where to poll the data from, whether it is a Python function/generator or a shell command</li>
+<li>The poll frequency: how often you want the fabricator to poll the function or command in milliseconds</li>
+<li>Whether you want data as a stream (for polling data from generators and stream shell commands)</li>
 </ul>
-<p>without any further ado, lets get some examples of using fabricators</p>
-<p><strong>1. monitor player state:</strong>
-this example utilizes a fabricator to read a stream from a external command (<code>playerctl -f status</code>) which will print the current media player state when it changes</p>
+<p>So, let's look at some examples of using fabricators!</p>
+<h2 id="media-player-state"><a class="header" href="#media-player-state">Media Player State</a></h2>
+<p>This example utilizes a fabricator to read a stream from an external command (<code>playerctl -f status</code>) and print the current media status when it changes.</p>
 <pre><code class="language-python">import fabric
-from fabric.utils.fabricator import Fabricate
+from fabric.utils.fabricator import Fabricator
 
-# create a fabricator to continuously monitor player state
-player_fabricator = Fabricate(poll_from="playerctl -F status", stream=True)
+# create a fabricator to continuously monitor player state using the command
+player_fabricator = Fabricator(poll_from="playerctl -F status", stream=True)
 
 # define a function to handle state changes
 def print_state_change(fabricator, value): # notice that the first argument is the fabricator itself
@@ -237,13 +237,13 @@ fabric.start()
 # player state changed: playing
 # ...
 </code></pre>
-<p><strong>2. display periodic updates:</strong>
-in this example we use a fabricator to poll data from the shell command <code>date</code> every 500ms and print the output of it</p>
+<h2 id="periodic-date-updates"><a class="header" href="#periodic-date-updates">Periodic Date Updates</a></h2>
+<p>in this example, we use a fabricator to poll data from the shell command <code>date</code> every 500ms and print the output of it.</p>
 <pre><code class="language-python">import fabric
-from fabric.utils.fabricator import Fabricate
+from fabric.utils.fabricator import Fabricator
 
 # create a fabricator to periodically retrieve the date and time
-date_fabricator = Fabricate(poll_from="date", interval=500)  # 500 milliseconds
+date_fabricator = Fabricator(poll_from="date", interval=500)  # 500 milliseconds
 
 # define a function to handle date updates
 def print_date(fabricator, value):
@@ -263,10 +263,10 @@ fabric.start()
 # current date and time: Mon Mar  4 02:50:12 AM EET 2024
 # ...
 </code></pre>
-<p><strong>3. advanced polling with stopping condition:</strong>
-in this example we fabricate a function instead of a shell command</p>
+<h2 id="advanced-polling"><a class="header" href="#advanced-polling">Advanced Polling</a></h2>
+<p>In this example we fabricate a function instead of a shell command, and demonstrate how to use a stopping condition.</p>
 <pre><code class="language-python">import fabric
-from fabric.utils.fabricator import Fabricate
+from fabric.utils.fabricator import Fabricator
 
 # global variable to track the counter
 number = 0
@@ -277,7 +277,7 @@ def generate_number(fabricator):
     return number
 
 # create a fabricator to poll the number generation function
-function_fabricator = Fabricate(poll_from=generate_number, interval=300)  # 300 milliseconds
+function_fabricator = Fabricator(poll_from=generate_number, interval=300)  # 300 milliseconds
 
 def handle_number(fabricator, value):
     if value == 43:

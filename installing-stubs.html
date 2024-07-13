@@ -203,16 +203,16 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="getting-a-stub-package"><a class="header" href="#getting-a-stub-package">Getting a Stub Package</a></h1>
-<p>to get code auto-completions and type-annotations in your code editor you can use one of the following tools/packages, each tool/package has it's own installation guide, follow the provided like to each method and install the one you like</p>
-<h1 id="pygobject-stubs"><a class="header" href="#pygobject-stubs">PyGObject-Stubs</a></h1>
-<p>PyGObject provides a <a href="https://github.com/pygobject/pygobject-stubs">python package</a> that gives you simple auto-completions, it's not made to be perfect nor near that, not all gi repositories are type-annotated or docstringed, it works if you're going to stick with the documentations of GTK and Fabric</p>
-<h1 id="fakegir"><a class="header" href="#fakegir">FakeGir</a></h1>
-<p><a href="https://github.com/strycore/fakegir">FakeGir</a> is a python script that generates a overrides file, it's not considered as stubs since you will have to configure your editor to use the path to the generated files instead of the actual code in the PyGObject package files</p>
-<h1 id="gengir"><a class="header" href="#gengir">GenGir</a></h1>
-<p><a href="https://github.com/santiagocezar/gengir">GenGir</a> is my favorite, it generates an actual stubs package and installs it for you whether in a virtual environment (if any) or your global python packages</p>
-<h1 id="fabric-stubs"><a class="header" href="#fabric-stubs">Fabric Stubs</a></h1>
-<p>there's an in-going process of writing a stubs package made to be used with Fabric based on a refined version of the stubs produced by <a href="https://github.com/santiagocezar/gengir">GenGir</a>, the package is still not public, this might get changed...</p>
+                        <h1 id="obtaining-a-stubs-package"><a class="header" href="#obtaining-a-stubs-package">Obtaining a Stubs Package</a></h1>
+<p>Code auto-completions and type annotations in your editor require <strong>one</strong> of the following packages to function. Each package has its own installation guide.</p>
+<h2 id="pygobject-stubs"><a class="header" href="#pygobject-stubs">PyGObject-Stubs</a></h2>
+<p>PyGObject provides a <a href="https://github.com/pygobject/pygobject-stubs">Python package</a> that gives you simple auto-completions. It's not perfect - not all gi repositories are type-annotated or docstringed. This works if you're planning to stick to the documentation of GTK and Fabric.</p>
+<h2 id="fakegir"><a class="header" href="#fakegir">FakeGir</a></h2>
+<p><a href="https://github.com/strycore/fakegir">FakeGir</a> is a Python script that generates an overrides file for your editor to use; it's not considered a real stubs package because you will have to configure your editor to use the overrides file instead of the hints from the code.</p>
+<h2 id="gengir"><a class="header" href="#gengir">GenGir</a></h2>
+<p><a href="https://github.com/santiagocezar/gengir">GenGir</a> generates a stubs package and installs it for you, whether for global Python packages or a virtual environment. Also the maintainer's personal favorite tool out of these options.</p>
+<h2 id="fabric-stubs"><a class="header" href="#fabric-stubs">Fabric Stubs</a></h2>
+<p>There is an ongoing process to write a stubs package made to be used with Fabric based on a refined version of the stubs produced by GenGir. This package is not yet public, though that may change in the future...</p>
 
                     </main>
 

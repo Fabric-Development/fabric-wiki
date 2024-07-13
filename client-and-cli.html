@@ -204,9 +204,9 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="the-cli-utility-and-client"><a class="header" href="#the-cli-utility-and-client">The CLI utility and client</a></h1>
-<p>when you start fabric (using the <code>start</code> function) Fabric will start executing the GTK main thread and it will also start a DBus client at the same time, this client makes you able to execute code on the fly and get information about your configuration file (still not a lot of features (yet)), Fabric grabs all of your globals and locals so when you execute code using the client you get all of your variables, object or/and modules</p>
-<p>the CLI utility is just a command line tool to use the client instead of dealing with DBus communications yourself</p>
-<h2 id="usage"><a class="header" href="#usage">usage</a></h2>
+<p>When you start fabric (using the <code>start</code> function), Fabric will start executing the GTK main thread and start a DBus client, which allows you to execute code on-the-fly and get information about your configuration file. Fabric grabs your global and local environment so when you execute code using the client you get all of your variables, objects, and/or modules.</p>
+<p>The CLI utility is just a command line tool to use the client instead of dealing with DBus communications yourself.</p>
+<h2 id="usage"><a class="header" href="#usage">Usage</a></h2>
 <pre><code>$ python -m fabric --help
 Usage: python -m fabric [OPTIONS] COMMAND [ARGS]...
 
@@ -217,7 +217,7 @@ Commands:
   execute  executes a python code within the running fabric instance
   info     gets info about the currently running fabric instance
 </code></pre>
-<h2 id="examples"><a class="header" href="#examples">examples</a></h2>
+<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
 <pre><code>$ python -m fabric info -j
 {'file': '/home/&lt;user&gt;/.config/fabric/bar.py'} # this is just an example, your output might differ, outupt is in json format because of the -j flag
 </code></pre>
@@ -225,7 +225,7 @@ Commands:
 {'source': 'bar.hide()', 'exception': ''} # no errors
 </code></pre>
 <pre><code>$ python -m fabric execute "bar.this_method_does_not_exist()" -j # error should return
-{'source': 'bar.this_method_does_not_exist()', 'exception': 'AttributeError("\'StatusBar\' object has no attribute \'this_method_does_not_exist\'")'} # there's an error, the exception got returned by fabric
+{'source': 'bar.this_method_does_not_exist()', 'exception': 'AttributeError("\'StatusBar\' object has no attribute \'this_method_does_not_exist\'")'} # there's an error, the exception got returned by Fabric
 </code></pre>
 
                     </main>

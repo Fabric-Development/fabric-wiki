@@ -203,32 +203,32 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="creating-your-first-widget"><a class="header" href="#creating-your-first-widget">Creating Your First Widget!</a></h1>
-<p>now (assuming you have Fabric installed) we can write our first widget</p>
-<h1 id="coding-the-basics"><a class="header" href="#coding-the-basics">Coding the Basics...</a></h1>
-<p>here's an example of using Fabric to define a simple widget, you can create a new python file and add this code into it, don't worry, you don't have to understand anything since we'll walk you through every line</p>
+                        <h1 id="creating-your-first-widget"><a class="header" href="#creating-your-first-widget">Creating Your First Widget</a></h1>
+<p>Assuming you have <a href="installation-guide.html">Fabric installed</a>, it's time to write your first widget!</p>
+<h2 id="the-basics"><a class="header" href="#the-basics">The Basics</a></h2>
+<p>Here's an example of using Fabric to define a simple widget - you don't have to understand every line yet, since this guide will walk you through it.</p>
 <pre><code class="language-python">import fabric # importing the base pacakge
-from fabric.widgets.window import Window # graps a Window object from fabric
-from fabric.widgets.label import Label # gets a Label object
+from fabric.widgets.window import Window # grabs the Window class from Fabric
+from fabric.widgets.label import Label # gets the Label class
 
-window = Window() # creates a new instance of the Window object and assign it to the `window` variable
-label = Label("Hello, World") # creates a new Label instance and give it to the `label` variable, this label is set to "Hello, World"
+window = Window() # creates a new instance of the Window class and assign it to the `window` variable
+label = Label("Hello, World") # creates a new Label instance with the content being "Hello, World" and assigns it to `label`
 window.add(label) # adds the label to the window
-window.show_all() # to make the window and it's children appear up
+window.show_all() # to make the window and all of its children appear
 
 fabric.start() # to start fabric
 </code></pre>
-<p>run the code using <code>python path/to/your/config.py</code></p>
-<p>if everything goes fine, you should see a window that looks like this:
+<p>Run the code using <code>python path/to/your/file.py</code></p>
+<p>if everything goes fine, you should see a regular window that looks like this:
 <img src="assets/first-widget-label.png" alt="" /></p>
-<p>if you didn't already understood the code, it firstly imports Fabric and the used widgets to create this demo which's a <code>Window</code> and a <code>Label</code>, then it creates a new instance of each widget, for the label instance it get's created with the text "Hello, World", then it adds this label widget to the window and show's up that window (and all of it's children), lastly it starts Fabric so the window actually shows up</p>
-<p>"now what?" you might be asking; "now, we do some <em><strong>REAL STUFF</strong></em>" i answer.</p>
-<h1 id="level-1-boxes"><a class="header" href="#level-1-boxes">Level 1: Boxes</a></h1>
-<p>in this level, we're going to start very simple by using some boxes and labels..</p>
+<p>This code first imports Fabric and the widgets we need to use -- a Window and a Label. It creates a new instance of each widget, with the Label being initialized with the text "Hello, World". It then adds the label widget to the window, shows the window and all of its children, and starts fabric so the window is rendered.</p>
+<p>"Now what?" Now, we do some real stuff!</p>
+<h2 id="level-1-boxes"><a class="header" href="#level-1-boxes">Level 1: Boxes</a></h2>
+<p>Now let's demonstrate some boxes with some labels.</p>
 <pre><code class="language-python">import fabric # importing the base pacakge
-from fabric.widgets.window import Window # graps a Window object from fabric
-from fabric.widgets.box import Box # gets a Box object
-from fabric.widgets.label import Label # gets a Label object
+from fabric.widgets.window import Window # grabs the Window class from Fabric
+from fabric.widgets.box import Box # gets the Box class
+from fabric.widgets.label import Label # gets the Label class
 
 box_1 = Box(
     orientation="v",
@@ -238,7 +238,7 @@ box_2 = Box(
     orientation="h",
     spacing=28, # adds some spacing between the children
     children=[
-        Label("this is the first element in this second box"),
+        Label("this is the first element in the second box"),
         Label("btw, this box elements will get added horizontally")
     ]
 )
@@ -246,19 +246,18 @@ box_2 = Box(
 box_1.add(box_2)
 
 window = Window(
-    children=box_1 # there's no need showing up this window using `show_all()` it'll show itself because the children is already passed
+    children=box_1 # there's no need showing this window using `show_all()`; it'll show them itself because the children are already passed
 )
 
 fabric.start()
 </code></pre>
-<p><em>result (notice the alignment of the labels)</em></p>
+<p>Result (notice the alignment of the labels):</p>
 <p><img src="assets/first-widget-box.png" alt="" /></p>
-<p>see this visual representation so you understand what's going on more clearly</p>
+<p>Here's a visual representation for more clarity:</p>
 <p><img src="assets/first-widget-box-help.png" alt="" /></p>
-<hr />
-<p>now you probably got an idea about how box containers work with different orientations, we can follow up now</p>
-<h1 id="level-2-buttons"><a class="header" href="#level-2-buttons">Level 2: Buttons</a></h1>
-<p>without any further ado, let's see how the code will look like first...</p>
+<p>You probably now have an understanding of how box containers can work with different orientations. Let's keep going.</p>
+<h2 id="level-2-buttons"><a class="header" href="#level-2-buttons">Level 2: Buttons</a></h2>
+<p>First, here's the code:</p>
 <pre><code class="language-python">import fabric
 from fabric.widgets.box import Box
 from fabric.widgets.label import Label
@@ -292,14 +291,12 @@ window = Window(
 
 fabric.start()
 </code></pre>
-<p><em>result:</em></p>
+<p>Result:</p>
 <p><img src="assets/first-widget-button.png" alt="" /></p>
-<p>this demo creates a window with a box inside of it, lets call it "first box", this first box orientation is set to be vertical, first child inside that box is a label with the text "fabric buttons demo", second child inside the first box is another box oriented horizontally, lets call it the "second box" , this second box has 4 buttons, each button is automatically generated using a function to handle creating buttons and connecting each buttons signal for us, since each widget can't be used more than one time as a child for a widget we made this function (<code>create_button</code>), it creates a new instance of a Fabric button and connects its <code>button-press-event</code> signal to a lambda function that basically changes the label of the same button to "you clicked me" when it gets clicked by the user</p>
+<p>This demo creates a window with a box inside of it with the orientation set to vertical (for now, let's call it the first box). The first child inside that box is a label with the text "fabric buttons demo", and the second child inside the first box is another box. Let's call this the second box. This second box has 4 buttons, with each button created by a function that handles creating and connecting them. Since individual instances of widgets can't be children of other widgets twice, the <code>create_button</code> function creates completely new instances of Fabric buttons. These buttons' <code>button-press-event</code> signals are then connected to an anonymous function that changes the label to "you clicked me" when they are pressed by the user.</p>
 <blockquote>
 <p>[!TIP]
-when you write a widget using Fabric, you're actually creating a genuine GTK widget under the hood
-Fabric's purpose is to simplify and add an enjoyable touch to the widget-writing process
-as we delve into widget creation, we might, for instance, nest a button within a box or embed text inside a button. this approach to defining widgets will feel remarkably familiar to frontend developers and those who have experience writing HTML</p>
+When you write a widget using Fabric, you're actually creating a genuine GTK widget under the hood! Fabric's purpose is to simplify and add an enjoyable touch to the widget-making process. As we delve into widget creation, we might, for instance, nest a button within a box or embed text inside a button. This approach to defining widgets will feel remarkably familiar to frontend developers and those who have experience writing HTML.</p>
 </blockquote>
 
                     </main>

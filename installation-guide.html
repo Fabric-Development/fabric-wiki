@@ -203,37 +203,77 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="installing-guide"><a class="header" href="#installing-guide">Installing Guide</a></h1>
-<p>it's really simple to get Fabric working, you just...</p>
-<h2 id="1-install-python"><a class="header" href="#1-install-python">1. Install Python</a></h2>
-<p>Fabric requires python version 3.11 or higher</p>
-<p>for arch linux you do <code>pacman -S python</code> to get the latest version of python</p>
-<h2 id="2-get-the-dependencies"><a class="header" href="#2-get-the-dependencies">2. Get The Dependencies</a></h2>
-<p>this step does depend on your system, this command will work for arch linux to install the dependency's using <code>pacman</code></p>
-<p><code>sudo pacman -S gtk3 cairo gtk-layer-shell libgirepository gobject-introspection gobject-introspection-runtime python python-pip python-gobject python-cairo python-loguru pkgconf</code></p>
-<p><em>if you're not on Arch, you will have to figure out yourself what is the package names for your distribution</em></p>
-<h2 id="3-install-fabric"><a class="header" href="#3-install-fabric">3. Install Fabric</a></h2>
+                        <h1 id="installation-guide"><a class="header" href="#installation-guide">Installation Guide</a></h1>
+<p>I's really simple to get Fabric working, you just...</p>
 <blockquote>
 <p>[!TIP]
-Fabric is available under the arch user repository with the name <code>python-fabric-git</code></p>
+If you use Arch Linux, Fabric is available in the AUR under the name <code>python-fabric-git</code>. If you use a different distribution or would prefer to install on your own, continue to step 1.</p>
 </blockquote>
-<p>you can install Fabric globally using <code>pip install git+https://github.com/Fabric-Development/fabric.git</code> although we <strong>don't</strong> prefer this way because it might cause dependency issues, it's better to use a <a href="https://docs.python.org/3/library/venv">virtual environment</a>, to get Fabric in a virtual environment you'll have to do the following</p>
-<p>make a new folder for your new project</p>
+<h2 id="1-install-python"><a class="header" href="#1-install-python">1. Install Python</a></h2>
+<p>Fabric requires Python version 3.11 or later. Check your distribution's instructions or package manager to get the required version.</p>
+<ul>
+<li>Arch Linux: <code>pacman -S python</code> for the most recent version</li>
+</ul>
+<h2 id="2-install--dependencies"><a class="header" href="#2-install--dependencies">2. Install  Dependencies</a></h2>
+<p>Fabric requires the following dependencies to run:</p>
+<ul>
+<li><code>gtk3</code></li>
+<li><code>cairo</code></li>
+<li><code>gtk-layer-shell</code></li>
+<li><code>libgirepository</code></li>
+<li><code>gobject-introspection</code></li>
+<li><code>gobject-introspection-runtime</code></li>
+<li><code>python</code></li>
+<li><code>python-pip</code></li>
+<li><code>python-gobject</code></li>
+<li><code>python-cairo</code></li>
+<li><code>python-loguru</code></li>
+<li><code>pkgconf</code></li>
+</ul>
+<blockquote>
+<p>[!NOTE]
+Names of packages and installation instructions vary across  distributions and systems. You may have to do some searching for your system.</p>
+</blockquote>
+<p>To install all dependencies:</p>
+<ul>
+<li>Arch Linux: <code>sudo pacman -S gtk3 cairo gtk-layer-shell libgirepository gobject-introspection gobject-introspection-runtime python python-pip python-gobject python-cairo python-loguru pkgconf</code></li>
+</ul>
+<h2 id="3-install-fabric"><a class="header" href="#3-install-fabric">3. Install Fabric</a></h2>
+<p>You can either install Fabric globally (not recommended) or in a virtual environment.</p>
+<h3 id="virtual-environment"><a class="header" href="#virtual-environment">Virtual Environment</a></h3>
+<p>The recommended way to install Fabric is through a <a href="https://docs.python.org/3/library/venv">virtual environment</a>.</p>
+<ol>
+<li>To install this way, first make a folder for your new project:</li>
+</ol>
 <pre><code class="language-bash">mkdir &lt;your-folder-name&gt;
 </code></pre>
-<p>change the current directory to this new folder</p>
-<pre><code class="language-bash">cd &lt;your-folder-name&gt;
+<ol start="2">
+<li>Next, change directories to this new folder:</li>
+</ol>
+<pre><code class="language-bash">mkdir &lt;your-folder-name&gt;
 </code></pre>
-<p>create a new virtual environment, this command will create a virtual environment with the name <code>venv</code></p>
-<pre><code class="language-bash">python -m venv venv
+<ol start="3">
+<li>Create a new virtual environment:</li>
+</ol>
+<pre><code class="language-bash">python -m venv &lt;your-virtual-environment-name&gt;
 </code></pre>
-<p>source the newly created virtual environment</p>
+<ol start="4">
+<li>Source the newly created virtual environment:</li>
+</ol>
 <pre><code class="language-bash">source venv/bin/activate
 </code></pre>
-<p>now you can install packages, we can install Fabric now...</p>
+<ol start="5">
+<li>You can now install Fabric in your newly-created virtual environment.</li>
+</ol>
 <pre><code class="language-bash">pip install git+https://github.com/Fabric-Development/fabric.git
 </code></pre>
-<p>Fabric is now installed, you can run it and use it as long as you want, yet you will be missing auto-completions and type annotations in your code editor, to get it working head over to the <a href="installing-stubs.html">stubs installing guide</a></p>
+<h3 id="global-install"><a class="header" href="#global-install">Global Install</a></h3>
+<p>Alternatively, you can install Fabric globally using the following command:</p>
+<pre><code class="language-bash">pip install git+https://github.com/Fabric-Development/fabric.git
+</code></pre>
+<p>This method is more prone to dependency issues.</p>
+<hr />
+<p>Congrats! Fabric is now installed, and you can run and use it as long as you would like. To get auto-completion and type annotation functionality in your text editor, head over to the <a href="installing-stubs.html">stubs installation guide</a>.</p>
 
                     </main>
 

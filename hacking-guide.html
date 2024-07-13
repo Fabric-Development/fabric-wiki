@@ -203,35 +203,35 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="hacking-into-fabric"><a class="header" href="#hacking-into-fabric">Hacking into Fabric!</a></h1>
-<p>in the guts, Fabric is made to be a hackable package, this wiki page will walk you through doing your own modifications into Fabric's source!</p>
-<h1 id="acknowledgements-and-notes"><a class="header" href="#acknowledgements-and-notes">Acknowledgements and Notes</a></h1>
+                        <h1 id="hacking-into-fabric"><a class="header" href="#hacking-into-fabric">Hacking into Fabric</a></h1>
+<p>Fabric is made to be a hackable package at its core. This guide will walk you through making your own modifications to Fabric's source!</p>
+<h2 id="notes"><a class="header" href="#notes">Notes</a></h2>
 <blockquote>
 <p>[!NOTE]
-please note that Fabric is built using GTK version 3, widgets from other versions are incompatible or will require more work to get it to work</p>
+Please note that Fabric is built using GTK version 3; widgets from other versions are either incompatible or will require more effort to get to work.</p>
 </blockquote>
 <blockquote>
 <p>[!TIP]
-having knowledge about how GTK and GObject works will make you able to hack more without having issues along with the way, these are some useful resources to learn more about GTK and GObject</p>
+Having knowledge about how GTK and GObject works will greatly enhance your hacking ability while reducing issues along with the way; these are some useful resources to learn more about GTK and GObject.</p>
 <ul>
 <li><a href="https://python-gtk-3-tutorial.readthedocs.io/en/latest/">Sebastian's tutorial on PyGObject</a></li>
 <li><a href="https://gnome.pages.gitlab.gnome.org/pygobject/">The official tutorial from PyGObject</a></li>
-<li><a href="https://lazka.github.io/pgi-docs/">The docs i personally use</a></li>
+<li><a href="https://lazka.github.io/pgi-docs/">The docs the maintainer personally uses</a></li>
 <li><a href="https://link.springer.com/book/10.1007/978-1-4842-4179-0">Foundations of PyGTK Development (book)</a></li>
 </ul>
 </blockquote>
 <blockquote>
 <p>[!TIP]
-if the widget you're trying to implement was already implemented somewhere else (even if it was in whole another language) using GTK (version 3) and/or Cairo, porting it will be nothing hard, if that widget was drawn using Cairo, you can just use the same exact drawing functions since the Cairo bindings doesn't differ from language to another</p>
+If the widget you're trying to implement was already implemented somewhere else (even if it was in another language) using GTK (version 3) and/or Cairo, porting it will be simple: you can just use the same drawing functions, since the Cairo bindings don't differ from language to another.</p>
 </blockquote>
-<h1 id="development-environment"><a class="header" href="#development-environment">Development Environment</a></h1>
-<p>before anything you should prepare your development environment, to do that read <a href="development-environment.html">this page</a></p>
-<h1 id="source-tree"><a class="header" href="#source-tree">Source Tree</a></h1>
+<h2 id="development-environment"><a class="header" href="#development-environment">Development Environment</a></h2>
+<p>Before doing anything else, you should prepare your development environment; to do that, read <a href="development-environment.html">this page</a>.</p>
+<h2 id="source-tree"><a class="header" href="#source-tree">Source Tree</a></h2>
 <h3 id="widgets"><a class="header" href="#widgets">Widgets</a></h3>
-<p>Fabric has a very special widget, which's <code>Widget</code> (at <code>fabric.widgets.widget</code>), and that's because pretty much every other Fabric widget inherit properties and methods from this widget, this make's easier to make a modification that's intended to get reflected on all of the other widgets</p>
+<p>Fabric has a very special widget at its core: <code>Widget</code>(<code>fabric.widgets.widget</code>). Nearly every other Fabric widget inherits properties and methods from this widget. This makes it simple to make a modification that is reflected across all widgets.</p>
 <h3 id="services-and-objects"><a class="header" href="#services-and-objects">Services and Objects</a></h3>
-<p>Fabric has the <code>Service</code> base class (at <code>fabric.service</code>), inherit from this class if you're looking create a new Fabric service, also you should replace the decorator <code>@property</code> with the <code>@Property</code> decorator (imported from <code>fabric.service</code>) so you get notifiable properties in your service
-to get signals you can change the variable <code>__gsignals__</code>, it takes a <code>SignalContainer</code> object (from <code>fabric.service</code>), that signal container takes <code>Signal</code> objects as an argument, here is an example...</p>
+<p>Fabric has the <code>Service</code> base class (at <code>fabric.service</code>). New Fabric services should be inherited from this class. When doing this, make sure to replace the decorator <code>@property</code> with <code>@Property</code> (imported from <code>fabric.service</code>) to get notifiable properties in your service.</p>
+<p>To create signals, you can change the variable <code>__gsignals__</code>. <code>__gsignals__</code>  takes a <code>SignalContainer</code> object (from <code>fabric.service</code>), and that signal container takes <code>Signal</code> objects as arguments. An example:</p>
 <pre><code class="language-python">from fabric.service import *
 
 class MyUsefulService(Service):
@@ -242,24 +242,24 @@ class MyUsefulService(Service):
     def __init__(self):
         self.emit("my-really-useful-signal", "this is my super useful argument passed to you, what a useful string")
 </code></pre>
-<p>for more details on services, head over to <a href="services.html">this wiki page</a></p>
-<h1 id="write-a-new-widget"><a class="header" href="#write-a-new-widget">Write a New Widget?</a></h1>
-<p>to start writing your own widget you can firstly check if GTK do already support that widget, at the end, we don't want to reinvent the wheel, if GTK does implement the widget you're looking for, then the work will be much less harder, otherwise you don't have to worry since this page will also teach you how to write your own widget from scratch!</p>
-<h1 id="my-widget-exists-within-gtk"><a class="header" href="#my-widget-exists-within-gtk">My Widget Exists Within GTK</a></h1>
-<p>you can do one of the following to get the widget...</p>
+<p>For more details on services, head over to <a href="services.html">this wiki page</a>.</p>
+<h2 id="writing-a-new-widget"><a class="header" href="#writing-a-new-widget">Writing a New Widget</a></h2>
+<p>To start writing your own widget, you you should first check if GTK already includes that widget; after all, we don't want to reinvent the wheel. If GTK does implement the widget you're looking for, then the work will be much simpler. Even if it doesn't, you don't have to worry, since this page will also teach you how to write your own widget from scratch!</p>
+<h3 id="my-widget-exists-within-gtk"><a class="header" href="#my-widget-exists-within-gtk">My Widget Exists Within GTK</a></h3>
+<p>Do one of the following to get the widget:</p>
 <ul>
 <li>
-<p>just use it: Fabric is fully compatible with GTK widgets so you can import the widget and use it as you want, note that this will not provide the new widget with all of Fabric's features (i.e setting the style within the construction), to get these features skip to the next point</p>
+<p>Just use it: Fabric is fully compatible with GTK widgets, so you can import the widget and use it however you need to. Note that this will not provide the new widget with all of Fabric's features (i.e setting the style within the construction), so if you require these see the option below.</p>
 </li>
 <li>
-<p>fabricate the widget: <em>fabricating</em> a widget means that you take a GTK widget and convert it into a Fabric widget, this will make you able to use all Fabric features like special methods and properties</p>
+<p>Fabricate the widget: <em>fabricating</em> a widget means that you take a GTK widget and convert it into a Fabric widget; this will make it possible to use Fabric's features like special methods and properties.</p>
 </li>
 </ul>
-<h1 id="fabricating-a-gtk-widget"><a class="header" href="#fabricating-a-gtk-widget">Fabricating a GTK Widget</a></h1>
-<p>to start off you first have to check the type of the widget you want to fabricate, there's two types in general, a normal widget, and a container</p>
-<p>normal widgets (AKA non-containers) are widgets that inherit properties and methods from the base widget (<code>Widget</code>) and can't hold any widgets inside of it (i.e, labels and images)</p>
-<p>containers are normal widgets that inherit properties and methods from the base container class (<code>Container</code>) which also inherit methods and properties from the base widget (<code>Widget</code>), these container widgets can hold one or multiple widgets as a children (i.e boxes and windows)</p>
-<p>to fabricate a non-containing widget you first have to locate where your widget class lives, lets say your widget lives under the name <code>MyWidget</code> in GTK</p>
+<h4 id="fabricating-a-gtk-widget"><a class="header" href="#fabricating-a-gtk-widget">Fabricating a GTK Widget</a></h4>
+<p>To start fabricating a widget, first check the type of the widget you want to fabricate. In general, there are two types of widgets: a regular widget and a container.</p>
+<p>Normal widgets (AKA non-containers) are widgets that inherit properties and methods directly from the base <code>Widget</code> class and can't hold any child widgets (i.e. labels and images).</p>
+<p>Containers are widgets that inherit properties and methods from the base <code>Container</code> class (which eventually inherits methods and properties from the base widget). These container widgets can hold one or multiple widgets as children (i.e. boxes and windows).</p>
+<p>Next, you should locate where your widget class lives. For example, if your non-container widget is under the name <code>MyWidget</code> in GTK:</p>
 <pre><code class="language-python">import gi # import the gi repository to get GTK from it later
 gi.require_version("Gtk", "3.0") # graps the version 3 of GTK since this is what fabric uses
 from gi.repository import Gtk # now we have GTK (version 3) imported
@@ -268,41 +268,47 @@ from fabric.widgets.widget import Widget # imports fabric's base widget
 
 
 class MyFabricatedWidget(Gtk.MyWidget, Widget): # creates a new class named "MyFabricatedWidget", this class inherits the desired GTK widget and fabric's base widget
-    def __init__(self, **kwargs): # the initializer function, kwargs (a dict) means whatever you pass as extra argument will be in that dict
-        # you can set more arguments to this newly created class, this is useful if you want to make this widget able to do more stuff within the initialization phase
-        # more logic to handle the new arguments (if any)
+
+    def __init__(self, **kwargs): # the initializer function, **kwargs (a dict) means whatever you pass as extra argument will be in that dict
+        # you can set more arguments to this newly created class, this is useful if you want to make this widget able to do more during the initialization phase
+        # you may add more logic here to handle the new arguments (if any)
         super().__init__(**kwargs) # initializes the new mixed class
 </code></pre>
-<p><em>fabricating a container widget will be same as fabricating a normal widget, you just use the <code>Container</code> widget from Fabric instead of <code>Widget</code></em></p>
-<h1 id="debugging"><a class="header" href="#debugging">Debugging</a></h1>
-<p>now you got into issues, no panic (ok?), if your code does not work at all, <em>read the error</em>, most of the times it provides a got set of information (i.e the call stack)</p>
-<p>there is some specific errors that might be hard to debug, for examples errors produced by GTK itself due to your function/method call, these errors mostly are useless but the can sometimes be helpful, it only provides the assertion error for the most cases which might be handy to get a traceback of what's causing this issue to happen, also sometimes you get absolutely nothing useful out from the error, this is how to debug these invisible <a href="https://en.wikipedia.org/wiki/Heisenbug">Heisenbugs</a></p>
-<ul>
-<li>check your environment variables
-e.g. i tried running an X11 window under X11 but the environment variable <code>GDK_BACKEND</code> was set to <code>wayland</code> due to me forcing the editor to to set it this way and i was forgotten that it was an issue from the environment variables</li>
-</ul>
-<p>e.g. my window works and all but me begin under wayland the window should open as a layer not a normal window, later i checked on my environment variables and found the <code>GDK_BACKEDN</code> set to <code>x11</code>
-another possibility that i was using GNOME and because GNOME begin GNOME they haven't implemented the layer-shell protocol on wayland, which makes me empty handed to do anything about this. i &lt;3 GNOME!</p>
+<p>Fabricating a container widget is the same process as fabricating a normal widget; just use the <code>Container</code> widget from Fabric instead of <code>Widget</code> when inheriting.</p>
+<h2 id="debugging"><a class="header" href="#debugging">Debugging</a></h2>
+<p>Oh, you ran into an issue. Don't panic! If your code does not work at all, <strong>read the error</strong>; most of the time, it provides a lot of information (i.e the call stack).</p>
+<p>There are some specific errors that may be more difficult to debug, such as errors produced by GTK itself due to your function/method call. These errors, in most cases, only provide the assertion error (which <em>might</em> be handy to get a traceback). Here's how to debug these invisible <a href="https://en.wikipedia.org/wiki/Heisenbug">Heisenbugs</a>:</p>
 <ul>
 <li>
-<p>use a debugger and breakdowns to determinate which call causes the issue
-e.g. i decided to call a function that i know it exists in the source of the GI repository package i'm trying to use, my code segfaults everytime i run it, later while reading the docs i knew that this specific function is not exposed to the binding i'm using anyways the recommend me another way of doing the same <em>thing</em> the function i'm trying to use does</p>
+<p>Check your environment variables</p>
+<ul>
+<li>For example, I try running an X11 window under X11 but the environment variable <code>GDK_BACKEND</code> is set to <code>wayland</code> due to me forcing the editor to to set it this way and forgetting. This was the problem that caused my Wayland window to open as a normal window, not a layer. (Another possibility here was that I was using GNOME, which hasn't implemented the layer-shell protocol on Wayland and therefore makes it impossible to do anything to fix issues with it.)</li>
+</ul>
 </li>
 <li>
-<p>check your threads stack
-e.g. i made a new service, it works like a charm, but after unknown amount of time the entire thing crash, i later found out from a friend that i should update the properties of a object declared in the main thread should be done in the main thread, he pointed me to the part i use a thread so i checked on there to found that i indeed do call a function defined in the main thread and pass to it an object defined in my thread which led to my code begin <a href="https://en.wikipedia.org/wiki/Thread_safety">thread safe</a>, after looking for a solution i found out that i can use something like <code>GLib.idle_add</code> to call a function with my objects in a thread safe way, everything works now as expected</p>
+<p>Use a debugger and breakpoints to identify the source of the problem</p>
+<ul>
+<li>For example, I decide to use a function that I know  exists in the source of the GI repository package I'm trying to use, but my code produces a segmentation fault every time I run it. (Later, while reading the docs, I figured out that this specific function was not exposed to the binding I was using.)</li>
+</ul>
 </li>
 <li>
-<p>variable overwrites
-e.g. i made a class that inherits the service class, i made a new method in my new class called <code>connect</code>, i wrote the logic of it and everything is fine, but when i run the code i get an argument error, i do pass everything intended to to passed to this function, ITS WRITTEN TO HANDLE THIS, but i found out that the metaclass (which's the service class) already do have a method with the name <code>connect</code> and also the metaclass uses this function internally, so when the service class calls the method <code>connect</code> i receive the call in my inherited class because i've already overwrote the original method, at the end i was able to come across this by just yeeting the service class since i NEED my method name to be <code>connect</code></p>
+<p>Check your thread-safety</p>
+<ul>
+<li>For example, I make a new service and it works like a charm. After an unknown amount of time, though, the entire thing crashes. I later found out from a friend that I was updating the properties of an object defined in the main thread in a different thread, leading to a loss of <a href="https://en.wikipedia.org/wiki/Thread_safety">thread safety</a>. After discovering this issue, I found a function that did the same thing I needed to do (like <code>GLib.idle_add</code>) in a thread-safe way.</li>
+</ul>
+</li>
+<li>
+<p>Variable or method overwrites</p>
+<ul>
+<li>For example, I make a new class that inherits <code>Service</code>. I then write a new method: <code>connect</code>, but when I run the code I get an <code>ArgumentError</code> even though I pass everything necessary into the method. I then find out that the <code>Service</code> class already has a <code>connect</code> method that is used internally, so when I try to use <code>connect</code> in my new class I'm actually calling the method in the <code>Service</code> class. I fixed this issue by using a different class to inherit from, though you can also solve this type of issue by simply renaming the method.</li>
+</ul>
 </li>
 </ul>
-<p>these was all the possibilities i was able to think of for generally code issues and hidden bugs</p>
+<h3 id="visual-bugs"><a class="header" href="#visual-bugs">Visual Bugs</a></h3>
+<p>There's another kind of bug - the visual bugs. A visual bug means that the code works as expected, but there are graphical issues with rendering or drawing. A great tool to use for these issues with Fabric or GTK is the <a href="https://wiki.gnome.org/Projects/GTK/Inspector">GTK Inspector</a>.</p>
+<p>To get the inspector window in Fabric, set the environment variable <code>GTK_DEBUG</code> to <code>interactive</code> before running your code.</p>
 <hr />
-<p>now, there's another kind of bugs, which's the visual bugs, means that actually the code works as expected but there's some unexpected drawing issues, at this point you can checkout the <a href="https://wiki.gnome.org/Projects/GTK/Inspector">GTK Inspector</a>, it's really useful for this kind of issues</p>
-<p>to get the inspector window you can set the environment variable <code>GTK_DEBUG</code> to <code>interactive</code> before running your code</p>
-<hr />
-<p>still can't find what's causing your code not to act as it should to?, you can always hop into Fabric's discord server and ask on whatever you want and we would be more than happy helping you!</p>
+<p>If you still can't find what's causing your code not to act as it should, you can always hop into Fabric's <a href="https://discord.gg/xKDnfGee">Discord server</a> and ask your question - we're happy to help!</p>
 
                     </main>
 

@@ -205,55 +205,55 @@
                     <main>
                         <h1 id="style-guide"><a class="header" href="#style-guide">Style Guide</a></h1>
 <blockquote>
-<p>first of all. we <strong>really</strong> appreciate your attention to contribute into our project!</p>
+<p>First of all, we really appreciate your intention to contribute into our project!</p>
 </blockquote>
-<p>this is the style guide of our project, here we'll walk you trough how can you write silk looking code that will embed nicely into our code-base</p>
-<p><strong>here is the list of code style guides</strong></p>
-<h2 id="code-properties-and-formatting"><a class="header" href="#code-properties-and-formatting">Code Properties and Formatting</a></h2>
-<p>The code should be formatted using <a href="https://github.com/astral-sh/ruff">the ruff python formatter</a>.
-Indentation must be 4 <strong>spaces</strong>, Please do not use tabs or less/more than 4 <strong>spaces</strong></p>
-<h2 id="defining-and-naming"><a class="header" href="#defining-and-naming">Defining and Naming</a></h2>
+<p>This is the style guide of our project; here, we'll walk you through how can you write silk-looking code that will integrate nicely into our codebase.</p>
+<h2 id="code-formatting"><a class="header" href="#code-formatting">Code Formatting</a></h2>
+<p>All code should be formatted using <a href="https://github.com/astral-sh/ruff">the ruff python formatter</a>.</p>
+<p>Indentation must be 4 <strong>spaces</strong>. Please do not use tabs or any number other than 4 spaces.</p>
+<h2 id="definitions-and-naming"><a class="header" href="#definitions-and-naming">Definitions and Naming</a></h2>
 <p>We employ different naming conventions based on use cases:</p>
 <ul>
-<li><code>snake_case</code>: for function or variable definitions.</li>
-<li><code>SCREAMING_SNAKE_CASE</code>: reserved for constants.</li>
-<li><code>PascalCase</code>: employed for class definitions.</li>
-<li><code>kebab-case</code> (<code>lower-case-only</code>): utilized for defining a GObject signal/property.</li>
+<li><code>snake_case</code>: Functions or variables</li>
+<li><code>SCREAMING_SNAKE_CASE</code>: Constants</li>
+<li><code>PascalCase</code>: Classes</li>
+<li><code>kebab-case</code>: GObject signals/properties</li>
 </ul>
 <h2 id="comments"><a class="header" href="#comments">Comments</a></h2>
-<p>Follow <a href="https://peps.python.org/pep-0008/">PEP-8's</a> guidelines when adding comments. in a nutshell, comments should look:</p>
+<p>Follow the <a href="https://peps.python.org/pep-0008/">PEP 8</a> guidelines when adding comments. In a nutshell, comments should look:</p>
 <pre><code class="language-python"># Like this.
 
 ##not like this..##
-#nor like this.
-#--/ nor whatever else /--#
+#nor like this..
+#--/ nor whatever else. /--#
 </code></pre>
 <h2 id="logging"><a class="header" href="#logging">Logging</a></h2>
-<p>Logging should be executed using <a href="https://github.com/Delgan/loguru">loguru</a>. adhere to these rules:</p>
+<p>Logging functionality should use <a href="https://github.com/Delgan/loguru">loguru</a>. Adhere to these rules:</p>
 <ul>
-<li>be concise; avoid verbosity.</li>
-<li>refrain from committing files with the log level <code>debug</code>.</li>
-<li>reserve the log level <code>error</code> for critical cases, such as severe component failures or dependencies crucial to the entire program.</li>
-<li>avoid unnecessary <code>info</code> statements in low-level classes/modules, unless it's a service subclass.</li>
+<li>Be concise; avoid verbosity.</li>
+<li>Refrain from committing files with <code>debug</code>-level log statements.</li>
+<li>Reserve the log level <code>error</code> for critical cases, such as severe component failures or dependencies crucial to the entire program.</li>
+<li>Avoid unnecessary <code>info</code> statements in low-level classes/modules, unless it's a service subclass.</li>
 </ul>
-<p><em>If uncertain about where to log, feel free to inquire in the pull request, or someone may suggest a suitable location.</em></p>
-<h1 id="condition-statements"><a class="header" href="#condition-statements">Condition Statements</a></h1>
-<p>In our code-base we use inline if/else statements if this condition will change the fate of a single object, for example</p>
-<pre><code class="language-python">x = "the x object" if unexcpected_feature is not True else "the x man"
+<p>If uncertain about where to log, feel free to inquire in the pull request!</p>
+<h2 id="conditionals"><a class="header" href="#conditionals">Conditionals</a></h2>
+<p>We use inline if-statements in our codebase if the condition will change the value of only one object:</p>
+<pre><code class="language-python">x = "the x object" if unexpected_feature is not True else "the x man"
 </code></pre>
-<p>and we use normal if statements if that condition will execute a block of code instead of a one line object, here is an example</p>
-<pre><code class="language-python">if unexcpected_feature is True:
+<p>And we use regular if statements if a block of code will be executed instead of one object being changed:</p>
+<pre><code class="language-python">if unexpected_feature is True:
     x = "the unknown guy"
     y = "idk"
     z = 4002
-</code></pre>
-<p>this choice will be much better than doing</p>
-<pre><code class="language-python">x = "the unknown guy" if unexcpected_feature is True else None
-y = "forgor" if unexcpected_feature is True else None
+    ...
+
+# This is much more concise and clear than
+x = "the unknown guy" if unexcpected_feature is True else None
+y = "idk" if unexcpected_feature is True else None
 z = 4002 if unexcpected_feature is True else None
 </code></pre>
-<h1 id="logging-the-changes"><a class="header" href="#logging-the-changes">Logging The Changes</a></h1>
-<p>When you're finally done working on your commits and you see everything is ready you just add info of the commit(s) you made to the <code>CHANGELOG.md</code> file describing the changes made in a simple language and a small amount of characters, for example...</p>
+<h2 id="logging-the-changes"><a class="header" href="#logging-the-changes">Logging The Changes</a></h2>
+<p>When you're finally done working on your commits and everything is ready, just add information about the commit(s) you made to the <code>CHANGELOG.md</code> file describing the changes made in a simple language and a small amount of characters. For example:</p>
 <pre><code>-- Format --
 
 &lt;Change-Number&gt;. &lt;#Pull-Request-Number&gt; &lt;Commit-Message&gt;
@@ -267,7 +267,6 @@ z = 4002 if unexcpected_feature is True else None
 3. &lt;#Pull-Request-Number&gt; fix: fabricated, this fixes/closes &lt;issue number if exists&gt;!
 
 4. refactor: i dunno how to fabricate XD
-
 </code></pre>
 
                     </main>

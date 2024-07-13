@@ -204,36 +204,38 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="development-environment"><a class="header" href="#development-environment">Development Environment</a></h1>
-<p>this page will walk you through setting up your hacking environment</p>
-<h1 id="setup-the-source"><a class="header" href="#setup-the-source">Setup The Source</a></h1>
-<p>to start developing it's better to grab the latest commit for Fabric so you're up-to-date
-for that you use</p>
+<p>This page will walk you through setting up your development environment for Fabric.</p>
+<h2 id="fabric-source"><a class="header" href="#fabric-source">Fabric Source</a></h2>
+<p>To start developing, you should grab the latest commit of Fabric so that you're up-to-date.</p>
+<p>To do this, run this command:</p>
 <pre><code class="language-bash">git clone https://github.com/Fabric-Development/fabric
 </code></pre>
 <blockquote>
 <p>[!NOTE]
-not that when you clone the source it will be located at the same current working directory</p>
+Cloning the source repository this way will create a new folder in your current working directory.</p>
 </blockquote>
-<p>you can now change the current directory into the newly cloned source</p>
+<p>You can then change your directory into this newly created clone.</p>
 <pre><code class="language-bash">cd fabric
 </code></pre>
-<h1 id="start-hacking"><a class="header" href="#start-hacking">Start Hacking</a></h1>
-<p>now you can continue inside using your code editor, this step is optional but using a IDE will make your life easier</p>
-<p><em>for this example we use VSCode as the code editor</em></p>
-<pre><code>code .
+<h2 id="virtual-environment"><a class="header" href="#virtual-environment">Virtual Environment</a></h2>
+<blockquote>
+<p>[!NOTE]
+You can continue inside an integrated terminal now if you prefer. For this example, we use VSCode:</p>
+<pre><code class="language-bash">code .
 </code></pre>
-<p><strong>now we can start initializing the python environment</strong></p>
-<p>first we will create a new python venv and source it</p>
-<pre><code class="language-bash">python -m venv venv
+</blockquote>
+<p>Create a Python virtual environment:</p>
+<pre><code class="language-bash">python -m venv &lt;your-virtual-environment-name&gt;
 </code></pre>
+<p>Source your new virtual environment:</p>
 <pre><code class="language-bash">source venv/bin/activate
 </code></pre>
-<p><em>now we have a separated environment from system wide</em></p>
-<p>next we install the current Fabric source in place as a package</p>
+<p>We now have a separate environment for packages.</p>
+<p>Finally, install the current Fabric source in place as a package:</p>
 <pre><code class="language-bash">pip install -r requirements.txt
 pip install -e .
 </code></pre>
-<p>everything is now ready, you can continue the hacking from <a href="hacking-guide.html">this page</a></p>
+<p>And you're ready! Continue on <a href="hacking-guide.html">this page</a> to start hacking.</p>
 
                     </main>
 

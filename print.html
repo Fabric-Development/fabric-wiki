@@ -202,112 +202,146 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="what-is-fabric"><a class="header" href="#what-is-fabric">What is Fabric?</a></h1>
-<p>Fabric is a widgets framework written and configured in <em>python</em>. Fabric main goals is to provide you a simple, easy and high-level way to declare and manage desktop widgets, it follows the signal controlled flow to make events handling much easier than ever, Fabric was heavily inspired from multiple other projects on the community like <a href="https://github.com/elkowar/eww">eww</a>, <a href="https://github.com/Aylur/ags">ags</a> and <a href="https://github.com/Alexays/Waybar">Waybar</a> to provide you a better experience in a familiar way</p>
+<p>Fabric is a widgets framework written and configured in <a href="https://www.python.org">Python</a>. Fabric's main goals are to provide you a simple, easy and high-level way to declare and manage desktop widgets. It follows signal control flow to make events handling much easier than ever. Fabric was heavily inspired from multiple other projects on the community like <a href="https://github.com/elkowar/eww">eww</a>, <a href="https://github.com/Aylur/ags">ags</a>, and <a href="https://github.com/Alexays/Waybar">Waybar</a> to provide you a better experience in a familiar way.</p>
 <h1 id="why-fabric"><a class="header" href="#why-fabric">Why Fabric?</a></h1>
-<p>Fabric might be your choice if you already know how to program in python or if you don't know how to configure the other alternatives, Fabric is type hinted in a proper way and it integrates nicely with code editors to give you the best typed, auto-completed and docstringed experience you can get, also Fabric gives you the ability to use other python library's since Fabric is a python library at the end</p>
+<p>Fabric might be your framework of choice if you already know how to program in Python or if you don't know how to configure the other alternatives. Fabric is type hinted in a proper way and it integrates nicely with code editors to give you the best typed, auto-completed and docstringed experience you can get. Because Fabric is ultimately a Python library, it also gives you the option to use other Python libraries in your code.</p>
 <h1 id="fabric-and-gtk"><a class="header" href="#fabric-and-gtk">Fabric and GTK</a></h1>
-<p>Fabric uses <a href="https://www.gtk.org/">GTK</a>, which's a widget and application development toolkit, Fabric uses the python bindings of GTK under the name <a href="https://wiki.gnome.org/action/show/Projects/PyGObject">PyGObject</a>
-without GTK Fabric won't be a thing since it's one of the head dependencies of the project</p>
+<p>Fabric uses <a href="https://www.gtk.org/">GTK</a> version 3, a widget and application development toolkit. Specifically, Fabric uses the python bindings of GTK (<a href="https://wiki.gnome.org/action/show/Projects/PyGObject">PyGObject</a>). Without GTK, Fabric wouldn't exist!</p>
 <h1 id="what-is-cairo"><a class="header" href="#what-is-cairo">What is Cairo?</a></h1>
-<p><a href="https://www.cairographics.org/">Cairo</a> is a graphics and shape drawing library, GTK (version 3) uses Cairo to draw surfaces and widgets
-GTK makes you able to draw custom surfaces and widgets using Cairo, see <a href="https://docs.gtk.org/gtk3/class.Bin">Gtk.Bin</a> and <a href="https://docs.gtk.org/gtk3/class.DrawingArea">Gtk.DrawingArea</a> for more info
-also, Fabric uses Cairo to draw custom widgets that does not exist in GTK</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="installing-guide"><a class="header" href="#installing-guide">Installing Guide</a></h1>
-<p>it's really simple to get Fabric working, you just...</p>
-<h2 id="1-install-python"><a class="header" href="#1-install-python">1. Install Python</a></h2>
-<p>Fabric requires python version 3.11 or higher</p>
-<p>for arch linux you do <code>pacman -S python</code> to get the latest version of python</p>
-<h2 id="2-get-the-dependencies"><a class="header" href="#2-get-the-dependencies">2. Get The Dependencies</a></h2>
-<p>this step does depend on your system, this command will work for arch linux to install the dependency's using <code>pacman</code></p>
-<p><code>sudo pacman -S gtk3 cairo gtk-layer-shell libgirepository gobject-introspection gobject-introspection-runtime python python-pip python-gobject python-cairo python-loguru pkgconf</code></p>
-<p><em>if you're not on Arch, you will have to figure out yourself what is the package names for your distribution</em></p>
-<h2 id="3-install-fabric"><a class="header" href="#3-install-fabric">3. Install Fabric</a></h2>
+<p><a href="https://www.cairographics.org/">Cairo</a> is a 2D graphics library used by GTK to draw surfaces and widgets. GTK allows you to draw custom surfaces and widgets through Cairo, and Fabric extends GTK even more by adding widgets that don't exist in GTK.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="installation-guide"><a class="header" href="#installation-guide">Installation Guide</a></h1>
+<p>I's really simple to get Fabric working, you just...</p>
 <blockquote>
 <p>[!TIP]
-Fabric is available under the arch user repository with the name <code>python-fabric-git</code></p>
+If you use Arch Linux, Fabric is available in the AUR under the name <code>python-fabric-git</code>. If you use a different distribution or would prefer to install on your own, continue to step 1.</p>
 </blockquote>
-<p>you can install Fabric globally using <code>pip install git+https://github.com/Fabric-Development/fabric.git</code> although we <strong>don't</strong> prefer this way because it might cause dependency issues, it's better to use a <a href="https://docs.python.org/3/library/venv">virtual environment</a>, to get Fabric in a virtual environment you'll have to do the following</p>
-<p>make a new folder for your new project</p>
+<h2 id="1-install-python"><a class="header" href="#1-install-python">1. Install Python</a></h2>
+<p>Fabric requires Python version 3.11 or later. Check your distribution's instructions or package manager to get the required version.</p>
+<ul>
+<li>Arch Linux: <code>pacman -S python</code> for the most recent version</li>
+</ul>
+<h2 id="2-install--dependencies"><a class="header" href="#2-install--dependencies">2. Install  Dependencies</a></h2>
+<p>Fabric requires the following dependencies to run:</p>
+<ul>
+<li><code>gtk3</code></li>
+<li><code>cairo</code></li>
+<li><code>gtk-layer-shell</code></li>
+<li><code>libgirepository</code></li>
+<li><code>gobject-introspection</code></li>
+<li><code>gobject-introspection-runtime</code></li>
+<li><code>python</code></li>
+<li><code>python-pip</code></li>
+<li><code>python-gobject</code></li>
+<li><code>python-cairo</code></li>
+<li><code>python-loguru</code></li>
+<li><code>pkgconf</code></li>
+</ul>
+<blockquote>
+<p>[!NOTE]
+Names of packages and installation instructions vary across  distributions and systems. You may have to do some searching for your system.</p>
+</blockquote>
+<p>To install all dependencies:</p>
+<ul>
+<li>Arch Linux: <code>sudo pacman -S gtk3 cairo gtk-layer-shell libgirepository gobject-introspection gobject-introspection-runtime python python-pip python-gobject python-cairo python-loguru pkgconf</code></li>
+</ul>
+<h2 id="3-install-fabric"><a class="header" href="#3-install-fabric">3. Install Fabric</a></h2>
+<p>You can either install Fabric globally (not recommended) or in a virtual environment.</p>
+<h3 id="virtual-environment"><a class="header" href="#virtual-environment">Virtual Environment</a></h3>
+<p>The recommended way to install Fabric is through a <a href="https://docs.python.org/3/library/venv">virtual environment</a>.</p>
+<ol>
+<li>To install this way, first make a folder for your new project:</li>
+</ol>
 <pre><code class="language-bash">mkdir &lt;your-folder-name&gt;
 </code></pre>
-<p>change the current directory to this new folder</p>
-<pre><code class="language-bash">cd &lt;your-folder-name&gt;
+<ol start="2">
+<li>Next, change directories to this new folder:</li>
+</ol>
+<pre><code class="language-bash">mkdir &lt;your-folder-name&gt;
 </code></pre>
-<p>create a new virtual environment, this command will create a virtual environment with the name <code>venv</code></p>
-<pre><code class="language-bash">python -m venv venv
+<ol start="3">
+<li>Create a new virtual environment:</li>
+</ol>
+<pre><code class="language-bash">python -m venv &lt;your-virtual-environment-name&gt;
 </code></pre>
-<p>source the newly created virtual environment</p>
+<ol start="4">
+<li>Source the newly created virtual environment:</li>
+</ol>
 <pre><code class="language-bash">source venv/bin/activate
 </code></pre>
-<p>now you can install packages, we can install Fabric now...</p>
+<ol start="5">
+<li>You can now install Fabric in your newly-created virtual environment.</li>
+</ol>
 <pre><code class="language-bash">pip install git+https://github.com/Fabric-Development/fabric.git
 </code></pre>
-<p>Fabric is now installed, you can run it and use it as long as you want, yet you will be missing auto-completions and type annotations in your code editor, to get it working head over to the <a href="installing-stubs.html">stubs installing guide</a></p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="getting-a-stub-package"><a class="header" href="#getting-a-stub-package">Getting a Stub Package</a></h1>
-<p>to get code auto-completions and type-annotations in your code editor you can use one of the following tools/packages, each tool/package has it's own installation guide, follow the provided like to each method and install the one you like</p>
-<h1 id="pygobject-stubs"><a class="header" href="#pygobject-stubs">PyGObject-Stubs</a></h1>
-<p>PyGObject provides a <a href="https://github.com/pygobject/pygobject-stubs">python package</a> that gives you simple auto-completions, it's not made to be perfect nor near that, not all gi repositories are type-annotated or docstringed, it works if you're going to stick with the documentations of GTK and Fabric</p>
-<h1 id="fakegir"><a class="header" href="#fakegir">FakeGir</a></h1>
-<p><a href="https://github.com/strycore/fakegir">FakeGir</a> is a python script that generates a overrides file, it's not considered as stubs since you will have to configure your editor to use the path to the generated files instead of the actual code in the PyGObject package files</p>
-<h1 id="gengir"><a class="header" href="#gengir">GenGir</a></h1>
-<p><a href="https://github.com/santiagocezar/gengir">GenGir</a> is my favorite, it generates an actual stubs package and installs it for you whether in a virtual environment (if any) or your global python packages</p>
-<h1 id="fabric-stubs"><a class="header" href="#fabric-stubs">Fabric Stubs</a></h1>
-<p>there's an in-going process of writing a stubs package made to be used with Fabric based on a refined version of the stubs produced by <a href="https://github.com/santiagocezar/gengir">GenGir</a>, the package is still not public, this might get changed...</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="prepare"><a class="header" href="#prepare">Prepare</a></h1>
-<p>here's some stuff to prepare before hopping into Fabric...</p>
-<h1 id="python"><a class="header" href="#python">Python</a></h1>
-<p>Fabric is an advanced and complex python library. to take advantage of the full capabilities of Fabric, you should at least know the basics of python and have some understanding of the following concepts:</p>
-<ul>
-<li>Packages: like how to install python packages using <code>pip</code>, ability to use virtual environments</li>
-<li>Variables: <code>hello = "world"</code></li>
-<li>Functions: <code>def hello(): return "world"</code>, <code>hello = lambda: "world"</code></li>
-<li>Conditionals: <code>if hello() == "world": ...</code></li>
-<li>Loops: `for letter in hello(): print(letter)</li>
-<li>Exception Handling: <code>try: print(not_defiend)</code>, <code>except: print("I FOUND THE UNFOUND")</code></li>
-<li>Classes and Object-Oriented Programming: <code>class Supra(MarkII): ...</code></li>
-</ul>
+<h3 id="global-install"><a class="header" href="#global-install">Global Install</a></h3>
+<p>Alternatively, you can install Fabric globally using the following command:</p>
+<pre><code class="language-bash">pip install git+https://github.com/Fabric-Development/fabric.git
+</code></pre>
+<p>This method is more prone to dependency issues.</p>
 <hr />
-<h2 id="python-learning-resources"><a class="header" href="#python-learning-resources">Python Learning Resource's</a></h2>
+<p>Congrats! Fabric is now installed, and you can run and use it as long as you would like. To get auto-completion and type annotation functionality in your text editor, head over to the <a href="installing-stubs.html">stubs installation guide</a>.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="obtaining-a-stubs-package"><a class="header" href="#obtaining-a-stubs-package">Obtaining a Stubs Package</a></h1>
+<p>Code auto-completions and type annotations in your editor require <strong>one</strong> of the following packages to function. Each package has its own installation guide.</p>
+<h2 id="pygobject-stubs"><a class="header" href="#pygobject-stubs">PyGObject-Stubs</a></h2>
+<p>PyGObject provides a <a href="https://github.com/pygobject/pygobject-stubs">Python package</a> that gives you simple auto-completions. It's not perfect - not all gi repositories are type-annotated or docstringed. This works if you're planning to stick to the documentation of GTK and Fabric.</p>
+<h2 id="fakegir"><a class="header" href="#fakegir">FakeGir</a></h2>
+<p><a href="https://github.com/strycore/fakegir">FakeGir</a> is a Python script that generates an overrides file for your editor to use; it's not considered a real stubs package because you will have to configure your editor to use the overrides file instead of the hints from the code.</p>
+<h2 id="gengir"><a class="header" href="#gengir">GenGir</a></h2>
+<p><a href="https://github.com/santiagocezar/gengir">GenGir</a> generates a stubs package and installs it for you, whether for global Python packages or a virtual environment. Also the maintainer's personal favorite tool out of these options.</p>
+<h2 id="fabric-stubs"><a class="header" href="#fabric-stubs">Fabric Stubs</a></h2>
+<p>There is an ongoing process to write a stubs package made to be used with Fabric based on a refined version of the stubs produced by GenGir. This package is not yet public, though that may change in the future...</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="prepare"><a class="header" href="#prepare">Prepare</a></h1>
+<p>Here's some stuff to prepare before hopping into Fabric...</p>
+<h2 id="python"><a class="header" href="#python">Python</a></h2>
+<p>Fabric is an advanced and complex Python library. To take advantage of the full capabilities of Fabric, you should at least know the basics of Python and have some understanding of the following concepts:</p>
 <ul>
-<li><a href="https://wiki.python.org/moin/BeginnersGuide">Official Beginner's Guide</a></li>
+<li>Packages: Installing packages via <code>pip</code> and using virtual environments</li>
+<li>Variables &amp; Data Types</li>
+<li>Functions with both <code>def</code> and <code>lambda</code></li>
+<li>Conditionals</li>
+<li>Loops: For- and while-loops</li>
+<li>Exception Handling: <code>try</code>, <code>except</code>, <code>finally</code></li>
+<li>Classes and Object-Oriented Programming</li>
+</ul>
+<h3 id="python-learning-resources"><a class="header" href="#python-learning-resources">Python Learning Resources</a></h3>
+<ul>
 <li><a href="https://docs.python.org/3/tutorial/">Official Tutorial</a></li>
 <li><a href="https://automatetheboringstuff.com/">Automate the Boring Stuff, a free online book for complete beginners to programming</a></li>
 <li><a href="https://learnxinyminutes.com/docs/python3/">Learn Python in y Minutes, complete cheat sheet for people who know programming already</a></li>
 <li><a href="http://python.swaroopch.com/">Swaroopch's free Python book</a></li>
 <li><a href="http://www.codeabbey.com/">Codeabbey, exercises for beginners</a></li>
 </ul>
+<h2 id="gtk"><a class="header" href="#gtk">GTK</a></h2>
+<p>If you plan to hack into Fabric and create your own widgets or contribute, you will need some understanding of GTK. GTK learning resources are listed in the <a href="hacking-guide.html">hacking guide</a>.</p>
 <hr />
-<h1 id="gtk"><a class="header" href="#gtk">GTK</a></h1>
-<p>hacking into Fabric will require you having more knowledge on python and some understanding of how GTK works, read the <a href="hacking-guide.html">hacking guide</a> for GTK learn resources</p>
-<hr />
-<h1 id="ready"><a class="header" href="#ready">Ready?</a></h1>
-<p>assuming you already have Fabric installed by following <a href="installation-guide.html">this guide</a>, let's get started by <a href="first-widget.html">writing your first widget</a></p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="creating-your-first-widget"><a class="header" href="#creating-your-first-widget">Creating Your First Widget!</a></h1>
-<p>now (assuming you have Fabric installed) we can write our first widget</p>
-<h1 id="coding-the-basics"><a class="header" href="#coding-the-basics">Coding the Basics...</a></h1>
-<p>here's an example of using Fabric to define a simple widget, you can create a new python file and add this code into it, don't worry, you don't have to understand anything since we'll walk you through every line</p>
+<h2 id="ready"><a class="header" href="#ready">Ready?</a></h2>
+<p>Assuming you already have Fabric installed by following <a href="installation-guide.html">this guide</a>, let's get started by <a href="first-widget.html">writing your first widget</a>!</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="creating-your-first-widget"><a class="header" href="#creating-your-first-widget">Creating Your First Widget</a></h1>
+<p>Assuming you have <a href="installation-guide.html">Fabric installed</a>, it's time to write your first widget!</p>
+<h2 id="the-basics"><a class="header" href="#the-basics">The Basics</a></h2>
+<p>Here's an example of using Fabric to define a simple widget - you don't have to understand every line yet, since this guide will walk you through it.</p>
 <pre><code class="language-python">import fabric # importing the base pacakge
-from fabric.widgets.window import Window # graps a Window object from fabric
-from fabric.widgets.label import Label # gets a Label object
+from fabric.widgets.window import Window # grabs the Window class from Fabric
+from fabric.widgets.label import Label # gets the Label class
 
-window = Window() # creates a new instance of the Window object and assign it to the `window` variable
-label = Label("Hello, World") # creates a new Label instance and give it to the `label` variable, this label is set to "Hello, World"
+window = Window() # creates a new instance of the Window class and assign it to the `window` variable
+label = Label("Hello, World") # creates a new Label instance with the content being "Hello, World" and assigns it to `label`
 window.add(label) # adds the label to the window
-window.show_all() # to make the window and it's children appear up
+window.show_all() # to make the window and all of its children appear
 
 fabric.start() # to start fabric
 </code></pre>
-<p>run the code using <code>python path/to/your/config.py</code></p>
-<p>if everything goes fine, you should see a window that looks like this:
+<p>Run the code using <code>python path/to/your/file.py</code></p>
+<p>if everything goes fine, you should see a regular window that looks like this:
 <img src="assets/first-widget-label.png" alt="" /></p>
-<p>if you didn't already understood the code, it firstly imports Fabric and the used widgets to create this demo which's a <code>Window</code> and a <code>Label</code>, then it creates a new instance of each widget, for the label instance it get's created with the text "Hello, World", then it adds this label widget to the window and show's up that window (and all of it's children), lastly it starts Fabric so the window actually shows up</p>
-<p>"now what?" you might be asking; "now, we do some <em><strong>REAL STUFF</strong></em>" i answer.</p>
-<h1 id="level-1-boxes"><a class="header" href="#level-1-boxes">Level 1: Boxes</a></h1>
-<p>in this level, we're going to start very simple by using some boxes and labels..</p>
+<p>This code first imports Fabric and the widgets we need to use -- a Window and a Label. It creates a new instance of each widget, with the Label being initialized with the text "Hello, World". It then adds the label widget to the window, shows the window and all of its children, and starts fabric so the window is rendered.</p>
+<p>"Now what?" Now, we do some real stuff!</p>
+<h2 id="level-1-boxes"><a class="header" href="#level-1-boxes">Level 1: Boxes</a></h2>
+<p>Now let's demonstrate some boxes with some labels.</p>
 <pre><code class="language-python">import fabric # importing the base pacakge
-from fabric.widgets.window import Window # graps a Window object from fabric
-from fabric.widgets.box import Box # gets a Box object
-from fabric.widgets.label import Label # gets a Label object
+from fabric.widgets.window import Window # grabs the Window class from Fabric
+from fabric.widgets.box import Box # gets the Box class
+from fabric.widgets.label import Label # gets the Label class
 
 box_1 = Box(
     orientation="v",
@@ -317,7 +351,7 @@ box_2 = Box(
     orientation="h",
     spacing=28, # adds some spacing between the children
     children=[
-        Label("this is the first element in this second box"),
+        Label("this is the first element in the second box"),
         Label("btw, this box elements will get added horizontally")
     ]
 )
@@ -325,19 +359,18 @@ box_2 = Box(
 box_1.add(box_2)
 
 window = Window(
-    children=box_1 # there's no need showing up this window using `show_all()` it'll show itself because the children is already passed
+    children=box_1 # there's no need showing this window using `show_all()`; it'll show them itself because the children are already passed
 )
 
 fabric.start()
 </code></pre>
-<p><em>result (notice the alignment of the labels)</em></p>
+<p>Result (notice the alignment of the labels):</p>
 <p><img src="assets/first-widget-box.png" alt="" /></p>
-<p>see this visual representation so you understand what's going on more clearly</p>
+<p>Here's a visual representation for more clarity:</p>
 <p><img src="assets/first-widget-box-help.png" alt="" /></p>
-<hr />
-<p>now you probably got an idea about how box containers work with different orientations, we can follow up now</p>
-<h1 id="level-2-buttons"><a class="header" href="#level-2-buttons">Level 2: Buttons</a></h1>
-<p>without any further ado, let's see how the code will look like first...</p>
+<p>You probably now have an understanding of how box containers can work with different orientations. Let's keep going.</p>
+<h2 id="level-2-buttons"><a class="header" href="#level-2-buttons">Level 2: Buttons</a></h2>
+<p>First, here's the code:</p>
 <pre><code class="language-python">import fabric
 from fabric.widgets.box import Box
 from fabric.widgets.label import Label
@@ -371,36 +404,33 @@ window = Window(
 
 fabric.start()
 </code></pre>
-<p><em>result:</em></p>
+<p>Result:</p>
 <p><img src="assets/first-widget-button.png" alt="" /></p>
-<p>this demo creates a window with a box inside of it, lets call it "first box", this first box orientation is set to be vertical, first child inside that box is a label with the text "fabric buttons demo", second child inside the first box is another box oriented horizontally, lets call it the "second box" , this second box has 4 buttons, each button is automatically generated using a function to handle creating buttons and connecting each buttons signal for us, since each widget can't be used more than one time as a child for a widget we made this function (<code>create_button</code>), it creates a new instance of a Fabric button and connects its <code>button-press-event</code> signal to a lambda function that basically changes the label of the same button to "you clicked me" when it gets clicked by the user</p>
+<p>This demo creates a window with a box inside of it with the orientation set to vertical (for now, let's call it the first box). The first child inside that box is a label with the text "fabric buttons demo", and the second child inside the first box is another box. Let's call this the second box. This second box has 4 buttons, with each button created by a function that handles creating and connecting them. Since individual instances of widgets can't be children of other widgets twice, the <code>create_button</code> function creates completely new instances of Fabric buttons. These buttons' <code>button-press-event</code> signals are then connected to an anonymous function that changes the label to "you clicked me" when they are pressed by the user.</p>
 <blockquote>
 <p>[!TIP]
-when you write a widget using Fabric, you're actually creating a genuine GTK widget under the hood
-Fabric's purpose is to simplify and add an enjoyable touch to the widget-writing process
-as we delve into widget creation, we might, for instance, nest a button within a box or embed text inside a button. this approach to defining widgets will feel remarkably familiar to frontend developers and those who have experience writing HTML</p>
+When you write a widget using Fabric, you're actually creating a genuine GTK widget under the hood! Fabric's purpose is to simplify and add an enjoyable touch to the widget-making process. As we delve into widget creation, we might, for instance, nest a button within a box or embed text inside a button. This approach to defining widgets will feel remarkably familiar to frontend developers and those who have experience writing HTML.</p>
 </blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="whats-a-services"><a class="header" href="#whats-a-services">What's a Services?</a></h1>
-<p>services are some kind of "data servers", it's just a normal object that has properties and methods, it differs when it comes to properties though..</p>
-<p>when one property of a service gets updated/changed , the service will emit a signal that users can connect to so they get notified with the changes</p>
-<p>services follow a paradigm called the <a href="https://en.wikipedia.org/wiki/Observer_pattern">"observer pattern"</a>, thus it's a class that when it gets initialized it starts doing a <em>task</em> in the background while your code is executing, it shouldn't be blocking the main thread, users can connect to these objects so they get notified when a signal of that class object get emitted or if a property gets changed</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="fabricator-what-is-that"><a class="header" href="#fabricator-what-is-that">Fabricator? What is That?</a></h1>
-<p>fabricators are a special classes that gets grabs you info from <em>somewhere</em> , fabricators can poll data from external shell commands or internal python functions, it can also read streams of data, like a shell command that stays running by printing out data over the time to the standard output or <em>generator</em> functions that yield data</p>
-<p>fabricators gives you a set of options, here's some of the options it gives you...</p>
+<p>Services are kind of "data servers" for Fabric. They have methods and properties like normal objects, but signals are emitted when a property of a service gets changed. Other programs and users can connect to these signals so that they get notified when changes happen.</p>
+<p>Services follow a paradigm called the <a href="https://en.wikipedia.org/wiki/Observer_pattern">observer pattern</a>, so it starts doing a task in the background while your code is executing and doesn't block the main thread. Users can connect to these services to be notified of changes in properties.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="what-are-fabricators"><a class="header" href="#what-are-fabricators">What are Fabricators?</a></h1>
+<p>Fabricators are special classes that can grab you info from external shell commands or internal Python functions. Fabricators can also read streams of data like a shell command that stays running or a Python generator function.</p>
+<p>Fabricators give you some important options during initalization, including:</p>
 <ul>
-<li>the initial value this fabricator should be initialized with</li>
-<li>where to poll the data, it can be a python function/generator or a shell command</li>
-<li>the interval time of calling the passed command/function and poll data from it (in milliseconds)</li>
-<li>whether you want data as a stream (for polling data from generators and stream shell commands)</li>
+<li>The initial value the fabricator should be initialized with</li>
+<li>Where to poll the data from, whether it is a Python function/generator or a shell command</li>
+<li>The poll frequency: how often you want the fabricator to poll the function or command in milliseconds</li>
+<li>Whether you want data as a stream (for polling data from generators and stream shell commands)</li>
 </ul>
-<p>without any further ado, lets get some examples of using fabricators</p>
-<p><strong>1. monitor player state:</strong>
-this example utilizes a fabricator to read a stream from a external command (<code>playerctl -f status</code>) which will print the current media player state when it changes</p>
+<p>So, let's look at some examples of using fabricators!</p>
+<h2 id="media-player-state"><a class="header" href="#media-player-state">Media Player State</a></h2>
+<p>This example utilizes a fabricator to read a stream from an external command (<code>playerctl -f status</code>) and print the current media status when it changes.</p>
 <pre><code class="language-python">import fabric
-from fabric.utils.fabricator import Fabricate
+from fabric.utils.fabricator import Fabricator
 
-# create a fabricator to continuously monitor player state
-player_fabricator = Fabricate(poll_from="playerctl -F status", stream=True)
+# create a fabricator to continuously monitor player state using the command
+player_fabricator = Fabricator(poll_from="playerctl -F status", stream=True)
 
 # define a function to handle state changes
 def print_state_change(fabricator, value): # notice that the first argument is the fabricator itself
@@ -418,13 +448,13 @@ fabric.start()
 # player state changed: playing
 # ...
 </code></pre>
-<p><strong>2. display periodic updates:</strong>
-in this example we use a fabricator to poll data from the shell command <code>date</code> every 500ms and print the output of it</p>
+<h2 id="periodic-date-updates"><a class="header" href="#periodic-date-updates">Periodic Date Updates</a></h2>
+<p>in this example, we use a fabricator to poll data from the shell command <code>date</code> every 500ms and print the output of it.</p>
 <pre><code class="language-python">import fabric
-from fabric.utils.fabricator import Fabricate
+from fabric.utils.fabricator import Fabricator
 
 # create a fabricator to periodically retrieve the date and time
-date_fabricator = Fabricate(poll_from="date", interval=500)  # 500 milliseconds
+date_fabricator = Fabricator(poll_from="date", interval=500)  # 500 milliseconds
 
 # define a function to handle date updates
 def print_date(fabricator, value):
@@ -444,10 +474,10 @@ fabric.start()
 # current date and time: Mon Mar  4 02:50:12 AM EET 2024
 # ...
 </code></pre>
-<p><strong>3. advanced polling with stopping condition:</strong>
-in this example we fabricate a function instead of a shell command</p>
+<h2 id="advanced-polling"><a class="header" href="#advanced-polling">Advanced Polling</a></h2>
+<p>In this example we fabricate a function instead of a shell command, and demonstrate how to use a stopping condition.</p>
 <pre><code class="language-python">import fabric
-from fabric.utils.fabricator import Fabricate
+from fabric.utils.fabricator import Fabricator
 
 # global variable to track the counter
 number = 0
@@ -458,7 +488,7 @@ def generate_number(fabricator):
     return number
 
 # create a fabricator to poll the number generation function
-function_fabricator = Fabricate(poll_from=generate_number, interval=300)  # 300 milliseconds
+function_fabricator = Fabricator(poll_from=generate_number, interval=300)  # 300 milliseconds
 
 def handle_number(fabricator, value):
     if value == 43:
@@ -482,9 +512,9 @@ fabric.start()
 # fabricator stopped
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="the-cli-utility-and-client"><a class="header" href="#the-cli-utility-and-client">The CLI utility and client</a></h1>
-<p>when you start fabric (using the <code>start</code> function) Fabric will start executing the GTK main thread and it will also start a DBus client at the same time, this client makes you able to execute code on the fly and get information about your configuration file (still not a lot of features (yet)), Fabric grabs all of your globals and locals so when you execute code using the client you get all of your variables, object or/and modules</p>
-<p>the CLI utility is just a command line tool to use the client instead of dealing with DBus communications yourself</p>
-<h2 id="usage"><a class="header" href="#usage">usage</a></h2>
+<p>When you start fabric (using the <code>start</code> function), Fabric will start executing the GTK main thread and start a DBus client, which allows you to execute code on-the-fly and get information about your configuration file. Fabric grabs your global and local environment so when you execute code using the client you get all of your variables, objects, and/or modules.</p>
+<p>The CLI utility is just a command line tool to use the client instead of dealing with DBus communications yourself.</p>
+<h2 id="usage"><a class="header" href="#usage">Usage</a></h2>
 <pre><code>$ python -m fabric --help
 Usage: python -m fabric [OPTIONS] COMMAND [ARGS]...
 
@@ -495,7 +525,7 @@ Commands:
   execute  executes a python code within the running fabric instance
   info     gets info about the currently running fabric instance
 </code></pre>
-<h2 id="examples"><a class="header" href="#examples">examples</a></h2>
+<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
 <pre><code>$ python -m fabric info -j
 {'file': '/home/&lt;user&gt;/.config/fabric/bar.py'} # this is just an example, your output might differ, outupt is in json format because of the -j flag
 </code></pre>
@@ -503,76 +533,78 @@ Commands:
 {'source': 'bar.hide()', 'exception': ''} # no errors
 </code></pre>
 <pre><code>$ python -m fabric execute "bar.this_method_does_not_exist()" -j # error should return
-{'source': 'bar.this_method_does_not_exist()', 'exception': 'AttributeError("\'StatusBar\' object has no attribute \'this_method_does_not_exist\'")'} # there's an error, the exception got returned by fabric
+{'source': 'bar.this_method_does_not_exist()', 'exception': 'AttributeError("\'StatusBar\' object has no attribute \'this_method_does_not_exist\'")'} # there's an error, the exception got returned by Fabric
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="faq"><a class="header" href="#faq">FAQ</a></h1>
+<blockquote>
 <p>[!TIP]
-if you're using Fabric inside a virtual environment managed by something other than the <code>venv</code> module included by <code>python</code> and you're getting import errors (and all dependencies exist) , you can try using Fabric in a virtual environment generated by <code>python -m venv venv</code></p>
+If you're using Fabric inside a virtual environment managed by something other than the <code>venv</code> module included by <code>python</code> and you're getting import errors (and all dependencies exist), try using Fabric in a virtual environment generated by <code>python -m venv venv</code>.</p>
 </blockquote>
-<h3 id="audio-servicewidget-is-not-working"><a class="header" href="#audio-servicewidget-is-not-working">audio service/widget is not working</a></h3>
-<p><code>libcvc</code> is missing, clone Fabric and install <code>libcvc</code> using the script included (<code>scripts/install_libcvc</code>)</p>
-<h3 id="my-window-does-not-show-up"><a class="header" href="#my-window-does-not-show-up">my window does not show up</a></h3>
-<p>this can be fixed by following these debugging steps</p>
+<h2 id="general"><a class="header" href="#general">General</a></h2>
+<h3 id="audio-servicewidget-is-not-working"><a class="header" href="#audio-servicewidget-is-not-working">Audio service/widget is not working</a></h3>
+<p><code>libcvc</code> is probably missing, clone Fabric and install <code>libcvc</code> using the script included (<code>scripts/install_libcvc</code>).</p>
+<h3 id="my-window-does-not-show-up"><a class="header" href="#my-window-does-not-show-up">My window does not show up</a></h3>
+<p>Try the following debugging steps:</p>
 <ul>
-<li>check that you don't have any blocking code that runs before Fabric, (i.e doing web requests)</li>
-<li>check if the window is showed using the <code>show_all</code> function</li>
+<li>Check that you don't have any blocking code that runs before Fabric (i.e doing web requests)</li>
+<li>Check if the window is shown using the <code>show_all</code> function</li>
 </ul>
 <hr />
-<h1 id="wayland"><a class="header" href="#wayland">Wayland</a></h1>
-<h3 id="my-window-size-goes-crazy-for-a-second-and-goes-back-to-normal-state"><a class="header" href="#my-window-size-goes-crazy-for-a-second-and-goes-back-to-normal-state">my window size goes crazy for a second and goes back to normal state</a></h3>
-<p>this is a known issue when showing up an empty GTKLayerShell window on wl-roots compositors, a fix is to make sure not to show up any window as long as it's empty, you can set the <code>show_all</code> argument to <code>False</code> until you add a child to the window and later you can use the <code>.show_all()</code> method to show up the window</p>
-<h3 id="my-window-show-up-as-a-normal-window-not-a-layer"><a class="header" href="#my-window-show-up-as-a-normal-window-not-a-layer">my window show up as a normal window not a layer</a></h3>
-<p>this might happen if the <code>GDK_BACKEND</code> environment variable is set to <code>x11</code> or anything other than <code>wayland</code>, also this might happen if your compositor does not support the <code>layer-shell</code> protocol (e.g. GNOME is refusing to implement the protocol, <a href="https://gitlab.gnome.org/GNOME/gnome-shell/-/issues/1141#note_482766">source</a>)</p>
-<p>if your compositor support the protocol, a fix for this issue will be by setting the <code>GDK_BACKEND</code> variable to <code>wayland</code> (e.g. <code>env GDK_BACKEND=wayland python path/to/fabric/config</code>)</p>
-<h3 id="my-eventbox-isnt-eventboxing-properly"><a class="header" href="#my-eventbox-isnt-eventboxing-properly">my eventbox isn't eventboxing properly</a></h3>
-<p>if you're on hyprland try downgrading to <code>0.28.0</code>, this is a known issue with hyprland layer surfaces
-if not hyprland then it's better to provide more information via reporting this issue in our discord server or a github issue</p>
-<h3 id="my-widget-aint-blurring-its-background-on-hyprland"><a class="header" href="#my-widget-aint-blurring-its-background-on-hyprland">my widget ain't blurring it's background on hyprland</a></h3>
-<p>simple as adding these lines into your hyprland config</p>
-<pre><code>layerrule = blur, fabric
+<h2 id="wayland"><a class="header" href="#wayland">Wayland</a></h2>
+<h3 id="my-window-size-goes-crazy-for-a-second-and-goes-back-to-normal-size"><a class="header" href="#my-window-size-goes-crazy-for-a-second-and-goes-back-to-normal-size">My window size goes crazy for a second and goes back to normal size</a></h3>
+<p>This is a known issue when showing an empty GTKLayerShell window on wl-roots compositors. A workaround is to make sure not to show any windows that are empty; you can set the <code>show_all</code> argument to <code>False</code> until you add a child to the window. You can use the <code>.show_all()</code> method to show the window once you do.</p>
+<h3 id="my-window-shows-up-as-a-normal-window-not-a-layer"><a class="header" href="#my-window-shows-up-as-a-normal-window-not-a-layer">My window shows up as a normal window, not a layer</a></h3>
+<p>This might happen if the <code>GDK_BACKEND</code> environment variable is set to <code>x11</code> or anything other than <code>wayland</code>; this may also happen if your compositor does not support the <code>layer-shell</code> protocol (e.g. <a href="(https://gitlab.gnome.org/GNOME/gnome-shell/-/issues/1141#note_482766)">GNOME is refusing to implement the protocol</a>)</p>
+<p>If your compositor supports the protocol, you can fix this issue by setting the <code>GDK_BACKEND</code> variable to <code>wayland</code> (e.g. <code>env GDK_BACKEND=wayland python path/to/fabric/config</code>).</p>
+<h3 id="my-eventbox-isnt-eventboxing-properly"><a class="header" href="#my-eventbox-isnt-eventboxing-properly">My eventbox isn't eventboxing properly</a></h3>
+<p>If you're on <a href="https://hyprland.org">hyprland</a> try downgrading to <code>0.28.0</code>, this is a known issue with hyprland layer surfaces.</p>
+<p>If you're not on hyprland, provide more information through a <a href="https://github.com/Fabric-Development/fabric-wiki/issues">GitHub issue</a> or <a href="https://discord.gg/xKDnfGee">our Discord server</a>.</p>
+<h3 id="my-widget-isnt-blurring-its-background-on-hyprland"><a class="header" href="#my-widget-isnt-blurring-its-background-on-hyprland">My widget isn't blurring its background on hyprland</a></h3>
+<p>Add these lines into your hyprland config:</p>
+<pre><code class="language-conf">layerrule = blur, fabric
 layerrule = ignorezero, fabric
 </code></pre>
 <hr />
 <h1 id="x11xorg"><a class="header" href="#x11xorg">X11/Xorg</a></h1>
 <blockquote>
 <p>[!WARNING]
-Fabric's X11/Xorg backends are still experimental, issues might occur</p>
+Fabric's X11/Xorg backends are still experimental; issues might occur.</p>
 </blockquote>
-<h3 id="cant-add-margin-to-my-window"><a class="header" href="#cant-add-margin-to-my-window">can't add margin to my window</a></h3>
-<p>try setting the window type to <code>"popup"</code></p>
-<h3 id="my-window-has-rounded-corners-that-i-didnt-set"><a class="header" href="#my-window-has-rounded-corners-that-i-didnt-set">my window has rounded corners that i didn't set</a></h3>
-<p>checkout your compositor configuration, it might be setting a rounded corners for Fabric windows</p>
-<h3 id="when-i-set-my-window-to-have-transparency-i-get-black-background-color"><a class="header" href="#when-i-set-my-window-to-have-transparency-i-get-black-background-color">when i set my window to have transparency i get black background color</a></h3>
-<p>this might be caused due to you begin having no running compositor, checkout picom or compton</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="hacking-into-fabric"><a class="header" href="#hacking-into-fabric">Hacking into Fabric!</a></h1>
-<p>in the guts, Fabric is made to be a hackable package, this wiki page will walk you through doing your own modifications into Fabric's source!</p>
-<h1 id="acknowledgements-and-notes"><a class="header" href="#acknowledgements-and-notes">Acknowledgements and Notes</a></h1>
+<h3 id="i-cant-add-margin-to-my-window"><a class="header" href="#i-cant-add-margin-to-my-window">I can't add margin to my window</a></h3>
+<p>Try setting the window type to <code>"popup"</code>.</p>
+<h3 id="my-window-has-rounded-corners-that-i-didnt-set"><a class="header" href="#my-window-has-rounded-corners-that-i-didnt-set">My window has rounded corners that I didn't set</a></h3>
+<p>Check your compositor configuration; it may be setting rounded corners for Fabric windows.</p>
+<h3 id="when-i-set-my-window-to-have-transparency-i-get--a-black-background-color"><a class="header" href="#when-i-set-my-window-to-have-transparency-i-get--a-black-background-color">When I set my window to have transparency, I get  a black background color</a></h3>
+<p>This may be caused due to you begin having no running compositor; check out <a href="https://github.com/yshui/picom">picom</a> or <a href="https://github.com/chjj/compton">compton</a> (no longer maintained).</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="hacking-into-fabric"><a class="header" href="#hacking-into-fabric">Hacking into Fabric</a></h1>
+<p>Fabric is made to be a hackable package at its core. This guide will walk you through making your own modifications to Fabric's source!</p>
+<h2 id="notes"><a class="header" href="#notes">Notes</a></h2>
 <blockquote>
 <p>[!NOTE]
-please note that Fabric is built using GTK version 3, widgets from other versions are incompatible or will require more work to get it to work</p>
+Please note that Fabric is built using GTK version 3; widgets from other versions are either incompatible or will require more effort to get to work.</p>
 </blockquote>
 <blockquote>
 <p>[!TIP]
-having knowledge about how GTK and GObject works will make you able to hack more without having issues along with the way, these are some useful resources to learn more about GTK and GObject</p>
+Having knowledge about how GTK and GObject works will greatly enhance your hacking ability while reducing issues along with the way; these are some useful resources to learn more about GTK and GObject.</p>
 <ul>
 <li><a href="https://python-gtk-3-tutorial.readthedocs.io/en/latest/">Sebastian's tutorial on PyGObject</a></li>
 <li><a href="https://gnome.pages.gitlab.gnome.org/pygobject/">The official tutorial from PyGObject</a></li>
-<li><a href="https://lazka.github.io/pgi-docs/">The docs i personally use</a></li>
+<li><a href="https://lazka.github.io/pgi-docs/">The docs the maintainer personally uses</a></li>
 <li><a href="https://link.springer.com/book/10.1007/978-1-4842-4179-0">Foundations of PyGTK Development (book)</a></li>
 </ul>
 </blockquote>
 <blockquote>
 <p>[!TIP]
-if the widget you're trying to implement was already implemented somewhere else (even if it was in whole another language) using GTK (version 3) and/or Cairo, porting it will be nothing hard, if that widget was drawn using Cairo, you can just use the same exact drawing functions since the Cairo bindings doesn't differ from language to another</p>
+If the widget you're trying to implement was already implemented somewhere else (even if it was in another language) using GTK (version 3) and/or Cairo, porting it will be simple: you can just use the same drawing functions, since the Cairo bindings don't differ from language to another.</p>
 </blockquote>
-<h1 id="development-environment"><a class="header" href="#development-environment">Development Environment</a></h1>
-<p>before anything you should prepare your development environment, to do that read <a href="development-environment.html">this page</a></p>
-<h1 id="source-tree"><a class="header" href="#source-tree">Source Tree</a></h1>
+<h2 id="development-environment"><a class="header" href="#development-environment">Development Environment</a></h2>
+<p>Before doing anything else, you should prepare your development environment; to do that, read <a href="development-environment.html">this page</a>.</p>
+<h2 id="source-tree"><a class="header" href="#source-tree">Source Tree</a></h2>
 <h3 id="widgets"><a class="header" href="#widgets">Widgets</a></h3>
-<p>Fabric has a very special widget, which's <code>Widget</code> (at <code>fabric.widgets.widget</code>), and that's because pretty much every other Fabric widget inherit properties and methods from this widget, this make's easier to make a modification that's intended to get reflected on all of the other widgets</p>
+<p>Fabric has a very special widget at its core: <code>Widget</code>(<code>fabric.widgets.widget</code>). Nearly every other Fabric widget inherits properties and methods from this widget. This makes it simple to make a modification that is reflected across all widgets.</p>
 <h3 id="services-and-objects"><a class="header" href="#services-and-objects">Services and Objects</a></h3>
-<p>Fabric has the <code>Service</code> base class (at <code>fabric.service</code>), inherit from this class if you're looking create a new Fabric service, also you should replace the decorator <code>@property</code> with the <code>@Property</code> decorator (imported from <code>fabric.service</code>) so you get notifiable properties in your service
-to get signals you can change the variable <code>__gsignals__</code>, it takes a <code>SignalContainer</code> object (from <code>fabric.service</code>), that signal container takes <code>Signal</code> objects as an argument, here is an example...</p>
+<p>Fabric has the <code>Service</code> base class (at <code>fabric.service</code>). New Fabric services should be inherited from this class. When doing this, make sure to replace the decorator <code>@property</code> with <code>@Property</code> (imported from <code>fabric.service</code>) to get notifiable properties in your service.</p>
+<p>To create signals, you can change the variable <code>__gsignals__</code>. <code>__gsignals__</code>  takes a <code>SignalContainer</code> object (from <code>fabric.service</code>), and that signal container takes <code>Signal</code> objects as arguments. An example:</p>
 <pre><code class="language-python">from fabric.service import *
 
 class MyUsefulService(Service):
@@ -583,24 +615,24 @@ class MyUsefulService(Service):
     def __init__(self):
         self.emit("my-really-useful-signal", "this is my super useful argument passed to you, what a useful string")
 </code></pre>
-<p>for more details on services, head over to <a href="services.html">this wiki page</a></p>
-<h1 id="write-a-new-widget"><a class="header" href="#write-a-new-widget">Write a New Widget?</a></h1>
-<p>to start writing your own widget you can firstly check if GTK do already support that widget, at the end, we don't want to reinvent the wheel, if GTK does implement the widget you're looking for, then the work will be much less harder, otherwise you don't have to worry since this page will also teach you how to write your own widget from scratch!</p>
-<h1 id="my-widget-exists-within-gtk"><a class="header" href="#my-widget-exists-within-gtk">My Widget Exists Within GTK</a></h1>
-<p>you can do one of the following to get the widget...</p>
+<p>For more details on services, head over to <a href="services.html">this wiki page</a>.</p>
+<h2 id="writing-a-new-widget"><a class="header" href="#writing-a-new-widget">Writing a New Widget</a></h2>
+<p>To start writing your own widget, you you should first check if GTK already includes that widget; after all, we don't want to reinvent the wheel. If GTK does implement the widget you're looking for, then the work will be much simpler. Even if it doesn't, you don't have to worry, since this page will also teach you how to write your own widget from scratch!</p>
+<h3 id="my-widget-exists-within-gtk"><a class="header" href="#my-widget-exists-within-gtk">My Widget Exists Within GTK</a></h3>
+<p>Do one of the following to get the widget:</p>
 <ul>
 <li>
-<p>just use it: Fabric is fully compatible with GTK widgets so you can import the widget and use it as you want, note that this will not provide the new widget with all of Fabric's features (i.e setting the style within the construction), to get these features skip to the next point</p>
+<p>Just use it: Fabric is fully compatible with GTK widgets, so you can import the widget and use it however you need to. Note that this will not provide the new widget with all of Fabric's features (i.e setting the style within the construction), so if you require these see the option below.</p>
 </li>
 <li>
-<p>fabricate the widget: <em>fabricating</em> a widget means that you take a GTK widget and convert it into a Fabric widget, this will make you able to use all Fabric features like special methods and properties</p>
+<p>Fabricate the widget: <em>fabricating</em> a widget means that you take a GTK widget and convert it into a Fabric widget; this will make it possible to use Fabric's features like special methods and properties.</p>
 </li>
 </ul>
-<h1 id="fabricating-a-gtk-widget"><a class="header" href="#fabricating-a-gtk-widget">Fabricating a GTK Widget</a></h1>
-<p>to start off you first have to check the type of the widget you want to fabricate, there's two types in general, a normal widget, and a container</p>
-<p>normal widgets (AKA non-containers) are widgets that inherit properties and methods from the base widget (<code>Widget</code>) and can't hold any widgets inside of it (i.e, labels and images)</p>
-<p>containers are normal widgets that inherit properties and methods from the base container class (<code>Container</code>) which also inherit methods and properties from the base widget (<code>Widget</code>), these container widgets can hold one or multiple widgets as a children (i.e boxes and windows)</p>
-<p>to fabricate a non-containing widget you first have to locate where your widget class lives, lets say your widget lives under the name <code>MyWidget</code> in GTK</p>
+<h4 id="fabricating-a-gtk-widget"><a class="header" href="#fabricating-a-gtk-widget">Fabricating a GTK Widget</a></h4>
+<p>To start fabricating a widget, first check the type of the widget you want to fabricate. In general, there are two types of widgets: a regular widget and a container.</p>
+<p>Normal widgets (AKA non-containers) are widgets that inherit properties and methods directly from the base <code>Widget</code> class and can't hold any child widgets (i.e. labels and images).</p>
+<p>Containers are widgets that inherit properties and methods from the base <code>Container</code> class (which eventually inherits methods and properties from the base widget). These container widgets can hold one or multiple widgets as children (i.e. boxes and windows).</p>
+<p>Next, you should locate where your widget class lives. For example, if your non-container widget is under the name <code>MyWidget</code> in GTK:</p>
 <pre><code class="language-python">import gi # import the gi repository to get GTK from it later
 gi.require_version("Gtk", "3.0") # graps the version 3 of GTK since this is what fabric uses
 from gi.repository import Gtk # now we have GTK (version 3) imported
@@ -609,123 +641,131 @@ from fabric.widgets.widget import Widget # imports fabric's base widget
 
 
 class MyFabricatedWidget(Gtk.MyWidget, Widget): # creates a new class named "MyFabricatedWidget", this class inherits the desired GTK widget and fabric's base widget
-    def __init__(self, **kwargs): # the initializer function, kwargs (a dict) means whatever you pass as extra argument will be in that dict
-        # you can set more arguments to this newly created class, this is useful if you want to make this widget able to do more stuff within the initialization phase
-        # more logic to handle the new arguments (if any)
+
+    def __init__(self, **kwargs): # the initializer function, **kwargs (a dict) means whatever you pass as extra argument will be in that dict
+        # you can set more arguments to this newly created class, this is useful if you want to make this widget able to do more during the initialization phase
+        # you may add more logic here to handle the new arguments (if any)
         super().__init__(**kwargs) # initializes the new mixed class
 </code></pre>
-<p><em>fabricating a container widget will be same as fabricating a normal widget, you just use the <code>Container</code> widget from Fabric instead of <code>Widget</code></em></p>
-<h1 id="debugging"><a class="header" href="#debugging">Debugging</a></h1>
-<p>now you got into issues, no panic (ok?), if your code does not work at all, <em>read the error</em>, most of the times it provides a got set of information (i.e the call stack)</p>
-<p>there is some specific errors that might be hard to debug, for examples errors produced by GTK itself due to your function/method call, these errors mostly are useless but the can sometimes be helpful, it only provides the assertion error for the most cases which might be handy to get a traceback of what's causing this issue to happen, also sometimes you get absolutely nothing useful out from the error, this is how to debug these invisible <a href="https://en.wikipedia.org/wiki/Heisenbug">Heisenbugs</a></p>
-<ul>
-<li>check your environment variables
-e.g. i tried running an X11 window under X11 but the environment variable <code>GDK_BACKEND</code> was set to <code>wayland</code> due to me forcing the editor to to set it this way and i was forgotten that it was an issue from the environment variables</li>
-</ul>
-<p>e.g. my window works and all but me begin under wayland the window should open as a layer not a normal window, later i checked on my environment variables and found the <code>GDK_BACKEDN</code> set to <code>x11</code>
-another possibility that i was using GNOME and because GNOME begin GNOME they haven't implemented the layer-shell protocol on wayland, which makes me empty handed to do anything about this. i &lt;3 GNOME!</p>
+<p>Fabricating a container widget is the same process as fabricating a normal widget; just use the <code>Container</code> widget from Fabric instead of <code>Widget</code> when inheriting.</p>
+<h2 id="debugging"><a class="header" href="#debugging">Debugging</a></h2>
+<p>Oh, you ran into an issue. Don't panic! If your code does not work at all, <strong>read the error</strong>; most of the time, it provides a lot of information (i.e the call stack).</p>
+<p>There are some specific errors that may be more difficult to debug, such as errors produced by GTK itself due to your function/method call. These errors, in most cases, only provide the assertion error (which <em>might</em> be handy to get a traceback). Here's how to debug these invisible <a href="https://en.wikipedia.org/wiki/Heisenbug">Heisenbugs</a>:</p>
 <ul>
 <li>
-<p>use a debugger and breakdowns to determinate which call causes the issue
-e.g. i decided to call a function that i know it exists in the source of the GI repository package i'm trying to use, my code segfaults everytime i run it, later while reading the docs i knew that this specific function is not exposed to the binding i'm using anyways the recommend me another way of doing the same <em>thing</em> the function i'm trying to use does</p>
+<p>Check your environment variables</p>
+<ul>
+<li>For example, I try running an X11 window under X11 but the environment variable <code>GDK_BACKEND</code> is set to <code>wayland</code> due to me forcing the editor to to set it this way and forgetting. This was the problem that caused my Wayland window to open as a normal window, not a layer. (Another possibility here was that I was using GNOME, which hasn't implemented the layer-shell protocol on Wayland and therefore makes it impossible to do anything to fix issues with it.)</li>
+</ul>
 </li>
 <li>
-<p>check your threads stack
-e.g. i made a new service, it works like a charm, but after unknown amount of time the entire thing crash, i later found out from a friend that i should update the properties of a object declared in the main thread should be done in the main thread, he pointed me to the part i use a thread so i checked on there to found that i indeed do call a function defined in the main thread and pass to it an object defined in my thread which led to my code begin <a href="https://en.wikipedia.org/wiki/Thread_safety">thread safe</a>, after looking for a solution i found out that i can use something like <code>GLib.idle_add</code> to call a function with my objects in a thread safe way, everything works now as expected</p>
+<p>Use a debugger and breakpoints to identify the source of the problem</p>
+<ul>
+<li>For example, I decide to use a function that I know  exists in the source of the GI repository package I'm trying to use, but my code produces a segmentation fault every time I run it. (Later, while reading the docs, I figured out that this specific function was not exposed to the binding I was using.)</li>
+</ul>
 </li>
 <li>
-<p>variable overwrites
-e.g. i made a class that inherits the service class, i made a new method in my new class called <code>connect</code>, i wrote the logic of it and everything is fine, but when i run the code i get an argument error, i do pass everything intended to to passed to this function, ITS WRITTEN TO HANDLE THIS, but i found out that the metaclass (which's the service class) already do have a method with the name <code>connect</code> and also the metaclass uses this function internally, so when the service class calls the method <code>connect</code> i receive the call in my inherited class because i've already overwrote the original method, at the end i was able to come across this by just yeeting the service class since i NEED my method name to be <code>connect</code></p>
+<p>Check your thread-safety</p>
+<ul>
+<li>For example, I make a new service and it works like a charm. After an unknown amount of time, though, the entire thing crashes. I later found out from a friend that I was updating the properties of an object defined in the main thread in a different thread, leading to a loss of <a href="https://en.wikipedia.org/wiki/Thread_safety">thread safety</a>. After discovering this issue, I found a function that did the same thing I needed to do (like <code>GLib.idle_add</code>) in a thread-safe way.</li>
+</ul>
+</li>
+<li>
+<p>Variable or method overwrites</p>
+<ul>
+<li>For example, I make a new class that inherits <code>Service</code>. I then write a new method: <code>connect</code>, but when I run the code I get an <code>ArgumentError</code> even though I pass everything necessary into the method. I then find out that the <code>Service</code> class already has a <code>connect</code> method that is used internally, so when I try to use <code>connect</code> in my new class I'm actually calling the method in the <code>Service</code> class. I fixed this issue by using a different class to inherit from, though you can also solve this type of issue by simply renaming the method.</li>
+</ul>
 </li>
 </ul>
-<p>these was all the possibilities i was able to think of for generally code issues and hidden bugs</p>
+<h3 id="visual-bugs"><a class="header" href="#visual-bugs">Visual Bugs</a></h3>
+<p>There's another kind of bug - the visual bugs. A visual bug means that the code works as expected, but there are graphical issues with rendering or drawing. A great tool to use for these issues with Fabric or GTK is the <a href="https://wiki.gnome.org/Projects/GTK/Inspector">GTK Inspector</a>.</p>
+<p>To get the inspector window in Fabric, set the environment variable <code>GTK_DEBUG</code> to <code>interactive</code> before running your code.</p>
 <hr />
-<p>now, there's another kind of bugs, which's the visual bugs, means that actually the code works as expected but there's some unexpected drawing issues, at this point you can checkout the <a href="https://wiki.gnome.org/Projects/GTK/Inspector">GTK Inspector</a>, it's really useful for this kind of issues</p>
-<p>to get the inspector window you can set the environment variable <code>GTK_DEBUG</code> to <code>interactive</code> before running your code</p>
-<hr />
-<p>still can't find what's causing your code not to act as it should to?, you can always hop into Fabric's discord server and ask on whatever you want and we would be more than happy helping you!</p>
+<p>If you still can't find what's causing your code not to act as it should, you can always hop into Fabric's <a href="https://discord.gg/xKDnfGee">Discord server</a> and ask your question - we're happy to help!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="development-environment-1"><a class="header" href="#development-environment-1">Development Environment</a></h1>
-<p>this page will walk you through setting up your hacking environment</p>
-<h1 id="setup-the-source"><a class="header" href="#setup-the-source">Setup The Source</a></h1>
-<p>to start developing it's better to grab the latest commit for Fabric so you're up-to-date
-for that you use</p>
+<p>This page will walk you through setting up your development environment for Fabric.</p>
+<h2 id="fabric-source"><a class="header" href="#fabric-source">Fabric Source</a></h2>
+<p>To start developing, you should grab the latest commit of Fabric so that you're up-to-date.</p>
+<p>To do this, run this command:</p>
 <pre><code class="language-bash">git clone https://github.com/Fabric-Development/fabric
 </code></pre>
 <blockquote>
 <p>[!NOTE]
-not that when you clone the source it will be located at the same current working directory</p>
+Cloning the source repository this way will create a new folder in your current working directory.</p>
 </blockquote>
-<p>you can now change the current directory into the newly cloned source</p>
+<p>You can then change your directory into this newly created clone.</p>
 <pre><code class="language-bash">cd fabric
 </code></pre>
-<h1 id="start-hacking"><a class="header" href="#start-hacking">Start Hacking</a></h1>
-<p>now you can continue inside using your code editor, this step is optional but using a IDE will make your life easier</p>
-<p><em>for this example we use VSCode as the code editor</em></p>
-<pre><code>code .
+<h2 id="virtual-environment-1"><a class="header" href="#virtual-environment-1">Virtual Environment</a></h2>
+<blockquote>
+<p>[!NOTE]
+You can continue inside an integrated terminal now if you prefer. For this example, we use VSCode:</p>
+<pre><code class="language-bash">code .
 </code></pre>
-<p><strong>now we can start initializing the python environment</strong></p>
-<p>first we will create a new python venv and source it</p>
-<pre><code class="language-bash">python -m venv venv
+</blockquote>
+<p>Create a Python virtual environment:</p>
+<pre><code class="language-bash">python -m venv &lt;your-virtual-environment-name&gt;
 </code></pre>
+<p>Source your new virtual environment:</p>
 <pre><code class="language-bash">source venv/bin/activate
 </code></pre>
-<p><em>now we have a separated environment from system wide</em></p>
-<p>next we install the current Fabric source in place as a package</p>
+<p>We now have a separate environment for packages.</p>
+<p>Finally, install the current Fabric source in place as a package:</p>
 <pre><code class="language-bash">pip install -r requirements.txt
 pip install -e .
 </code></pre>
-<p>everything is now ready, you can continue the hacking from <a href="hacking-guide.html">this page</a></p>
+<p>And you're ready! Continue on <a href="hacking-guide.html">this page</a> to start hacking.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="style-guide"><a class="header" href="#style-guide">Style Guide</a></h1>
 <blockquote>
-<p>first of all. we <strong>really</strong> appreciate your attention to contribute into our project!</p>
+<p>First of all, we really appreciate your intention to contribute into our project!</p>
 </blockquote>
-<p>this is the style guide of our project, here we'll walk you trough how can you write silk looking code that will embed nicely into our code-base</p>
-<p><strong>here is the list of code style guides</strong></p>
-<h2 id="code-properties-and-formatting"><a class="header" href="#code-properties-and-formatting">Code Properties and Formatting</a></h2>
-<p>The code should be formatted using <a href="https://github.com/astral-sh/ruff">the ruff python formatter</a>.
-Indentation must be 4 <strong>spaces</strong>, Please do not use tabs or less/more than 4 <strong>spaces</strong></p>
-<h2 id="defining-and-naming"><a class="header" href="#defining-and-naming">Defining and Naming</a></h2>
+<p>This is the style guide of our project; here, we'll walk you through how can you write silk-looking code that will integrate nicely into our codebase.</p>
+<h2 id="code-formatting"><a class="header" href="#code-formatting">Code Formatting</a></h2>
+<p>All code should be formatted using <a href="https://github.com/astral-sh/ruff">the ruff python formatter</a>.</p>
+<p>Indentation must be 4 <strong>spaces</strong>. Please do not use tabs or any number other than 4 spaces.</p>
+<h2 id="definitions-and-naming"><a class="header" href="#definitions-and-naming">Definitions and Naming</a></h2>
 <p>We employ different naming conventions based on use cases:</p>
 <ul>
-<li><code>snake_case</code>: for function or variable definitions.</li>
-<li><code>SCREAMING_SNAKE_CASE</code>: reserved for constants.</li>
-<li><code>PascalCase</code>: employed for class definitions.</li>
-<li><code>kebab-case</code> (<code>lower-case-only</code>): utilized for defining a GObject signal/property.</li>
+<li><code>snake_case</code>: Functions or variables</li>
+<li><code>SCREAMING_SNAKE_CASE</code>: Constants</li>
+<li><code>PascalCase</code>: Classes</li>
+<li><code>kebab-case</code>: GObject signals/properties</li>
 </ul>
 <h2 id="comments"><a class="header" href="#comments">Comments</a></h2>
-<p>Follow <a href="https://peps.python.org/pep-0008/">PEP-8's</a> guidelines when adding comments. in a nutshell, comments should look:</p>
+<p>Follow the <a href="https://peps.python.org/pep-0008/">PEP 8</a> guidelines when adding comments. In a nutshell, comments should look:</p>
 <pre><code class="language-python"># Like this.
 
 ##not like this..##
-#nor like this.
-#--/ nor whatever else /--#
+#nor like this..
+#--/ nor whatever else. /--#
 </code></pre>
 <h2 id="logging"><a class="header" href="#logging">Logging</a></h2>
-<p>Logging should be executed using <a href="https://github.com/Delgan/loguru">loguru</a>. adhere to these rules:</p>
+<p>Logging functionality should use <a href="https://github.com/Delgan/loguru">loguru</a>. Adhere to these rules:</p>
 <ul>
-<li>be concise; avoid verbosity.</li>
-<li>refrain from committing files with the log level <code>debug</code>.</li>
-<li>reserve the log level <code>error</code> for critical cases, such as severe component failures or dependencies crucial to the entire program.</li>
-<li>avoid unnecessary <code>info</code> statements in low-level classes/modules, unless it's a service subclass.</li>
+<li>Be concise; avoid verbosity.</li>
+<li>Refrain from committing files with <code>debug</code>-level log statements.</li>
+<li>Reserve the log level <code>error</code> for critical cases, such as severe component failures or dependencies crucial to the entire program.</li>
+<li>Avoid unnecessary <code>info</code> statements in low-level classes/modules, unless it's a service subclass.</li>
 </ul>
-<p><em>If uncertain about where to log, feel free to inquire in the pull request, or someone may suggest a suitable location.</em></p>
-<h1 id="condition-statements"><a class="header" href="#condition-statements">Condition Statements</a></h1>
-<p>In our code-base we use inline if/else statements if this condition will change the fate of a single object, for example</p>
-<pre><code class="language-python">x = "the x object" if unexcpected_feature is not True else "the x man"
+<p>If uncertain about where to log, feel free to inquire in the pull request!</p>
+<h2 id="conditionals"><a class="header" href="#conditionals">Conditionals</a></h2>
+<p>We use inline if-statements in our codebase if the condition will change the value of only one object:</p>
+<pre><code class="language-python">x = "the x object" if unexpected_feature is not True else "the x man"
 </code></pre>
-<p>and we use normal if statements if that condition will execute a block of code instead of a one line object, here is an example</p>
-<pre><code class="language-python">if unexcpected_feature is True:
+<p>And we use regular if statements if a block of code will be executed instead of one object being changed:</p>
+<pre><code class="language-python">if unexpected_feature is True:
     x = "the unknown guy"
     y = "idk"
     z = 4002
-</code></pre>
-<p>this choice will be much better than doing</p>
-<pre><code class="language-python">x = "the unknown guy" if unexcpected_feature is True else None
-y = "forgor" if unexcpected_feature is True else None
+    ...
+
+# This is much more concise and clear than
+x = "the unknown guy" if unexcpected_feature is True else None
+y = "idk" if unexcpected_feature is True else None
 z = 4002 if unexcpected_feature is True else None
 </code></pre>
-<h1 id="logging-the-changes"><a class="header" href="#logging-the-changes">Logging The Changes</a></h1>
-<p>When you're finally done working on your commits and you see everything is ready you just add info of the commit(s) you made to the <code>CHANGELOG.md</code> file describing the changes made in a simple language and a small amount of characters, for example...</p>
+<h2 id="logging-the-changes"><a class="header" href="#logging-the-changes">Logging The Changes</a></h2>
+<p>When you're finally done working on your commits and everything is ready, just add information about the commit(s) you made to the <code>CHANGELOG.md</code> file describing the changes made in a simple language and a small amount of characters. For example:</p>
 <pre><code>-- Format --
 
 &lt;Change-Number&gt;. &lt;#Pull-Request-Number&gt; &lt;Commit-Message&gt;
@@ -739,7 +779,6 @@ z = 4002 if unexcpected_feature is True else None
 3. &lt;#Pull-Request-Number&gt; fix: fabricated, this fixes/closes &lt;issue number if exists&gt;!
 
 4. refactor: i dunno how to fabricate XD
-
 </code></pre>
 
                     </main>

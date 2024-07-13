@@ -204,9 +204,8 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="whats-a-services"><a class="header" href="#whats-a-services">What's a Services?</a></h1>
-<p>services are some kind of "data servers", it's just a normal object that has properties and methods, it differs when it comes to properties though..</p>
-<p>when one property of a service gets updated/changed , the service will emit a signal that users can connect to so they get notified with the changes</p>
-<p>services follow a paradigm called the <a href="https://en.wikipedia.org/wiki/Observer_pattern">"observer pattern"</a>, thus it's a class that when it gets initialized it starts doing a <em>task</em> in the background while your code is executing, it shouldn't be blocking the main thread, users can connect to these objects so they get notified when a signal of that class object get emitted or if a property gets changed</p>
+<p>Services are kind of "data servers" for Fabric. They have methods and properties like normal objects, but signals are emitted when a property of a service gets changed. Other programs and users can connect to these signals so that they get notified when changes happen.</p>
+<p>Services follow a paradigm called the <a href="https://en.wikipedia.org/wiki/Observer_pattern">observer pattern</a>, so it starts doing a task in the background while your code is executing and doesn't block the main thread. Users can connect to these services to be notified of changes in properties.</p>
 
                     </main>
 
