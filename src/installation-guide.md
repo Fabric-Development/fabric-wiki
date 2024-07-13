@@ -7,7 +7,8 @@ I's really simple to get Fabric working, you just...
 ## 1. Install Python
 Fabric requires Python version 3.11 or later. Check your distribution's instructions or package manager to get the required version.
 
-* Arch Linux: `pacman -S python` for the most recent version
+* Arch Linux: `sudo pacman -S python` for the most recent version
+* OpenSUSE: `sudo zypper install python311` for the most recent version of Python 3.11
 
 ## 2. Install  Dependencies
 
@@ -30,6 +31,7 @@ Fabric requires the following dependencies to run:
 
 To install all dependencies:
 * Arch Linux: `sudo pacman -S gtk3 cairo gtk-layer-shell libgirepository gobject-introspection gobject-introspection-runtime python python-pip python-gobject python-cairo python-loguru pkgconf`
+* OpenSUSE (tested on Tumbleweed): `sudo zypper install gtk3-devel cairo-devel gtk-layer-shell-devel libgirepository-1_0-1 libgirepository-2_0-0 gobject-introspection-devel python311 python311-pip python311-gobject python311-gobject-cairo python311-pycairo python311-loguru pkgconf`
 
 
 ## 3. Install Fabric
