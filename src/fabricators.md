@@ -1,22 +1,24 @@
-# Fabricator? What is That?
-fabricators are a special classes that gets grabs you info from _somewhere_ , fabricators can poll data from external shell commands or internal python functions, it can also read streams of data, like a shell command that stays running by printing out data over the time to the standard output or _generator_ functions that yield data
+# What are Fabricators?
+Fabricators are special classes that can grab you info from external shell commands or internal Python functions. Fabricators can also read streams of data like a shell command that stays running or a Python generator function.
 
-fabricators gives you a set of options, here's some of the options it gives you...
-- the initial value this fabricator should be initialized with
-- where to poll the data, it can be a python function/generator or a shell command
-- the interval time of calling the passed command/function and poll data from it (in milliseconds)
-- whether you want data as a stream (for polling data from generators and stream shell commands) 
+Fabricators give you some important options during initalization, including:
 
-without any further ado, lets get some examples of using fabricators
+- The initial value the fabricator should be initialized with
+- Where to poll the data from, whether it is a Python function/generator or a shell command
+- The poll frequency: how often you want the fabricator to poll the function or command in milliseconds
+- Whether you want data as a stream (for polling data from generators and stream shell commands)
 
-**1. monitor player state:**
-this example utilizes a fabricator to read a stream from a external command (`playerctl -f status`) which will print the current media player state when it changes
+So, let's look at some examples of using fabricators!
+
+## Media Player State
+This example utilizes a fabricator to read a stream from an external command (`playerctl -f status`) and print the current media status when it changes.
+
 ```python
 import fabric
-from fabric.utils.fabricator import Fabricate
+from fabric.utils.fabricator import Fabricator
 
-# create a fabricator to continuously monitor player state
-player_fabricator = Fabricate(poll_from="playerctl -F status", stream=True)
+# create a fabricator to continuously monitor player state using the command
+player_fabricator = Fabricator(poll_from="playerctl -F status", stream=True)
 
 # define a function to handle state changes
 def print_state_change(fabricator, value): # notice that the first argument is the fabricator itself
@@ -35,14 +37,14 @@ fabric.start()
 # ...
 ```
 
-**2. display periodic updates:**
-in this example we use a fabricator to poll data from the shell command `date` every 500ms and print the output of it
+## Periodic Date Updates
+in this example, we use a fabricator to poll data from the shell command `date` every 500ms and print the output of it.
 ```python
 import fabric
-from fabric.utils.fabricator import Fabricate
+from fabric.utils.fabricator import Fabricator
 
 # create a fabricator to periodically retrieve the date and time
-date_fabricator = Fabricate(poll_from="date", interval=500)  # 500 milliseconds
+date_fabricator = Fabricator(poll_from="date", interval=500)  # 500 milliseconds
 
 # define a function to handle date updates
 def print_date(fabricator, value):
@@ -63,11 +65,11 @@ fabric.start()
 # ...
 ```
 
-**3. advanced polling with stopping condition:**
-in this example we fabricate a function instead of a shell command
+## Advanced Polling
+In this example we fabricate a function instead of a shell command, and demonstrate how to use a stopping condition.
 ```python
 import fabric
-from fabric.utils.fabricator import Fabricate
+from fabric.utils.fabricator import Fabricator
 
 # global variable to track the counter
 number = 0
@@ -78,7 +80,7 @@ def generate_number(fabricator):
     return number
 
 # create a fabricator to poll the number generation function
-function_fabricator = Fabricate(poll_from=generate_number, interval=300)  # 300 milliseconds
+function_fabricator = Fabricator(poll_from=generate_number, interval=300)  # 300 milliseconds
 
 def handle_number(fabricator, value):
     if value == 43:

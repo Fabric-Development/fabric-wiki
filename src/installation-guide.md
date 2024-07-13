@@ -1,48 +1,76 @@
-# Installing Guide
-it's really simple to get Fabric working, you just...
+# Installation Guide
+I's really simple to get Fabric working, you just...
+
+> [!TIP]
+> If you use Arch Linux, Fabric is available in the AUR under the name `python-fabric-git`. If you use a different distribution or would prefer to install on your own, continue to step 1.
 
 ## 1. Install Python
-Fabric requires python version 3.11 or higher
+Fabric requires Python version 3.11 or later. Check your distribution's instructions or package manager to get the required version.
 
-for arch linux you do `pacman -S python` to get the latest version of python
+* Arch Linux: `pacman -S python` for the most recent version
 
-## 2. Get The Dependencies
-this step does depend on your system, this command will work for arch linux to install the dependency's using `pacman`
+## 2. Install  Dependencies
 
-`sudo pacman -S gtk3 cairo gtk-layer-shell libgirepository gobject-introspection gobject-introspection-runtime python python-pip python-gobject python-cairo python-loguru pkgconf`
+Fabric requires the following dependencies to run:
+* `gtk3`
+* `cairo`
+* `gtk-layer-shell`
+* `libgirepository`
+* `gobject-introspection`
+* `gobject-introspection-runtime`
+* `python`
+* `python-pip`
+* `python-gobject`
+* `python-cairo`
+* `python-loguru`
+* `pkgconf`
 
-_if you're not on Arch, you will have to figure out yourself what is the package names for your distribution_
+> [!NOTE]
+> Names of packages and installation instructions vary across  distributions and systems. You may have to do some searching for your system.
+
+To install all dependencies:
+* Arch Linux: `sudo pacman -S gtk3 cairo gtk-layer-shell libgirepository gobject-introspection gobject-introspection-runtime python python-pip python-gobject python-cairo python-loguru pkgconf`
+
 
 ## 3. Install Fabric
-> [!TIP]
-> Fabric is available under the arch user repository with the name `python-fabric-git`
 
-you can install Fabric globally using `pip install git+https://github.com/Fabric-Development/fabric.git` although we **don't** prefer this way because it might cause dependency issues, it's better to use a [virtual environment](https://docs.python.org/3/library/venv), to get Fabric in a virtual environment you'll have to do the following
+You can either install Fabric globally (not recommended) or in a virtual environment.
 
-make a new folder for your new project
+### Virtual Environment
+The recommended way to install Fabric is through a [virtual environment](https://docs.python.org/3/library/venv).
+
+1. To install this way, first make a folder for your new project:
 ```bash
 mkdir <your-folder-name>
 ```
 
-change the current directory to this new folder
+2. Next, change directories to this new folder:
 ```bash
-cd <your-folder-name>
+mkdir <your-folder-name>
 ```
 
-create a new virtual environment, this command will create a virtual environment with the name `venv`
+3. Create a new virtual environment:
 ```bash
-python -m venv venv
+python -m venv <your-virtual-environment-name>
 ```
 
-source the newly created virtual environment
-
+4. Source the newly created virtual environment:
 ```bash
 source venv/bin/activate
 ```
 
-now you can install packages, we can install Fabric now...
+5. You can now install Fabric in your newly-created virtual environment.
 ```bash
 pip install git+https://github.com/Fabric-Development/fabric.git
 ```
 
-Fabric is now installed, you can run it and use it as long as you want, yet you will be missing auto-completions and type annotations in your code editor, to get it working head over to the [stubs installing guide](installing-stubs.md)
+### Global Install
+Alternatively, you can install Fabric globally using the following command:
+```bash
+pip install git+https://github.com/Fabric-Development/fabric.git
+```
+This method is more prone to dependency issues.
+
+---
+
+Congrats! Fabric is now installed, and you can run and use it as long as you would like. To get auto-completion and type annotation functionality in your text editor, head over to the [stubs installation guide](installing-stubs.md).
