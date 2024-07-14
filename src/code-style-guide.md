@@ -55,6 +55,25 @@ y = "idk" if unexcpected_feature is True else None
 z = 4002 if unexcpected_feature is True else None
 ```
 
+## Commit Messages
+Commits in Fabric should follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification. In a nutshell, structure commits like this:
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+For example:
+```
+feat: Add `balloons` argument to `Universe.celebrating_koalas`
+```
+```
+fix: Check for fradulent koalas before allocating balloons
+```
+
+Types can be `feat`, `fix`, or others. For more examples and information on things like breaking changes, visit the specification. 
+
 ## Logging The Changes
 
 When you're finally done working on your commits and everything is ready, just add information about the commit(s) you made to the `CHANGELOG.md` file describing the changes made in a simple language and a small amount of characters. For example:
