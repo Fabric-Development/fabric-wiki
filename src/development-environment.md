@@ -9,8 +9,7 @@ To do this, run this command:
 git clone https://github.com/Fabric-Development/fabric
 ```
 
-> [!NOTE]
-> Cloning the source repository this way will create a new folder in your current working directory.
+> Note: Cloning the source repository this way will create a new folder in your current working directory.
 
 You can then change your directory into this newly created clone.
 ```bash
@@ -18,8 +17,7 @@ cd fabric
 ```
 
 ## Virtual Environment
-> [!NOTE]
-> You can continue inside an integrated terminal now if you prefer. For this example, we use VSCode:
+> Note: You can continue inside an integrated terminal now if you prefer. For this example, we use VSCode:
 > ```bash
 > code .
 > ```
