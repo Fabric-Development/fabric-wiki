@@ -1,8 +1,7 @@
 # Installation Guide
 I's really simple to get Fabric working, you just...
 
-> [!TIP]
-> If you use Arch Linux, Fabric is available in the AUR under the name `python-fabric-git`. If you use a different distribution or would prefer to install on your own, continue to step 1.
+> Tip: If you use Arch Linux, Fabric is available in the AUR under the name `python-fabric-git`. If you use a different distribution or would prefer to install on your own, continue to step 1.
 
 ## 1. Install Python
 Fabric requires Python version 3.11 or later. Check your distribution's instructions or package manager to get the required version.
@@ -26,8 +25,7 @@ Fabric requires the following dependencies to run:
 * `python-loguru`
 * `pkgconf`
 
-> [!NOTE]
-> Names of packages and installation instructions vary across  distributions and systems. You may have to do some searching for your system.
+> Note: Names of packages and installation instructions vary across  distributions and systems. You may have to do some searching for your system.
 
 To install all dependencies:
 * Arch Linux: `sudo pacman -S gtk3 cairo gtk-layer-shell libgirepository gobject-introspection gobject-introspection-runtime python python-pip python-gobject python-cairo python-loguru pkgconf`
