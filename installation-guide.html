@@ -212,7 +212,8 @@ If you use Arch Linux, Fabric is available in the AUR under the name <code>pytho
 <h2 id="1-install-python"><a class="header" href="#1-install-python">1. Install Python</a></h2>
 <p>Fabric requires Python version 3.11 or later. Check your distribution's instructions or package manager to get the required version.</p>
 <ul>
-<li>Arch Linux: <code>pacman -S python</code> for the most recent version</li>
+<li>Arch Linux: <code>sudo pacman -S python</code> for the most recent version</li>
+<li>OpenSUSE: <code>sudo zypper install python311</code> for the most recent version of Python 3.11</li>
 </ul>
 <h2 id="2-install--dependencies"><a class="header" href="#2-install--dependencies">2. Install  Dependencies</a></h2>
 <p>Fabric requires the following dependencies to run:</p>
@@ -237,6 +238,7 @@ Names of packages and installation instructions vary across  distributions and s
 <p>To install all dependencies:</p>
 <ul>
 <li>Arch Linux: <code>sudo pacman -S gtk3 cairo gtk-layer-shell libgirepository gobject-introspection gobject-introspection-runtime python python-pip python-gobject python-cairo python-loguru pkgconf</code></li>
+<li>OpenSUSE (tested on Tumbleweed): <code>sudo zypper install gtk3-devel cairo-devel gtk-layer-shell-devel libgirepository-1_0-1 libgirepository-2_0-0 gobject-introspection-devel python311 python311-pip python311-gobject python311-gobject-cairo python311-pycairo python311-loguru pkgconf</code></li>
 </ul>
 <h2 id="3-install-fabric"><a class="header" href="#3-install-fabric">3. Install Fabric</a></h2>
 <p>You can either install Fabric globally (not recommended) or in a virtual environment.</p>
