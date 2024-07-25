@@ -4,14 +4,10 @@ Fabric is made to be a hackable package at its core. This guide will walk you th
 ## Notes
 
 > [!NOTE]
->   Please note that Fabric is built using GTK version 3; widgets from other versions are either incompatible or will require more effort to get to work. 
+> Please note that Fabric is built using GTK version 3; widgets from other versions are either incompatible or will require more effort to get to work. 
 
 > [!TIP]
-> Having knowledge about how GTK and GObject works will greatly enhance your hacking ability while reducing issues along with the way; these are some useful resources to learn more about GTK and GObject.
-> - [Sebastian's tutorial on PyGObject](https://python-gtk-3-tutorial.readthedocs.io/en/latest/)
-> - [The official tutorial from PyGObject](https://gnome.pages.gitlab.gnome.org/pygobject/)
-> - [The docs the maintainer personally uses](https://lazka.github.io/pgi-docs/)
-> - [Foundations of PyGTK Development (book)](https://link.springer.com/book/10.1007/978-1-4842-4179-0)
+> Having knowledge about how GTK and GObject works will greatly enhance your hacking ability while reducing issues along with the way; learning resources are listed on [this page](resources.md).
 
 > [!TIP]
 > If the widget you're trying to implement was already implemented somewhere else (even if it was in another language) using GTK (version 3) and/or Cairo, porting it will be simple: you can just use the same drawing functions, since the Cairo bindings don't differ from language to another.

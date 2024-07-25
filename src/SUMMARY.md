@@ -1,10 +1,8 @@
 # Fabric Wiki
 
 - [Introduction & About](introduction.md)
-    1. [Features (TBD)]
-    2. [Origins (TBD)]
-    3. [FAQ](faq.md)
-    4. [Python, GTK, and Cairo Resources (TBD)]
+    1. [FAQ](faq.md)
+    2. [Python and GTK Resources](resources.md)
 
 - [Getting Started]
     1. [Preparing](prepare.md)
