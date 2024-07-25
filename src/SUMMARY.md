@@ -4,13 +4,13 @@
     1. [FAQ](faq.md)
     2. [Python and GTK Resources](resources.md)
 
-- [Getting Started]
+- [Getting Started]()
     1. [Preparing](prepare.md)
     2. [Installing](installation-guide.md)
     3. [Installing Stubs](installing-stubs.md)
     4. [Your First Widget](first-widget.md)
 
-- [Feature Manual]
+- [Feature Manual]()
     1. [Services](services.md)
     2. [Fabricators](fabricators.md)
     3. [CLI](client-and-cli.md)
