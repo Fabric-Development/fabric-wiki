@@ -48,7 +48,7 @@ mkdir <your-folder-name>
 
 2. Next, change directories to this new folder:
 ```bash
-mkdir <your-folder-name>
+cd <your-folder-name>
 ```
 
 3. Create a new virtual environment:
