@@ -1,19 +1,23 @@
 # Fabric Wiki
 
-- [Let's Fabricate Some Stuff!]()
-    1. [Introduction to Fabric](introduction.md)
-    2. [Installing Fabric](installation-guide.md)
-    3. [Stubs Installation Guide](installing-stubs.md)
-    4. [Prepare](prepare.md)
-    5. [First Widget(s)](first-widget.md)
-    6. [What is a "Service"](services.md)
-    7. [What is a "Fabricator"](fabricators.md)
-    8. [CLI usage](client-and-cli.md)
-    9. [FAQ](faq.md)
+- [Introduction & About](introduction.md)
+    1. [FAQ](faq.md)
+    2. [Python and GTK Resources](resources.md)
+
+- [Getting Started]()
+    1. [Preparing](prepare.md)
+    2. [Installing](installation-guide.md)
+    3. [Installing Stubs](installing-stubs.md)
+    4. [Your First Widget](first-widget.md)
+
+- [Feature Manual]()
+    1. [Services](services.md)
+    2. [Fabricators](fabricators.md)
+    3. [CLI](client-and-cli.md)
 
 - [API Reference (TBD)]()
 
-- [Developer Guide]()
+- [Contributing]()
     1. [Hacking into Fabric](hacking-guide.md)
     2. [Setting up a development environment](development-environment.md)
     3. [Code Style Guidelines](code-style-guide.md)
