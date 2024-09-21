@@ -10,10 +10,12 @@ const baseUrl = import.meta.env.BASE_URL;
 <div class="mt-[-3rem] min-[800px]:mt-[-14rem]">
   <CardGrid>
     <div
-      class="404-container overflow-hidden flex flex-nowrap flex-col content-center items-start justify-center pt-[0rem] min-[800px]:py-[8rem]"
+      class="404-container overflow-hidden flex flex-nowrap flex-col gap-8 content-center items-start justify-center pt-[0rem] min-[800px]:py-[8rem]"
     >
-      <h1 class="text-[6rem] min-[800px]:text-[8rem] mb-[-2rem]"><b>404</b></h1>
-      <h4>Page not found. Check the URL or try using the search bar.</h4>
+      <div>
+        <h1 class="text-[6rem] min-[800px]:text-[8rem] mb-[-2rem]"><b>404</b></h1>
+        <h4>Page not found. Check the URL or try using the search bar.</h4>
+      </div>
       <LinkButton href={ baseUrl || "/" } icon="right-arrow">Lets Go Home?</LinkButton>
     </div>
     <div style="filter: drop-shadow(0 0 12rem var(--overlay-white));">
