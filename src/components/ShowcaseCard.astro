@@ -1,0 +1,89 @@
+---
+import { Image } from "astro:assets";
+import { LinkButton } from "@astrojs/starlight/components";
+
+export interface Props {
+  name: string;
+  author: string;
+  description?: string;
+  imageSrc: string;
+  src?: string
+}
+
+const { name, author, description, imageSrc: mediaSrc, src } = Astro.props;
+---
+
+<article class="card mx-auto rounded-xl overflow-hidden">
+  <div class="card-text-container absolute inset-0 flex flex-col justify-between items-stretch m-0">
+    <div class="card-upper-section">
+      <h2 class="card-text card-name text-4xl font-black">{name}</h2>
+      <h6 class="card-text card-description">{description}</h6>
+    </div>
+
+    <div class="card-bottom-section flex justify-between items-center">
+      <h6 class="card-text card-author">
+        Author: <b>{author}</b>
+      </h6>
+      {src && (
+        <LinkButton
+          target={"_blank"}
+          class="card-source-button"
+          icon="external"
+          href={src}
+        />
+      )}
+    </div>
+  </div>
+  <Image
+    src={mediaSrc}
+    alt={"a showcase image with" +
+      ("a description that reads: " + description || "no description")}
+    width={512}
+    height={512}
+  />
+</article>
+
+<style>
+  .card {
+    position: relative;
+    border: 1px solid var(--sl-color-gray-5);
+    background-color: var(--sl-color-black);
+    flex-direction: column;
+  }
+
+  .card:hover {
+    filter: drop-shadow(0 1rem 2rem var(--overlay-white));
+    transition: filter 0.2s ease;
+  }
+
+  .card > img {
+    margin: unset !important;
+    height: 100%;
+    width: 100%;
+  }
+
+  .card-text-container {
+    opacity: 0;
+    background: linear-gradient(349deg, rgba(0, 0, 0, 0) 0%, var(--sl-color-black) 100%);
+    transition: opacity 0.3s ease;
+  }
+
+  .card-text-container:hover {
+    opacity: 1;
+  }
+
+  .card-text-container:hover > * {
+    margin: 1rem;
+    transition: margin 0.3s ease; /* i just don't know, it looks much nicer when it's placed here */
+  }
+
+  .card-text {
+    margin: clamp(0.5rem, 2vw, 1rem);
+    max-width: 90%;
+  }
+
+  .card-author, .card-description {
+    font-size: clamp(0.8rem, 1.5vw, 1rem) !important;
+    color: var(--sl-color-gray-2) !important;
+  }
+</style>

@@ -1,7 +1,7 @@
 {
-  "name": "",
+  "name": "fabric-wiki",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -10,13 +10,22 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/check": "^0.9.3",
+    "@astrojs/react": "^3.6.2",
     "@astrojs/starlight": "^0.27.1",
     "@astrojs/starlight-tailwind": "^2.0.3",
     "@astrojs/tailwind": "^5.1.0",
+    "@codaworks/react-glow": "^1.0.6",
+    "@fontsource/jost": "^5.1.0",
+    "@fontsource/readex-pro": "^5.1.0",
+    "@types/react": "^18.3.6",
+    "@types/react-dom": "^18.3.0",
     "astro": "^4.15.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-parallax-tilt": "^1.7.239",
     "sharp": "^0.32.5",
     "tailwindcss": "^3.4.4",
-    "@astrojs/check": "^0.9.3",
     "typescript": "^5.6.2"
   }
 }

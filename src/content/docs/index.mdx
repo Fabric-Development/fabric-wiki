@@ -1,46 +1,127 @@
 ---
-title: Welcome to Starlight
-description: Get started building your docs site with Starlight.
+title: Home
+description: Next-Gen Desktop Widgets Framework for Python 🍚🐍
+editUrl: false
 template: splash
 hero:
-  title: |
-    Welcome to Starlight with
-    <span
-      class="font-black text-transparent
-        bg-clip-text bg-gradient-to-b
-        from-accent-700 to-accent-400
-        dark:from-accent-500 dark:to-accent-200"
-    >
-      Tailwind
-    </span>
-  tagline: Congrats on setting up a new Starlight project!
+  title: <b>FABRIC</b>
+  tagline: Ricing, Made <b>Easy 🍚⚡</b>
   image:
-    file: ../../assets/houston.webp
+    alt: Fabric logo
+    dark: ../../assets/logo-dark.svg
+    light: ../../assets/logo-light.svg
   actions:
-    - text: Example Guide
-      link: /guides/example/
+    - text: See Guide
+      link: /introduction/introduction
       icon: right-arrow
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
-      icon: external
+
+    - text: Join our Discord
+      link: https://discord.gg/3sDbYc9SZP
+      icon: discord
       variant: minimal
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Image } from "astro:assets";
+import { Icon, LinkButton, Badge, Card, CardGrid } from "@astrojs/starlight/components";
+import FeatureCard from "../../components/FeatureCard.astro";
+import ShowcaseCard from "../../components/ShowcaseCard.astro";
 
-## Next steps
+<div class="text-center">
+  <h1>What's That?</h1>
+  <p>
+    Fabric is a Desktop Widgets System which can be customized in Python, Fabric
+    offers a ton of features to make the boring process of writing widget way
+    more easier and fun!
+  </p>
+</div>
 
+<h1 class="text-center">Features</h1>
 <CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
-	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
-	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
-	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
-	</Card>
+  <FeatureCard
+    title="Easy to Use"
+    body="Built for simplicity and ease. No unnecessary complexity, no tedious setup, and no shell scripts required!"
+  />
+  <FeatureCard
+    title="Lots of Widgets"
+    body="Fabric offers an extensive collection of pre-made widgets, allowing you to get started swiftly and effortlessly!"
+  />
+  <FeatureCard
+    title="Cross-Platform Compatibility"
+    body="Seamlessly compatible with both X11 and Wayland, Fabric also offers native support for Hyprland!"
+  />
+  <FeatureCard
+    title="Endlessly Customizable"
+    body="As a Python package, Fabric provides infinite possibilities for customization—limited only by your creativity!"
+  />
+  <FeatureCard
+    title="Awesome Community"
+    body="Join our active and welcoming community on Discord, where you’ll find support and collaboration opportunities!"
+  />
+  <FeatureCard
+  title="Enhanced DevEX"
+  body="Fabric adopts an advanced typing system thus fewer bugs and better development experience!"
+/>
+
 </CardGrid>
+<div class="text-center mt-20" >
+  <Badge text="New Section!"/>
+  <h1 class="mt-2">Visual Tour</h1>
+  A Collection of Desktop rices that muscle-show what are you able to do using Fabric!
+</div>
+<CardGrid>
+  <ShowcaseCard
+    name="Fabrika - فابريكا"
+    author="EL-Darsh"
+    description="My (Darsh) setup, it has everything i need and it works very well!"
+    imageSrc="/showcase/darsh-fabrika.png"
+    src="https://example.com"
+  />
+  <ShowcaseCard
+    name="AxOS"
+    author="Axenide"
+    description="An entire Desktop Environment Fabricated from scratch, compressed inside a powerful sidebar!"
+    imageSrc="/showcase/axenide-axos.png"
+    src="https://github.com/Axenide/dotfiles"
+  />
+</CardGrid>
+
+---
+
+<div class="text-center mt-20">
+  <h1 class="mt-2">
+    <span><Icon class="inline -mb-1" name="heart"/></span>Show Support!
+  </h1>
+  <h5 class="font-normal">
+    You can show your support and help in the development via Ko-fi donations.
+    Github stars are also appreciated!
+  </h5>
+  <LinkButton icon="external" href={"https://ko-fi.com/kairead"}>
+    Our Ko-fi
+  </LinkButton>
+  <LinkButton
+    variant="minimal"
+    icon="github"
+    href={"https://github.com/Fabric-Development/fabric"}
+  >
+    Star Fabric!
+  </LinkButton>
+</div>
+
+---
+
+<div class="text-center">
+  <h8>
+    **[Fabric Development](https://github.com/Fabric-Development)** © Copyrights are hereby granted for usage under the
+    AGPL agreements
+  </h8>
+  ---
+  <div class="inline-flex items-center gap-1">
+    Made using [Starlight](https://starlight.astro.build/)
+    <div style="margin-top: 0.2rem !important">
+      <Icon name="starlight"/>
+    </div>
+    <div style="margin-top: 0.2rem !important">
+      <Icon name="astro"/>
+    </div>
+  </div>
+</div>
