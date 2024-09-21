@@ -10,9 +10,10 @@ export interface Props {
   src?: string
 }
 
-const { name, author, description, imageSrc: mediaSrc, src } = Astro.props;
----
+const { name, author, description, imageSrc, src } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL;
 
+---
 <article class="card mx-auto rounded-xl overflow-hidden">
   <div class="card-text-container absolute inset-0 flex flex-col justify-between items-stretch m-0">
     <div class="card-upper-section">
@@ -35,7 +36,7 @@ const { name, author, description, imageSrc: mediaSrc, src } = Astro.props;
     </div>
   </div>
   <Image
-    src={mediaSrc}
+    src={imageSrc.startsWith("/") ? (baseUrl + imageSrc) : imageSrc}
     alt={"a showcase image with" +
       ("a description that reads: " + description || "no description")}
     width={512}

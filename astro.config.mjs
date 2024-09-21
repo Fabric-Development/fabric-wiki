@@ -7,6 +7,8 @@ import react from "@astrojs/react";
 
 // https://astro.build/config
 export default defineConfig({
+  base: "/fabric-wiki",
+  trailingSlash: "always",
   integrations: [
     starlight({
       title: "Fabric",

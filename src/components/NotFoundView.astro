@@ -3,6 +3,8 @@
 import ParticleLogo from "./ParticleLogo.astro";
 import { LinkButton } from "@astrojs/starlight/components";
 import { CardGrid } from "@astrojs/starlight/components";
+
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <div class="mt-[-3rem] min-[800px]:mt-[-14rem]">
@@ -12,7 +14,7 @@ import { CardGrid } from "@astrojs/starlight/components";
     >
       <h1 class="text-[6rem] min-[800px]:text-[8rem] mb-[-2rem]"><b>404</b></h1>
       <h4>Page not found. Check the URL or try using the search bar.</h4>
-      <LinkButton href={"/"} icon="right-arrow">Lets Go Home?</LinkButton>
+      <LinkButton href={ baseUrl || "/" } icon="right-arrow">Lets Go Home?</LinkButton>
     </div>
     <div style="filter: drop-shadow(0 0 12rem var(--overlay-white));">
       <ParticleLogo/>
