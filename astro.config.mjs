@@ -1,14 +1,20 @@
 // @ts-check
+import { prefixLinks } from "./src/plugins/CorrectURL";
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 import tailwind from "@astrojs/tailwind";
-
 import react from "@astrojs/react";
+
+
+const BASE_URL = "fabric-wiki";
 
 // https://astro.build/config
 export default defineConfig({
-  base: "/fabric-wiki",
+  base: "/" + BASE_URL,
   trailingSlash: "always",
+  markdown: {
+    remarkPlugins: [prefixLinks({ base: "/" + BASE_URL + "/" })],
+  },
   integrations: [
     starlight({
       title: "Fabric",
