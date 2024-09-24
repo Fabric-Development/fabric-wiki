@@ -1,10 +1,10 @@
 // @ts-check
 import { prefixLinks } from "./src/plugins/CorrectURL";
+import starlightVersions from "starlight-versions";
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
-
 
 const BASE_URL = "fabric-wiki";
 
@@ -18,6 +18,11 @@ export default defineConfig({
   integrations: [
     starlight({
       title: "Fabric",
+      plugins: [
+        starlightVersions({
+          versions: [{ slug: "0.0.1", label: "v0.0.1" }],
+        }),
+      ],
       editLink: {
         baseUrl: "https://github.com/Fabric-Development/fabric-wiki/edit/",
       },

@@ -23,7 +23,7 @@ export function prefixLinks({ base }: { base: string }) {
                 console.info(`[CorrectURL] fix ${node.url} -> ${"/" + relativeUrl}`);
 
                 // Prefix with base path if it was a bare link (not an asset)
-                node.url = base + relativeUrl + (!relativeUrl.includes(".") ? "/" : "");
+                node.url = base + relativeUrl + (!(/\/[^\/]+\.[a-zA-Z0-9]+$/).test(relativeUrl) ? "/" : "");
             }
             // Apply our visitor to Markdown links, including definition links
             visit(tree, "image", visitor);
