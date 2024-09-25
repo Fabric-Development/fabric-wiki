@@ -1,9 +1,230 @@
 ---
 title: Services
 sidebar:
-  order: 3
+  order: 2
 ---
 
-Services are kind of "data servers" for Fabric. They have methods and properties like normal objects, but signals are emitted when a property of a service gets changed. Other programs and users can connect to these signals so that they get notified when changes happen.
+import { Aside } from '@astrojs/starlight/components';
 
-Services follow a paradigm called the [observer pattern](https://en.wikipedia.org/wiki/Observer_pattern), so it starts doing a task in the background while your code is executing and doesn't block the main thread. Users can connect to these services to be notified of changes in properties.
+<Aside>
+This page is still under construction, some parts might be incomplete or completely missing!
+</Aside>
+
+Services (also referred to as `Object`s) are Python classes designed to perform specific tasks. Each service encapsulates a distinct functionality and can have multiple _accessories_. These accessories include Properties and Signals, which allow the service to expose its state and notify users about important events. Services are typically subclasses of `GObject.Object`.
+
+### Core Elements of a Service
+
+1. **Service**: A service represents the core functionality encapsulated in a class. for example, we have a service called a `Fabricator` that polls data from a specific source (whether a Python function or a shell script). The service continuously polls these sources at a defined interval and manages the data flow into one of its properties.
+
+2. **Properties**: Properties in a service represent the state or data managed by the service. For instance, a `Fabricator` service contains a property called `value` which stores the result of the polling process. When this property changes, the service can trigger signals to inform other components of the application.
+
+3. **Signals**: Signals allow a service to communicate state changes or events. In the case of `Fabricator`, when the `value` property is updated, a signal called `changed` is emitted. This informs listeners that the `Fabricator` has new data. Additionally, a more specific signal tied to the property itself, `notify::value`, is emitted, indicating that the `value` property has been modified.
+
+## Define a Service
+
+it's really easy to define a Serivce, here's a snippet that does exactly that...
+
+```python
+from fabric.core.service import Service
+
+class MyService(Service):...
+```
+
+but since we didn't dive into how Signals and Properties work. an empty Service won't be able do anything except existing.
+
+
+I will leave this example here to revisit it later when we learn more about Service accessories...
+
+```python
+
+from fabric.core.service import Service, Signal, Property
+
+class NameService(Service):
+	@Signal
+	def name_changed(self, new_name: str) -> None:...
+
+	@Property(str, flags="read-write")
+	def name(self) -> str:
+		return self._name
+
+	@name.setter
+	def name(self, value: str):
+		self._name = value
+		self.name_changed(value)
+
+	def __init__(self, name: str | None = None):
+		super().__init__()
+		self._name = name or ""
+
+name_service = NameService()
+
+name_service.connect(
+					 "name-changed",
+					 lambda new_name: print(f"the name has changed, new name is {new_name}"
+)
+
+name_service.name = "Homan"
+
+```
+
+## Signals
+
+A `Service` can have various accessories, with `Signal`s being one of them. `Signal`s provide a simple state-management model, allowing a `Service` to notify its users when specific changes occur. Additionally, a `Signal` can pass arguments, enabling the `Service` to both notify its users of a change and provide relevant details through these arguments.
+
+To define a signal, first decide on a signal name in kebab-case (e.g., `signal-name`) to ensure it appropriately represents its purpose. Once the name is chosen, you can define the signal using the `Signal` decorator within a `Service`.
+
+A signal's handler function must be fully typed, meaning all its arguments and return types must be explicitly declared.
+
+To import the `Signal` decorator:
+
+```python
+from fabric.core.service import Service, Signal
+```
+
+Example of using the `Signal` decorator:
+
+```python
+@Signal
+def signal_name(self, arg1: str, arg2: int, arg3: float) -> None: ...
+```
+
+Since Python doesn't allow function names with hyphens (as in kebab-case), you can define the function using snake_case (`signal_name`), and Fabric will automatically convert it to the correct kebab-case format when needed.
+
+Let's walk through an example of how `Signals` work:
+
+```python
+class NameService(Service):
+    @Signal
+    def name_changed(self, new_name: str) -> None: ...
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.name = ""
+
+    def get_name(self) -> str:
+        return self.name
+
+    def set_name(self, new_name: str) -> None:
+        self.name = new_name
+
+        # Emit the "name-changed" signal
+        self.name_changed(new_name)
+
+        # Alternative ways to emit a signal:
+        # self.name_changed.emit(new_name)
+        # self.emit("name-changed", new_name)
+
+name_service = NameService()
+
+# Connect a listener to the "name-changed" signal
+name_service.connect(
+    "name-changed",
+    lambda new_name: print(f"The name has changed, new name is {new_name}")
+)
+
+# Alternative way to connect to the signal
+# name_service.name_changed.connect(...)
+
+# Trigger the signal by changing the name
+name_service.set_name("Homan")
+```
+
+**Output:**
+
+```
+The name has changed, new name is Homan
+```
+
+In this example, the `NameService` class defines a `name_changed` signal that is emitted whenever the name is updated. The signal is connected to a listener, which prints the new name when it is changed.
+
+By using `Signals`, services can easily notify other parts of the application about important state changes.
+
+### Connections
+
+`Service`s offer a simple way to connect signals to callback functions directly within the constructor (`__init__`). This allows for easy signal handling right at initialization.
+
+Here's an example on how to connect signals to a callback in a various ways:
+
+```python
+def callback():
+    print("I've been called")
+
+# using a Fabricator as the service
+fabricator = Fabricator(
+    poll_from=lambda: "hello there!",
+    interval=1000,
+
+    # signal connections
+    on_changed=callback,  # Connect the "changed" signal to the callback
+    notify_value=lambda *_: print("value notified")  # Connect to "notify::value" for property changes
+)
+
+# alternative ways to connect signals
+fabricator.connect("changed", callback)
+fabricator.changed.connect(callback)  # works specifically for Fabric services
+
+# fabricator.connect("notify::value", lambda *_: print("value notified"))
+```
+
+This pattern allows you to define signal connections directly in the constructor or through explicit method calls, providing flexibility in how you manage your signals.
+
+## Properties: **WIP**
+
+## Builders
+
+The builder pattern allows for constructing complex objects step by step. In the context of a `Service`, you can chain function calls to set properties and connect signals in one line, simplifying the setup process. This approach minimizes boilerplate code and makes the initialization more readable and efficient.
+
+Here’s an example of how to use the builder pattern to initialize a `Fabricator` object:
+
+```python
+fabricator = Fabricator(
+    poll_from=lambda: "hello there!",
+    interval=1000,
+).build()\
+ .connect("changed", lambda *_: print("changed"))\
+ .connect("notify::value", lambda *_: print("value notified"))\
+ .set_value("initial value")\
+ .unwrap()  # Return the actual Fabricator, not the Builder object
+```
+
+**Explanation:**
+
+- `build()`: Initializes the builder object, which allows chaining subsequent calls.
+- `connect()`: Connects signals, here linking the "changed" and "notify::value" signals to their respective handlers (which are inline functions created using lambdas).
+- `set_value()`: Sets the initial value of the service.
+- `unwrap()`: Returns the actual `Fabricator` instance instead of the builder object. This step is important because, without it, you'd still be working with the builder object rather than the fully constructed `Fabricator`.
+
+This chaining method enables you to configure the service in a single expression, making it cleaner and more efficient.
+
+Alternatively, you can configure the `Service` using a callback that receives two arguments: the `Service` instance itself (`self`) and the builder object used for chaining. This approach provides more flexibility if you want to further customize your service during initialization.
+
+Here’s how to use the callback method:
+
+```python
+fabricator = Fabricator(
+    poll_from=lambda: "hello there!",
+    interval=1000,
+).build(
+    lambda self, builder: builder\
+        .connect("changed", lambda *_: print("changed"))\
+        .connect("notify::value", lambda *_: print("value notified"))\
+        .set_value("initial value")
+)
+```
+
+**Explanation:**
+
+- The callback receives two arguments: the `self` reference to the `Service` instance and the `builder` object. This allows you to use the builder to chain function calls as needed, configuring signals and setting values in a flexible manner.
+- The chaining functions (`connect()`, `set_value()`, etc.) work the same way as in the previous example, but this method allows you to encapsulate the configuration logic within a callback.
+
+### Why Use the Builder Pattern?
+
+The builder pattern simplifies service initialization, enabling you to configure everything in a single expression or using a callback for more complex setups. It’s especially useful when you want to avoid multiple setup steps spread throughout your code and prefer a more declarative style.
+
+**Key Benefits:**
+
+- **Readability**: Function chaining creates a fluent interface, making code more readable by consolidating setup logic in one place.
+- **Flexibility**: You can configure services in one line or use callbacks for more advanced initialization.
+- **Cleaner Code**: Reduces the need for multiple lines of initialization logic, resulting in less boilerplate code.
+
+This pattern is ideal when working with `Services` that require property setting, signal connections, and other initialization logic in a clear and concise way.
