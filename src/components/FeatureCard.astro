@@ -27,7 +27,9 @@ const { icon, title, body } = Astro.props;
     tiltMaxAngleY={6}
     tiltReverse={true}
   >
-    <article class="card flex flex-col flex-grow basis-auto self-stretch w-[100%] h-[100%] border border-solid rounded-lg m-0">
+    <article
+      class="card flex flex-col flex-grow basis-auto self-stretch w-[100%] h-[100%] border border-solid rounded-lg m-0"
+    >
       <h4 class="title font-bold gap-4 items-center">
         <!-- @ts-ignore -->
         {icon && <Icon name={icon} class="icon" size="1.333em" />}
@@ -62,6 +64,10 @@ const { icon, title, body } = Astro.props;
   }
 
   .card .body {
-    font-size: clamp(var(--sl-text-sm), calc(0.5rem + 1vw), var(--sl-text-body));
+    font-size: clamp(
+      var(--sl-text-sm),
+      calc(0.5rem + 1vw),
+      var(--sl-text-body)
+    );
   }
 </style>

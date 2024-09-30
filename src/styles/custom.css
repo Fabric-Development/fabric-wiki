@@ -108,3 +108,22 @@
 .sl-badge.danger {
 	@apply font-bold text-accent-800 dark:text-accent-200 bg-red-300 border-red-900 dark:bg-red-900 dark:border-red-400 !important;
 }
+
+@keyframes shine {
+	100% {
+		background-position: -140% 0;
+	}
+}
+
+.shine>* {
+	background-size: 200% 100% !important;
+	background-image: linear-gradient(-75deg,
+			transparent 0,
+			transparent 5%,
+			var(--sl-color-gray-4) 5%,
+			var(--sl-color-gray-4) 10%,
+			transparent 10%,
+			transparent 100%) !important;
+	background-clip: text !important;
+	animation: shine 2s ease-in-out infinite !important;
+}

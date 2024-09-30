@@ -27,11 +27,22 @@ banner:
 ---
 
 import { Image } from "astro:assets";
-import { Icon, LinkButton, Badge, Card, CardGrid } from "@astrojs/starlight/components";
+import {
+  Card,
+  CardGrid,
+  LinkButton,
+  Badge,
+  Icon,
+} from "@astrojs/starlight/components";
 import FeatureCard from "../../components/FeatureCard.astro";
 import ShowcaseCard from "../../components/ShowcaseCard.astro";
 
 <div class="text-center">
+  <h1 class="text-5xl -mb-4">
+    <span>
+      <Icon class="inline" name="information" />
+    </span>
+  </h1>
   <h1>What's That?</h1>
   <p>
     Fabric is a Desktop Widgets System which can be customized in Python, Fabric
@@ -40,7 +51,15 @@ import ShowcaseCard from "../../components/ShowcaseCard.astro";
   </p>
 </div>
 
-<h1 class="text-center">Features</h1>
+<div class="text-center mt-10">
+  <h1 class="text-5xl -mb-4">
+    <span>
+      <Icon class="inline" name="star" />
+    </span>
+  </h1>
+  <h1>Features</h1>
+</div>
+
 <CardGrid stagger>
   <FeatureCard
     title="Easy to Use"
@@ -68,9 +87,15 @@ import ShowcaseCard from "../../components/ShowcaseCard.astro";
 />
 
 </CardGrid>
-<div class="text-center mt-20" >
-  <Badge text="New Section!"/>
-  <h1 class="mt-2">Visual Tour</h1>
+<div class="text-center mt-10" >
+
+  <h1 class="text-5xl -mb-10">
+    <span><Icon class="inline" name="laptop"/></span>
+  </h1>
+  <div class="text-5xl -mb-14">
+    <Badge text="New Section!"/>
+  </div>
+  <h1>Visual Tour</h1>
   A Collection of Desktop rices that muscle-show what are you able to do using Fabric!
 </div>
 <CardGrid>
@@ -92,41 +117,48 @@ import ShowcaseCard from "../../components/ShowcaseCard.astro";
 
 ---
 
-<div class="text-center mt-20">
-  <h1 class="mt-2">
-    <span><Icon class="inline -mb-1" name="heart"/></span>Show Support!
+<div class="text-center mt-10">
+  <h1 class="text-5xl -mb-4">
+    <span><Icon class="inline" name="heart"/></span>
   </h1>
+  <h1>Show Support!</h1>
   <h5 class="font-normal">
     You can show your support and help in the development via Ko-fi donations.
     Github stars are also appreciated!
   </h5>
-  <LinkButton icon="external" href={"https://ko-fi.com/kairead"}>
+  <LinkButton
+    class={"shine border-0"}
+    icon="external"
+    href={"https://ko-fi.com/kairead"}
+  >
     Our Ko-fi
   </LinkButton>
   <LinkButton
     variant="minimal"
+    class={"shine border-0 px-2"}
     icon="github"
     href={"https://github.com/Fabric-Development/fabric"}
   >
     Star Fabric!
   </LinkButton>
+
 </div>
 
 ---
 
 <div class="text-center">
   <h8>
-    **[Fabric Development](https://github.com/Fabric-Development)** © Copyrights are hereby granted for usage under the
-    AGPL agreements
+    **[Fabric Development](https://github.com/Fabric-Development)** ©
+    Copyrights are hereby granted for usage under the AGPL agreements
   </h8>
   ---
   <div class="inline-flex items-center gap-1">
     Made using [Starlight](https://starlight.astro.build/)
     <div style="margin-top: 0.2rem !important">
-      <Icon name="starlight"/>
+      <Icon name="starlight" />
     </div>
     <div style="margin-top: 0.2rem !important">
-      <Icon name="astro"/>
+      <Icon name="astro" />
     </div>
   </div>
 </div>
