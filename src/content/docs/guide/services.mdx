@@ -4,10 +4,11 @@ sidebar:
   order: 2
 ---
 
-import { Aside } from '@astrojs/starlight/components';
+import { Aside } from "@astrojs/starlight/components";
 
 <Aside>
-This page is still under construction, some parts might be incomplete or completely missing!
+  This page is still under construction, some parts might be incomplete or
+  completely missing!
 </Aside>
 
 Services (also referred to as `Object`s) are Python classes designed to perform specific tasks. Each service encapsulates a distinct functionality and can have multiple _accessories_. These accessories include Properties and Signals, which allow the service to expose its state and notify users about important events. Services are typically subclasses of `GObject.Object`.
@@ -31,7 +32,6 @@ class MyService(Service):...
 ```
 
 but since we didn't dive into how Signals and Properties work. an empty Service won't be able do anything except existing.
-
 
 I will leave this example here to revisit it later when we learn more about Service accessories...
 

@@ -16,6 +16,7 @@ Fabricators give you some important options during initalization, including:
 So, let's look at some examples of using fabricators!
 
 ## Media Player State
+
 This example utilizes a fabricator to read a stream from an external command (`playerctl -f status`) and print the current media status when it changes.
 
 ```python
@@ -43,7 +44,9 @@ fabric.start()
 ```
 
 ## Periodic Date Updates
+
 in this example, we use a fabricator to poll data from the shell command `date` every 500ms and print the output of it.
+
 ```python
 import fabric
 from fabric.utils.fabricator import Fabricator
@@ -71,7 +74,9 @@ fabric.start()
 ```
 
 ## Advanced Polling
+
 In this example we fabricate a function instead of a shell command, and demonstrate how to use a stopping condition.
+
 ```python
 import fabric
 from fabric.utils.fabricator import Fabricator

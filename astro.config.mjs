@@ -50,6 +50,11 @@ export default defineConfig({
           label: "Widgets",
           autogenerate: { directory: "widgets" },
         },
+
+        {
+          label: "Community Snippets",
+          autogenerate: { directory: "snippets" },
+        },
       ],
 
       customCss: [

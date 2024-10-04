@@ -5,27 +5,31 @@ sidebar:
 slug: 0.0.1/guide/hacking-guide
 ---
 
-import { Aside } from '@astrojs/starlight/components';
+import { Aside } from "@astrojs/starlight/components";
 
 Fabric is made to be a hackable package at its core. This guide will walk you through making your own modifications to Fabric's source!
 
 ## Notes
 
 <Aside>
-  Please note that Fabric is built using GTK version 3; widgets from other versions are either incompatible or will require more effort to get to work.
+  Please note that Fabric is built using GTK version 3; widgets from other
+  versions are either incompatible or will require more effort to get to work.
 </Aside>
 
 <Aside type="tip">
   Having knowledge about how GTK and GObject works will greatly enhance your hacking ability while reducing issues along with the way; these are some useful resources to learn more about GTK and GObject.
 
-  * [Sebastian's tutorial on PyGObject](https://python-gtk-3-tutorial.readthedocs.io/en/latest/)
-  * [The official tutorial from PyGObject](https://gnome.pages.gitlab.gnome.org/pygobject/)
-  * [The docs the maintainer personally uses](https://lazka.github.io/pgi-docs/)
-  * [Foundations of PyGTK Development (book)](https://link.springer.com/book/10.1007/978-1-4842-4179-0)
+- [Sebastian's tutorial on PyGObject](https://python-gtk-3-tutorial.readthedocs.io/en/latest/)
+- [The official tutorial from PyGObject](https://gnome.pages.gitlab.gnome.org/pygobject/)
+- [The docs the maintainer personally uses](https://lazka.github.io/pgi-docs/)
+- [Foundations of PyGTK Development (book)](https://link.springer.com/book/10.1007/978-1-4842-4179-0)
 </Aside>
 
 <Aside type="tip">
-  If the widget you're trying to implement was already implemented somewhere else (even if it was in another language) using GTK (version 3) and/or Cairo, porting it will be simple: you can just use the same drawing functions, since the Cairo bindings don't differ from language to another.
+  If the widget you're trying to implement was already implemented somewhere
+  else (even if it was in another language) using GTK (version 3) and/or Cairo,
+  porting it will be simple: you can just use the same drawing functions, since
+  the Cairo bindings don't differ from language to another.
 </Aside>
 
 ## Development Environment
@@ -42,7 +46,7 @@ Fabric has a very special widget at its core: `Widget`(`fabric.widgets.widget`).
 
 Fabric has the `Service` base class (at `fabric.service`). New Fabric services should be inherited from this class. When doing this, make sure to replace the decorator `@property` with `@Property` (imported from `fabric.service`) to get notifiable properties in your service.
 
-To create signals, you can change the variable `__gsignals__`. `__gsignals__`  takes a `SignalContainer` object (from `fabric.service`), and that signal container takes `Signal` objects as arguments. An example:
+To create signals, you can change the variable `__gsignals__`. `__gsignals__` takes a `SignalContainer` object (from `fabric.service`), and that signal container takes `Signal` objects as arguments. An example:
 
 ```python
 from fabric.service import *
@@ -66,9 +70,9 @@ To start writing your own widget, you you should first check if GTK already incl
 
 Do one of the following to get the widget:
 
-* Just use it: Fabric is fully compatible with GTK widgets, so you can import the widget and use it however you need to. Note that this will not provide the new widget with all of Fabric's features (i.e setting the style within the construction), so if you require these see the option below.
+- Just use it: Fabric is fully compatible with GTK widgets, so you can import the widget and use it however you need to. Note that this will not provide the new widget with all of Fabric's features (i.e setting the style within the construction), so if you require these see the option below.
 
-* Fabricate the widget: *fabricating* a widget means that you take a GTK widget and convert it into a Fabric widget; this will make it possible to use Fabric's features like special methods and properties.
+- Fabricate the widget: _fabricating_ a widget means that you take a GTK widget and convert it into a Fabric widget; this will make it possible to use Fabric's features like special methods and properties.
 
 #### Fabricating a GTK Widget
 
@@ -85,7 +89,7 @@ import gi # import the gi repository to get GTK from it later
 gi.require_version("Gtk", "3.0") # graps the version 3 of GTK since this is what fabric uses
 from gi.repository import Gtk # now we have GTK (version 3) imported
 
-from fabric.widgets.widget import Widget # imports fabric's base widget 
+from fabric.widgets.widget import Widget # imports fabric's base widget
 
 
 class MyFabricatedWidget(Gtk.MyWidget, Widget): # creates a new class named "MyFabricatedWidget", this class inherits the desired GTK widget and fabric's base widget
@@ -102,19 +106,22 @@ Fabricating a container widget is the same process as fabricating a normal widge
 
 Oh, you ran into an issue. Don't panic! If your code does not work at all, **read the error**; most of the time, it provides a lot of information (i.e the call stack).
 
-There are some specific errors that may be more difficult to debug, such as errors produced by GTK itself due to your function/method call. These errors, in most cases, only provide the assertion error (which *might* be handy to get a traceback). Here's how to debug these invisible [Heisenbugs](https://en.wikipedia.org/wiki/Heisenbug):
+There are some specific errors that may be more difficult to debug, such as errors produced by GTK itself due to your function/method call. These errors, in most cases, only provide the assertion error (which _might_ be handy to get a traceback). Here's how to debug these invisible [Heisenbugs](https://en.wikipedia.org/wiki/Heisenbug):
 
-* Check your environment variables
-  * For example, I try running an X11 window under X11 but the environment variable `GDK_BACKEND` is set to `wayland` due to me forcing the editor to to set it this way and forgetting. This was the problem that caused my Wayland window to open as a normal window, not a layer. (Another possibility here was that I was using GNOME, which hasn't implemented the layer-shell protocol on Wayland and therefore makes it impossible to do anything to fix issues with it.)
+- Check your environment variables
 
-* Use a debugger and breakpoints to identify the source of the problem
-  * For example, I decide to use a function that I know  exists in the source of the GI repository package I'm trying to use, but my code produces a segmentation fault every time I run it. (Later, while reading the docs, I figured out that this specific function was not exposed to the binding I was using.)
+  - For example, I try running an X11 window under X11 but the environment variable `GDK_BACKEND` is set to `wayland` due to me forcing the editor to to set it this way and forgetting. This was the problem that caused my Wayland window to open as a normal window, not a layer. (Another possibility here was that I was using GNOME, which hasn't implemented the layer-shell protocol on Wayland and therefore makes it impossible to do anything to fix issues with it.)
 
-* Check your thread-safety
-  * For example, I make a new service and it works like a charm. After an unknown amount of time, though, the entire thing crashes. I later found out from a friend that I was updating the properties of an object defined in the main thread in a different thread, leading to a loss of [thread safety](https://en.wikipedia.org/wiki/Thread_safety). After discovering this issue, I found a function that did the same thing I needed to do (like `GLib.idle_add`) in a thread-safe way.
+- Use a debugger and breakpoints to identify the source of the problem
 
-* Variable or method overwrites
-  * For example, I make a new class that inherits `Service`. I then write a new method: `connect`, but when I run the code I get an `ArgumentError` even though I pass everything necessary into the method. I then find out that the `Service` class already has a `connect` method that is used internally, so when I try to use `connect` in my new class I'm actually calling the method in the `Service` class. I fixed this issue by using a different class to inherit from, though you can also solve this type of issue by simply renaming the method.
+  - For example, I decide to use a function that I know exists in the source of the GI repository package I'm trying to use, but my code produces a segmentation fault every time I run it. (Later, while reading the docs, I figured out that this specific function was not exposed to the binding I was using.)
+
+- Check your thread-safety
+
+  - For example, I make a new service and it works like a charm. After an unknown amount of time, though, the entire thing crashes. I later found out from a friend that I was updating the properties of an object defined in the main thread in a different thread, leading to a loss of [thread safety](https://en.wikipedia.org/wiki/Thread_safety). After discovering this issue, I found a function that did the same thing I needed to do (like `GLib.idle_add`) in a thread-safe way.
+
+- Variable or method overwrites
+  - For example, I make a new class that inherits `Service`. I then write a new method: `connect`, but when I run the code I get an `ArgumentError` even though I pass everything necessary into the method. I then find out that the `Service` class already has a `connect` method that is used internally, so when I try to use `connect` in my new class I'm actually calling the method in the `Service` class. I fixed this issue by using a different class to inherit from, though you can also solve this type of issue by simply renaming the method.
 
 ### Visual Bugs
 
@@ -122,6 +129,6 @@ There's another kind of bug - the visual bugs. A visual bug means that the code 
 
 To get the inspector window in Fabric, set the environment variable `GTK_DEBUG` to `interactive` before running your code.
 
-***
+---
 
 If you still can't find what's causing your code not to act as it should, you can always hop into Fabric's [Discord server](https://discord.gg/xKDnfGee) and ask your question - we're happy to help!

@@ -1,9 +1,10 @@
 ---
-title: 'Installing Fabric'
+title: "Installing Fabric"
 sidebar:
   order: 3
 ---
-import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+import { Aside, Steps, Tabs, TabItem } from "@astrojs/starlight/components";
 
 <Steps>
 1. Install Python
@@ -13,41 +14,48 @@ import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
     * OpenSUSE: `sudo zypper install python311` for the most recent version of Python 3.11
 
 2. Install the Dependencies
-    Fabric requires the following dependencies to run:
-    * `gtk3`
-    * `cairo`
-    * `gtk-layer-shell`
-    * `libgirepository`
-    * `gobject-introspection`
-    * `gobject-introspection-runtime`
-    * `python`
-    * `python-pip`
-    * `python-gobject`
-    * `python-cairo`
-    * `python-loguru`
-    * `pkgconf`
+   Fabric requires the following dependencies to run:
 
-    <Aside>
-    Names of packages and installation instructions vary across  distributions and systems. You may have to do some searching for your system.
-    </Aside>
+   - `gtk3`
+   - `cairo`
+   - `gtk-layer-shell`
+   - `libgirepository`
+   - `gobject-introspection`
+   - `gobject-introspection-runtime`
+   - `python`
+   - `python-pip`
+   - `python-gobject`
+   - `python-cairo`
+   - `python-loguru`
+   - `pkgconf`
 
-    Run the following command to install all the dependencies:
-    <Tabs>
-    <TabItem label="Arch Linux">
-    * `sudo pacman -S gtk3 cairo gtk-layer-shell libgirepository gobject-introspection gobject-introspection-runtime python python-pip python-gobject python-cairo python-loguru pkgconf`
-    </TabItem>
-    <TabItem label="OpenSUSE">
-    (tested on Tumbleweed)
-    * `sudo zypper install gtk3-devel cairo-devel gtk-layer-shell-devel libgirepository-1_0-1 libgirepository-2_0-0 gobject-introspection-devel python311 python311-pip python311-gobject python311-gobject-cairo python311-pycairo python311-loguru pkgconf`
-    </TabItem>
-    </Tabs>
+   <Aside>
+     Names of packages and installation instructions vary across distributions
+     and systems. You may have to do some searching for your system.
+   </Aside>
 
+   Run the following command to install all the dependencies:
+
+   <Tabs>
+     <TabItem label="Arch Linux">
+       * `sudo pacman -S gtk3 cairo gtk-layer-shell libgirepository
+       gobject-introspection gobject-introspection-runtime python python-pip
+       python-gobject python-cairo python-loguru pkgconf`
+     </TabItem>
+     <TabItem label="OpenSUSE">
+       (tested on Tumbleweed) * `sudo zypper install gtk3-devel cairo-devel
+       gtk-layer-shell-devel libgirepository-1_0-1 libgirepository-2_0-0
+       gobject-introspection-devel python311 python311-pip python311-gobject
+       python311-gobject-cairo python311-pycairo python311-loguru pkgconf`
+     </TabItem>
+   </Tabs>
 
 3. Install Fabric
-    You can either install Fabric globally (not recommended) or in a virtual environment.
+   You can either install Fabric globally (not recommended) or in a virtual environment.
 </Steps>
 
 ### Virtual Environment
+
 The recommended way to install Fabric is through a [virtual environment](https://docs.python.org/3/library/venv).
 
 <Steps>
@@ -57,38 +65,43 @@ The recommended way to install Fabric is through a [virtual environment](https:/
     ```
 
 2. change directories to this new folder:
-    ```bash
-    cd <your-folder-name>
-    ```
+
+   ```bash
+   cd <your-folder-name>
+   ```
 
 3. Create a new virtual environment:
-    ```bash
-    python -m venv venv
-    ```
+
+   ```bash
+   python -m venv venv
+   ```
 
 4. Source the newly created virtual environment:
-    ```bash
-    source venv/bin/activate
-    ```
+
+   ```bash
+   source venv/bin/activate
+   ```
 
 5. You can now install Fabric in your newly-created virtual environment.
-    ```bash
+   `bash
     pip install git+https://github.com/Fabric-Development/fabric.git
-    ```
+    `
 </Steps>
 
-
 ### Global Install
+
 Alternatively, you can install Fabric globally using the following command:
 
 <Aside type="tip">
-If you're on Arch Linux, Fabric is available in the AUR under the name `python-fabric-git`.
-If you use a different distribution and you would like to install Fabric globally, use the following command.
+  If you're on Arch Linux, Fabric is available in the AUR under the name
+  `python-fabric-git`. If you use a different distribution and you would like to
+  install Fabric globally, use the following command.
 </Aside>
 
 ```bash
 pip install git+https://github.com/Fabric-Development/fabric.git
 ```
+
 This method is more prone to dependency issues.
 
 ---
