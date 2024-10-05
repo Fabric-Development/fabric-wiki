@@ -14,15 +14,17 @@ Here's an example of using Fabric to define a simple widget - you don't have to 
 
 ```python
 import fabric # importing the base pacakge
-from fabric.widgets.window import Window # grabs the Window class from Fabric
+from fabric import Application
 from fabric.widgets.label import Label # gets the Label class
+from fabric.widgets.window import Window # grabs the Window class from Fabric
 
-window = Window() # creates a new instance of the Window class and assign it to the `window` variable
-label = Label("Hello, World") # creates a new Label instance with the content being "Hello, World" and assigns it to `label`
-window.add(label) # adds the label to the window
-window.show_all() # to make the window and all of its children appear
+window = Window( # creates a new instance of the Window class and assign it to the `window` variable
+  child = Label("Hello, World"), # creates a new Label instance with the content being "Hello, World" and assigns it as a child of the window
+  all_visible=True # to make the window and all of its children appear once the config runs
+)
 
-fabric.start() # to start fabric
+app = Application("default", window) # define a new config named "defualt" which holds `window`
+app.run() # run the event loop (run the config)
 ```
 
 Run the code using `python path/to/your/file.py`
@@ -41,30 +43,32 @@ Now let's demonstrate some boxes with some labels.
 
 ```python
 import fabric # importing the base pacakge
-from fabric.widgets.window import Window # grabs the Window class from Fabric
+from fabric import Application # prepare the application class which manages multi-config setups
 from fabric.widgets.box import Box # gets the Box class
 from fabric.widgets.label import Label # gets the Label class
+from fabric.widgets.window import Window # grabs the Window class from Fabric
 
-box_1 = Box(
-    orientation="v",
-    children=Label("this is the first box")
-)
-box_2 = Box(
-    orientation="h",
-    spacing=28, # adds some spacing between the children
-    children=[
-        Label("this is the first element in the second box"),
-        Label("btw, this box elements will get added horizontally")
-    ]
-)
 
-box_1.add(box_2)
+if __name__ == "__main__":    
+    box_1 = Box(
+        orientation="v", # vertical
+        children=Label(label="this is the first box")
+    )
+    box_2 = Box(
+        spacing=28, # adds some spacing between the children
+        orientation="h", # horizontal
+        children=[
+            Label(label="this is the first element in the second box"),
+            Label(label="btw, this box elements will get added horizontally")
+        ]
+    )
+    box_1.add(box_2) # append box_2 inside box_1 along with the label already in there
 
-window = Window(
-    children=box_1 # there's no need showing this window using `show_all()`; it'll show them itself because the children are already passed
-)
+    window = Window(child=box_1) # there's no need showing this window using `show_all()`; it'll show them itself because the children are already passed
+    app = Application("default", window) # define a new config named "defualt" which holds `window`
 
-fabric.start()
+    app.run() # run the event loop (run the config)
+
 ```
 
 Result (notice the alignment of the labels):
@@ -83,37 +87,37 @@ First, here's the code:
 
 ```python
 import fabric
+from fabric import Application
 from fabric.widgets.box import Box
 from fabric.widgets.label import Label
 from fabric.widgets.button import Button
 from fabric.widgets.window import Window
 
-def create_button():
-    button = Button(label="click me")
-    button.connect("button-press-event", lambda *args: button.set_label("you clicked me"))
-    return button
+def create_button(): # define a "factory function"
+    return Button(label="Click Me", on_clicked=lambda b, *_: b.set_label("you clicked me"))
 
-box = Box(
-  orientation="v",
-  children=[
-    Label("fabric buttons demo"),
-    Box(
-      orientation="h",
+
+if __name__ == "__main__":    
+    box = Box(
+      orientation="v",
       children=[
-        create_button(),
-        create_button(),
-        create_button(),
-        create_button(),
+        Label(label="Fabric Buttons Demo"),
+        Box(
+          orientation="h",
+          children=[
+            create_button(),
+            create_button(),
+            create_button(),
+            create_button(),
+          ],
+        ),
       ],
-    ),
-  ],
-)
+    )
+    window = Window(child=box)
+    app = Application("default", window)
 
-window = Window(
-  children=box,
-)
+    app.run()
 
-fabric.start()
 ```
 
 Result:
