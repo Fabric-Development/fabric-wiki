@@ -199,9 +199,9 @@ class StatusBar(Window):
             **kwargs
         )
 
-        self.date_time = DateTime() # Link to api reference here?
+        self.date_time = DateTime()
 
-        self.children = CenterBox(center_children=self.data_time) # Adds centerbox as a child of the StatusBar Window and date_time in the center of our bar # Link to api reference here?
+        self.children = CenterBox(center_children=self.data_time) # Adds centerbox as a child of the StatusBar Window and date_time in the center of our bar
 ```
 
 Using the centerbox we can place the datetime widget anywhere in the bar. For now lets put it in the center.
