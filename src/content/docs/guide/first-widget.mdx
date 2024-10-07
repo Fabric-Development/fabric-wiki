@@ -184,9 +184,9 @@ if __name__ == "__main__":
 The bar itself is not visible (as it's unstyled and empty) but you may notice that an invisible force has squashed an app from above (This behavior is not expected across other window managers). That is the bar you just created!
 
 It's a little empty, so it's time to add some content—like the date and time!
-To make it easier for us to position elements we can use a centerbox! This centerbox is added a child of the `Window`.
+To make it easier for us to position elements we can use a centerbox! This centerbox is added to our `Window` class.
 
-```
+```python
 ...
 class StatusBar(Window):
     def __init__(
