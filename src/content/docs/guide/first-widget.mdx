@@ -134,3 +134,108 @@ This demo creates a window with a box inside of it with the orientation set to v
   This approach to defining widgets will feel remarkably familiar to frontend
   developers and those who have experience writing HTML.
 </Aside>
+
+## Level 3: Bar
+
+Now that you know how to create buttons and boxes, we can apply these concepts to create a basic bar. 
+
+First lets import some more widgets.
+
+```python
+...
+from fabric.widgets.datetime import DateTime
+from fabric.widgets.centerbox import CenterBox
+from fabric.widgets.wayland import WaylandWindow as Window # Remove the earlier window import and replace it with this
+```
+
+As you may have noticed, in the earlier levels the widgets we created could be moved around and acted more like your typical "windows". This is because we haven't defined anchors for it to fix at. To make our life easier lets define our widget as a class this time.
+
+```python
+...
+class StatusBar(Window):
+    def __init__(
+        self, **kwargs 
+    ):
+        super().__init__(
+            layer="top", # Make it be above apps 
+            anchor="left top right", # Positional anchor
+            exclusivity="auto", # Keep it as it's own seperate window
+            **kwargs
+        )
+```
+
+As we defined `Window` in a class this time we pass the arguments through `__init__`. Let's have a closer look at the arguments we introduced.
+
+- The `layer` argument makes sure your bar is visible above any app (while it's not fullscreen). If you are on hyprland you can see the different layers using `hyprctl layers`. If you don't have any bars/widgets already running this may be a little empty and only show your wallpaper daemon.
+- The `anchor` argument helps us position the bar in the spot that we want. For this guide, we want our bar to be at the top and extend from left to right. Therefore we add `top` and `left right`. You can arrange these in any order.
+- The `exclusivity` argument ensures that your bar has it's own space and isn't overlapped by another widget/app.
+
+Now lets test out what we created!
+
+```python
+...
+if __name__ == "__main__":
+    bar = StatusBar()
+    app = Application("bar", bar)
+
+    app.run()
+```
+
+The bar itself is not visible (as it's unstyled and empty) but you may notice that an invisible force has squashed an app from above (This behavior is not expected across other window managers). That is the bar you just created!
+
+It's a little empty, so it's time to add some content—like the date and time!
+To make it easier for us to position elements we can use a centerbox! This centerbox is added a child of the `Window`.
+
+```
+...
+class StatusBar(Window):
+    def __init__(
+        self, **kwargs 
+    ):
+        super().__init__(
+            layer="top", 
+            anchor="left top right", 
+            exclusivity="auto", 
+            **kwargs
+        )
+
+        self.date_time = DateTime() # Link to api reference here?
+
+        self.children = CenterBox(center_children=self.data_time) # Adds centerbox as a child of the StatusBar Window and date_time in the center of our bar # Link to api reference here?
+```
+
+Using the centerbox we can place the datetime widget anywhere in the bar. For now lets put it in the center.
+
+Aaaaand thats a wrap! You just created your first basic bar in fabric! For a more advanced bar checkout [this](https://github.com/Fabric-Development/fabric/blob/rewrite/examples/bar/bar.py) example.
+
+![](/assets/first-widget-bar.png)
+
+Full code:
+```python
+import fabric
+from fabric import Application
+from fabric.widgets.datetime import DateTime
+from fabric.widgets.centerbox import CenterBox
+from fabric.widgets.wayland import WaylandWindow as Window
+
+class StatusBar(Window):
+    def __init__(
+        self, **kwargs
+    ):
+        super().__init__(
+            layer="top",
+            anchor="left top right",
+            exclusivity="auto",
+            **kwargs
+        )
+
+        self.date_time = DateTime()
+
+        self.children = CenterBox(center_children=self.date_time)
+
+if __name__ == "__main__":
+    bar = StatusBar()
+    app = Application("bar-example", bar)
+
+    app.run()
+```
