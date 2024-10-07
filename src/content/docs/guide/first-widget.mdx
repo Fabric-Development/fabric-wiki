@@ -4,7 +4,7 @@ sidebar:
   order: 1
 ---
 
-import { Aside } from "@astrojs/starlight/components";
+import { Aside, Tabs, TabItem } from "@astrojs/starlight/components";
 
 Assuming you have [Fabric installed](../introduction/installation-guide.mdx), it's time to write your first widget!
 
@@ -49,7 +49,7 @@ from fabric.widgets.label import Label # gets the Label class
 from fabric.widgets.window import Window # grabs the Window class from Fabric
 
 
-if __name__ == "__main__":    
+if __name__ == "__main__":
     box_1 = Box(
         orientation="v", # vertical
         children=Label(label="this is the first box")
@@ -97,7 +97,7 @@ def create_button(): # define a "factory function"
     return Button(label="Click Me", on_clicked=lambda b, *_: b.set_label("you clicked me"))
 
 
-if __name__ == "__main__":    
+if __name__ == "__main__":
     box = Box(
       orientation="v",
       children=[
@@ -135,107 +135,206 @@ This demo creates a window with a box inside of it with the orientation set to v
   developers and those who have experience writing HTML.
 </Aside>
 
-## Level 3: Bar
+## Level 3: Simple Bar
 
-Now that you know how to create buttons and boxes, we can apply these concepts to create a basic bar. 
+Now that you are familiar with using buttons and boxes, we will apply these concepts to create a basic status bar.
 
-First lets import some more widgets.
+### Importing Additional Widgets
 
-```python
-...
-from fabric.widgets.datetime import DateTime
-from fabric.widgets.centerbox import CenterBox
-from fabric.widgets.wayland import WaylandWindow as Window # Remove the earlier window import and replace it with this
-```
+Let's begin by importing some additional widgets:
 
-As you may have noticed, in the earlier levels the widgets we created could be moved around and acted more like your typical "windows". This is because we haven't defined anchors for it to fix at. To make our life easier lets define our widget as a class this time.
+<Tabs>
+  <TabItem label="Wayland">
+  
+  ```python
+  ...
+  from fabric.widgets.datetime import DateTime
+  from fabric.widgets.centerbox import CenterBox
+  from fabric.widgets.wayland import WaylandWindow as Window  # Replace the previous Window import with this
+  ```
+  
+  </TabItem>
+  <TabItem label="X11">
+  
+  ```python
+  ...
+  from fabric.widgets.datetime import DateTime
+  from fabric.widgets.centerbox import CenterBox
+  from fabric.widgets.x11 import X11Window as Window  # Replace the previous Window import with this
+  ```
+  
+  </TabItem>
+</Tabs>
 
-```python
-...
-class StatusBar(Window):
-    def __init__(
-        self, **kwargs 
-    ):
-        super().__init__(
-            layer="top", # Make it be above apps 
-            anchor="left top right", # Positional anchor
-            exclusivity="auto", # Keep it as it's own seperate window
-            **kwargs
-        )
-```
+You might be wondering why we specifically use the `WaylandWindow` or `X11Window` classes. This distinction becomes clearer when you understand the differences between regular windows and _layer_ windows:
 
-As we defined `Window` in a class this time we pass the arguments through `__init__`. Let's have a closer look at the arguments we introduced.
+- **Regular `Window`**: This is a typical window that can be moved, closed, minimized, or maximized by your window manager. Regular windows are more suited for desktop applications rather than desktop widgets.
+  
+- **_Layer_ Window (`WaylandWindow` and `X11Window`)**: This transforms a standard application window into a desktop widget. Each display protocol has its own specific window type: `X11Window` for X11/XOrg and `WaylandWindow` for the Wayland protocol.
 
-- The `layer` argument makes sure your bar is visible above any app (while it's not fullscreen). If you are on hyprland you can see the different layers using `hyprctl layers`. If you don't have any bars/widgets already running this may be a little empty and only show your wallpaper daemon.
-- The `anchor` argument helps us position the bar in the spot that we want. For this guide, we want our bar to be at the top and extend from left to right. Therefore we add `top` and `left right`. You can arrange these in any order.
-- The `exclusivity` argument ensures that your bar has it's own space and isn't overlapped by another widget/app.
+### Writing the Widget
 
-Now lets test out what we created!
+To organize our code, we will create a `StatusBar` class that inherits from the appropriate `Window` class.
+
+<Tabs>
+    <TabItem label="Wayland">
+        ```python
+        ...
+        class StatusBar(Window):
+            def __init__(self, **kwargs):
+                super().__init__(
+                    layer="top",  # Ensure it stays above other apps
+                    anchor="left top right",  # Anchors the bar at the top, stretching from left to right
+                    exclusivity="auto",  # Reserves space for the bar so it behaves like a normal window
+                    **kwargs
+                )
+        ```
+        
+        <h4>Understanding the Arguments</h4>
+
+        Let's take a closer look at the arguments used in the `StatusBar` class:
+        - `layer`: Ensures that your bar stays visible above any regular applications (except when they are in fullscreen mode. use the `overlay` layer type place it on top of everything). for Hyprland users, to see a list of open layers, use the `hyprctl layers` command.
+        - `anchor` (Wayland only): Determines the bar's position. For this guide, we want our bar to be at the top, extending from left to right, so we use `left top right`.
+        - `exclusivity` (Wayland only): Ensures that the bar has its own dedicated space and is not overlapped by other windows or widgets.
+    </TabItem>
+    <TabItem label="X11">
+        ```python
+        ...
+        class StatusBar(Window):
+            def __init__(self, **kwargs):
+                super().__init__(
+                    layer="top",  # Ensure it stays above other apps
+                    geometry="top",  # Position it at the top of the screen
+                    type_hint="dock",  # Inform the window manager that this is a dock-like window
+                    **kwargs
+                )
+        ```
+        <h4>Understanding the Arguments</h4>
+
+        Let's take a closer look at the arguments used in the `StatusBar` class:
+        - `layer`: Ensures that your bar stays visible above any regular applications (except when they are in fullscreen mode. use the `overlay` layer type place it on top of everything).
+        - `geometry` and `type_hint` (X11 only): `geometry="top"` places the bar at the top of the screen, while `type_hint="dock"` signals to the window manager that the bar should be treated as a dock.
+    </TabItem>
+</Tabs>
+
+
+### Running the Bar
+
+Now let's see our creation in action!
 
 ```python
 ...
 if __name__ == "__main__":
     bar = StatusBar()
     app = Application("bar", bar)
-
     app.run()
 ```
 
-The bar itself is not visible (as it's unstyled and empty) but you may notice that an invisible force has squashed an app from above (This behavior is not expected across other window managers). That is the bar you just created!
+The bar itself will not be visible yet (since it’s unstyled and empty (it's height is equal to zero)), but you _might_ notice that it has already reserved some space on your screen.
 
-It's a little empty, so it's time to add some content—like the date and time!
-To make it easier for us to position elements we can use a centerbox! This centerbox is added to our `Window` class.
+### Adding Widgets to the Bar
 
-```python
-...
-class StatusBar(Window):
-    def __init__(
-        self, **kwargs 
-    ):
-        super().__init__(
-            layer="top", 
-            anchor="left top right", 
-            exclusivity="auto", 
-            **kwargs
-        )
+Now, let's add some content to our status bar (a `DateTime` widget for this example). To make positioning easier, we'll use a `CenterBox` to manage the placement of elements within the bar.
 
-        self.date_time = DateTime()
+<Tabs>
+    <TabItem label="Wayland">
+    ```python
+    ...
+    class StatusBar(Window):
+        def __init__(self, **kwargs):
+            super().__init__(
+                layer="top",
+                anchor="left top right",
+                exclusivity="auto",
+                **kwargs
+            )
 
-        self.children = CenterBox(center_children=self.data_time) # Adds centerbox as a child of the StatusBar Window and date_time in the center of our bar
-```
+            self.date_time = DateTime()
+            self.children = CenterBox(center_children=self.date_time)  # Adds the CenterBox with date_time in the center of the bar
+    ```
+    </TabItem>
+    <TabItem label="X11">
+    ```python
+    ...
+    class StatusBar(Window):
+        def __init__(self, **kwargs):
+            super().__init__(
+                layer="top",
+                geometry="top",
+                type_hint="dock",
+                **kwargs
+            )
 
-Using the centerbox we can place the datetime widget anywhere in the bar. For now lets put it in the center.
+            self.date_time = DateTime()
+            self.children = CenterBox(center_children=self.date_time)  # Adds the CenterBox with date_time in the center of the bar
+    ```
+    </TabItem>
+</Tabs>
 
-Aaaaand thats a wrap! You just created your first basic bar in fabric! For a more advanced bar checkout [this](https://github.com/Fabric-Development/fabric/blob/rewrite/examples/bar/bar.py) example.
+With this setup, the date and time widget will be neatly centered within the bar using the `CenterBox`.
 
-![](/assets/first-widget-bar.png)
+### Final Code Example
 
-Full code:
-```python
-import fabric
-from fabric import Application
-from fabric.widgets.datetime import DateTime
-from fabric.widgets.centerbox import CenterBox
-from fabric.widgets.wayland import WaylandWindow as Window
+Here's the full code to create your simple status bar:
 
-class StatusBar(Window):
-    def __init__(
-        self, **kwargs
-    ):
-        super().__init__(
-            layer="top",
-            anchor="left top right",
-            exclusivity="auto",
-            **kwargs
-        )
+<Tabs>
+    <TabItem label="Wayland">
+    ```python
+    import fabric
+    from fabric import Application
+    from fabric.widgets.datetime import DateTime
+    from fabric.widgets.centerbox import CenterBox
+    from fabric.widgets.wayland import WaylandWindow as Window
 
-        self.date_time = DateTime()
+    class StatusBar(Window):
+        def __init__(self, **kwargs):
+            super().__init__(
+                layer="top",
+                anchor="left top right",
+                exclusivity="auto",
+                **kwargs
+            )
 
-        self.children = CenterBox(center_children=self.date_time)
+            self.date_time = DateTime()
+            self.children = CenterBox(center_children=self.date_time)
 
-if __name__ == "__main__":
-    bar = StatusBar()
-    app = Application("bar-example", bar)
+    if __name__ == "__main__":
+        bar = StatusBar()
+        app = Application("bar-example", bar)
+        app.run()
+    ```
+    </TabItem>
+    <TabItem label="X11">
+    ```python
+    import fabric
+    from fabric import Application
+    from fabric.widgets.datetime import DateTime
+    from fabric.widgets.centerbox import CenterBox
+    from fabric.widgets.x11 import X11Window as Window
 
-    app.run()
-```
+    class StatusBar(Window):
+        def __init__(self, **kwargs):
+            super().__init__(
+                layer="top",
+                geometry="top",
+                type_hint="dock",
+                **kwargs
+            )
+
+            self.date_time = DateTime()
+            self.children = CenterBox(center_children=self.date_time)
+
+    if __name__ == "__main__":
+        bar = StatusBar()
+        app = Application("bar-example", bar)
+        app.run()
+    ```
+    </TabItem>
+</Tabs>
+
+### Conclusion
+
+Congratulations! 🎉 You've just created your first basic status bar using Fabric. After this tutorial you should end up with something that looks like this.
+![Status Bar Example](/assets/first-widget-bar.png)
+ 
+For a more advanced bar example, check out [this example](https://github.com/Fabric-Development/fabric/blob/rewrite/examples/bar/bar.py).
