@@ -21,7 +21,7 @@ Services (also referred to as `Object`s) are Python classes designed to perform 
 
 3. **Signals**: Signals allow a service to communicate state changes or events. In the case of `Fabricator`, when the `value` property is updated, a signal called `changed` is emitted. This informs listeners that the `Fabricator` has new data. Additionally, a more specific signal tied to the property itself, `notify::value`, is emitted, indicating that the `value` property has been modified.
 
-## Define a Service
+## How to Define a Service?
 
 it's really easy to define a Serivce, here's a snippet that does exactly that...
 
@@ -69,7 +69,11 @@ name_service.name = "Homan"
 
 ## Signals
 
-A `Service` can have various accessories, with `Signal`s being one of them. `Signal`s provide a simple state-management model, allowing a `Service` to notify its users when specific changes occur. Additionally, a `Signal` can pass arguments, enabling the `Service` to both notify its users of a change and provide relevant details through these arguments.
+A `Service` can have various accessories, with `Signal`s being one of them.
+
+`Signal`s provide a simple state-management model, allowing a `Service` to notify its users when specific changes occur. Additionally, a `Signal` can pass arguments, enabling the `Service` to both notify its users of a change and provide relevant details through these arguments.
+
+### Defining Signals
 
 To define a signal, first decide on a signal name in kebab-case (e.g., `signal-name`) to ensure it appropriately represents its purpose. Once the name is chosen, you can define the signal using the `Signal` decorator within a `Service`.
 
@@ -168,7 +172,75 @@ fabricator.changed.connect(callback)  # works specifically for Fabric services
 
 This pattern allows you to define signal connections directly in the constructor or through explicit method calls, providing flexibility in how you manage your signals.
 
-## Properties: **WIP**
+## Properties
+
+In a `Service`, properties are attributes that represent the state or data managed by the service.
+
+Since `Property` inherits from `GObject.Property`, it uses GObject's properties system, which provides native support for type safety, property change notifications, and binding capabilities with other properties or UI elements.
+
+### Defining Properties
+
+To define a property, use the `@Property` decorator from the `fabric.core.service` module. it requires a specific data type and optional flags. Here’s an example:
+
+```python
+from fabric.core.service import Service, Property
+
+class MyService(Service):
+    @Property(str, flags="read-write")
+    def status(self) -> str:
+        return self._status
+
+    @status.setter
+    def status(self, value: str):
+        self._status = value
+
+    def __init__(self, status="", **kwargs):
+        super().__init__(**kwargs)
+        self._status = status
+```
+
+In this example, a `Property` named `status` is defined with a specific type (`str`) and flags (`"read-write"`) using the decorator, as well as `setter` function for it.
+
+### Property Notifications
+
+Since `GObject.Property` automatically emits a `notify::property_name` signal whenever the property value changes, other components can connect to this signal to track updates.
+
+To connect a callback function that listens to property changes, there are several approaches:
+
+1. **Using `connect` with `notify::property_name`**  
+   This is the most explicit way to connect to a property notification signal.
+
+   ```python
+   example_service = MyService("Initializing")
+
+   # Connect to the notify::status signal for the status property
+   example_service.connect("notify::status", lambda *_: print("Status has changed"))
+   example_service.status = "Running"
+   ```
+
+2. **Using a Direct Argument in `Service` Constructor**  
+   Since we pass `**kwargs` over to the `super` which's a `Serivce`, You can also pass the callback directly as a keyword argument when initializing the `Service`, using `notify_<property_name_in_snake_case>` as the argument name.
+
+   ```python
+   # Initialize MyService with a callback for the status property notification
+   example_service = MyService(
+       initial_status="Initializing",
+       notify_status=lambda *_: print("Status has changed")
+   )
+   example_service.status = "Running"
+   ```
+
+**Output:**
+
+```
+Status has changed
+```
+
+Each method achieves the same result but offers flexibility in how you structure your code. Using constructor arguments (`notify_<property_name_in_snake_case>`) can keep your property connections tidy, especially if they are set up at initialization.
+
+### Benefits of Using Properties: WIP
+
+### Property Bindings: WIP
 
 ## Builders
 
