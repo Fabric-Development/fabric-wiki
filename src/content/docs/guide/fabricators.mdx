@@ -20,8 +20,7 @@ So, let's look at some examples of using fabricators!
 This example utilizes a fabricator to read a stream from an external command (`playerctl -f status`) and print the current media status when it changes.
 
 ```python
-import fabric
-from fabric.utils.fabricator import Fabricator
+from fabric import Application, Fabricator
 
 # create a fabricator to continuously monitor player state using the command
 player_fabricator = Fabricator(poll_from="playerctl -F status", stream=True)
@@ -33,8 +32,8 @@ def print_state_change(fabricator, value): # notice that the first argument is t
 # connect the fabricator to the "changed" signal and register the handler
 player_fabricator.connect("changed", print_state_change)
 
-# start the main loop
-fabric.start()
+app = Application()
+app.run() # run the event loop
 
 # output (may vary)
 # player state changed: playing
@@ -48,8 +47,7 @@ fabric.start()
 in this example, we use a fabricator to poll data from the shell command `date` every 500ms and print the output of it.
 
 ```python
-import fabric
-from fabric.utils.fabricator import Fabricator
+from fabric import Application, Fabricator
 
 # create a fabricator to periodically retrieve the date and time
 date_fabricator = Fabricator(poll_from="date", interval=500)  # 500 milliseconds
@@ -61,8 +59,8 @@ def print_date(fabricator, value):
 # connect the fabricator to the "changed" signal and register the handler
 date_fabricator.connect("changed", print_date)
 
-# start the main loop
-fabric.start()
+app = Application()
+app.run() # run the event loop
 
 # output (may vary)
 # current date and time: Mon Mar  4 02:50:10 AM EET 2024
@@ -78,8 +76,7 @@ fabric.start()
 In this example we fabricate a function instead of a shell command, and demonstrate how to use a stopping condition.
 
 ```python
-import fabric
-from fabric.utils.fabricator import Fabricator
+from fabric import Application, Fabricator
 
 # global variable to track the counter
 number = 0
@@ -102,8 +99,8 @@ def handle_number(fabricator, value):
 # connect the fabricator to the "changed" signal and register the handler
 function_fabricator.connect("changed", handle_number)
 
-# start the main loop
-fabric.start()
+app = Application()
+app.run() # run the event loop
 
 # output
 # generated number: 1
