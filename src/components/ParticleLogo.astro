@@ -1,0 +1,635 @@
+---
+import FabricLogo from "../assets/logo-dark.svg?raw";
+
+function getSVGBase64(svg: string) {
+  return `data:image/svg+xml;base64,${Buffer.from(svg).toString("base64")}`;
+}
+
+const {} = Astro.props;
+---
+
+<div class="particle-logo">
+  <div id="particle-slider" style="display: grid;">
+    <!-- first frame loader -->
+    <div class="slides">
+      <div class="slide" id="first-slide" data-src={getSVGBase64(FabricLogo)}>
+      </div>
+    </div>
+
+    <!-- actaul canvas -->
+    <canvas
+      class="draw"
+      style="align-self: center; justify-self: center; width: 100%; height: 100%"
+    ></canvas>
+  </div>
+</div>
+
+<script is:inline defer>
+  class Particle {
+    constructor(a) {
+      (this.ps = a),
+        (this.ttl = null),
+        (this.color = a.colorArr),
+        (this.next = null),
+        (this.prev = null),
+        (this.gravityX = 0),
+        (this.gravityY = 0),
+        (this.x = Math.random() * a.cw),
+        (this.y = Math.random() * a.ch),
+        (this.velocityX = Math.random() * 10 - 5),
+        (this.velocityY = Math.random() * 10 - 5);
+    }
+    move() {
+      var a = this.ps,
+        b = this;
+      if (this.ttl != null && this.ttl-- <= 0)
+        a.swapList(b, a.pxlBuffer, a.recycleBuffer), (this.ttl = null);
+      else {
+        var c = this.gravityX + a.swipeOffset - this.x,
+          d = this.gravityY - this.y,
+          e = Math.sqrt(Math.pow(c, 2) + Math.pow(d, 2)),
+          f = Math.atan2(d, c),
+          g = e * 0.01;
+        a.restless == !0
+          ? (g += Math.random() * 0.1 - 0.05)
+          : g < 0.01 &&
+            ((this.x = this.gravityX + 0.25), (this.y = this.gravityY + 0.25));
+        var h = 0,
+          i = 0;
+        if (a.mx >= 0 && a.mouseForce) {
+          var j = this.x - a.mx,
+            k = this.y - a.my;
+          (h = Math.min(
+            a.mouseForce / (Math.pow(j, 2) + Math.pow(k, 2)),
+            a.mouseForce
+          )),
+            (i = Math.atan2(k, j)),
+            typeof this.color == "function" &&
+              ((i += Math.PI), (h *= 0.001 + Math.random() * 0.1 - 0.05));
+        } else (h = 0), (i = 0);
+        (this.velocityX += g * Math.cos(f) + h * Math.cos(i)),
+          (this.velocityY += g * Math.sin(f) + h * Math.sin(i)),
+          (this.velocityX *= 0.92),
+          (this.velocityY *= 0.92),
+          (this.x += this.velocityX),
+          (this.y += this.velocityY);
+      }
+    }
+  }
+
+  function ParticleImage(props) {
+    var self = this;
+    this.sliderId = "particle-slider";
+    this.color = "#fff";
+    this.hoverColor = "#88f";
+    this.width = 512;
+    this.height = 512;
+    this.ptlGap = 0;
+    this.ptlSize = 1;
+    this.slideDelay = 10;
+    this.arrowPadding = 10;
+    this.showArrowControls = !0;
+    this.onNextSlide = null;
+    this.onWidthChange = null;
+    this.onHeightChange = null;
+    this.onSizeChange = null;
+    this.monochrome = !1;
+    this.mouseForce = 1e3;
+    this.restless = !0;
+    this.imgs = [];
+
+    if (props) {
+      var propName = [
+        "color",
+        "hoverColor",
+        "width",
+        "height",
+        "ptlGap",
+        "ptlSize",
+        "slideDelay",
+        "arrowPadding",
+        "sliderId",
+        "showArrowControls",
+        "onNextSlide",
+        "monochrome",
+        "mouseForce",
+        "restless",
+        "imgs",
+        "onSizeChange",
+        "onWidthChange",
+        "onHeightChange",
+      ];
+      for (var d = 0, e = propName.length; d < e; d++)
+        props[propName[d]] && (self[propName[d]] = props[propName[d]]);
+    }
+
+    this.$container = this.$("#" + this.sliderId);
+    this.$$children = this.$container.childNodes;
+    this.$controlsContainer = this.$(".controls");
+    this.$$slides = this.$(".slide", this.$(".slides").childNodes, !0);
+    this.$controlLeft = null;
+    this.$controlRight = null;
+    this.$canv = this.$(".draw");
+    this.$srcCanv = document.createElement("canvas");
+    this.$srcCanv.style.display = "none";
+    this.$container.appendChild(this.$srcCanv);
+    this.$prevCanv = document.createElement("canvas");
+    this.$prevCanv.style.display = "none";
+    this.$container.appendChild(this.$prevCanv);
+    this.$nextCanv = document.createElement("canvas");
+    this.$nextCanv.style.display = "none";
+    this.$container.appendChild(this.$nextCanv);
+    this.$overlay = document.createElement("p");
+    this.$container.appendChild(this.$overlay);
+    this.imgControlPrev = null;
+    this.imgControlNext = null;
+
+    if (this.$$slides.length <= 1) {
+      this.showArrowControls = false;
+    }
+
+    if (
+      this.$controlsContainer &&
+      this.$controlsContainer.childNodes &&
+      this.showArrowControls == true
+    ) {
+      (this.$controlLeft = this.$(".left", this.$controlsContainer.childNodes)),
+        (this.$controlRight = this.$(
+          ".right",
+          this.$controlsContainer.childNodes
+        )),
+        (this.imgControlPrev = new Image()),
+        (this.imgControlNext = new Image()),
+        (this.imgControlPrev.onload = function () {
+          (this.$prevCanv.height = this.height),
+            (this.$prevCanv.width = this.width),
+            this.loadingStep();
+        }),
+        (this.imgControlNext.onload = function () {
+          (this.$nextCanv.height = this.height),
+            (this.$nextCanv.width = this.width),
+            this.loadingStep();
+        }),
+        (this.imgControlPrev.src = this.$controlLeft.getAttribute("data-src")),
+        (this.imgControlNext.src = this.$controlRight.getAttribute("data-src"));
+    } else {
+      this.showArrowControls = false;
+    }
+
+    if (this.width <= 0) {
+      this.width = this.$container.clientWidth;
+    }
+    if (this.height <= 0) {
+      this.height = this.$container.clientHeight;
+    }
+
+    this.mouseDownRegion = 0;
+    this.colorArr = this.parseColor(this.color);
+    this.hoverColorArr = this.parseColor(this.hoverColor);
+    this.mx = -1;
+    this.my = -1;
+    this.swipeOffset = 0;
+    this.cw = this.getCw();
+    this.ch = this.getCh();
+    this.frame = 0;
+    this.nextSlideTimer = !1;
+    this.currImg = 0;
+    this.lastImg = 0;
+    this.imagesLoaded = 0;
+    this.pxlBuffer = { first: null };
+    this.recycleBuffer = { first: null };
+    this.ctx = this.$canv.getContext("2d");
+    this.srcCtx = this.$srcCanv.getContext("2d");
+    this.prevCtx = this.$prevCanv.getContext("2d");
+    this.nextCtx = this.$nextCanv.getContext("2d");
+    this.$canv.width = this.cw;
+    this.$canv.height = this.ch;
+    this.shuffle = function () {
+      var a, b;
+      for (var c = 0, d = this.length; c < d; c++)
+        (b = Math.floor(Math.random() * d)),
+          (a = this[c]),
+          (this[c] = this[b]),
+          (this[b] = a);
+    };
+    Array.prototype.shuffle = this.shuffle;
+
+    (self.$canv.onmouseout = function () {
+      (self.mx = -1), (self.my = -1), (self.mouseDownRegion = 0);
+    }),
+      (self.$canv.onmousemove = function (a) {
+        function c(a) {
+          var c = 0,
+            d = 0,
+            e = typeof a == "string" ? self.$(a) : a;
+          if (e) {
+            (c = e.offsetLeft), (d = e.offsetTop);
+            var f = document.getElementsByTagName("body")[0];
+            while (e.offsetParent && e != f)
+              (c += e.offsetParent.offsetLeft),
+                (d += e.offsetParent.offsetTop),
+                (e = e.offsetParent);
+          }
+          (this.x = c), (this.y = d);
+        }
+        var d = new c(self.$container);
+        (self.mx =
+          a.clientX -
+          d.x +
+          document.body.scrollLeft +
+          document.documentElement.scrollLeft),
+          (self.my =
+            a.clientY -
+            d.y +
+            document.body.scrollTop +
+            document.documentElement.scrollTop);
+      }),
+      (self.$canv.onmousedown = function () {
+        if (self.imgs.length > 1) {
+          var a = 0;
+          self.mx >= 0 && self.mx < self.arrowPadding * 2 + self.$prevCanv.width
+            ? (a = -1)
+            : self.mx > 0 &&
+              self.mx >
+                self.cw - (self.arrowPadding * 2 + self.$nextCanv.width) &&
+              (a = 1),
+            (self.mouseDownRegion = a);
+        }
+      }),
+      (self.$canv.onmouseup = function () {
+        if (self.imgs.length > 1) {
+          var a = "";
+          self.mx >= 0 && self.mx < self.arrowPadding * 2 + self.$prevCanv.width
+            ? (a = -1)
+            : self.mx > 0 &&
+              self.mx >
+                self.cw - (self.arrowPadding * 2 + self.$nextCanv.width) &&
+              (a = 1),
+            a != 0 &&
+              self.mouseDownRegion != 0 &&
+              (a != self.mouseDownRegion && (a *= -1),
+              self.nextSlideTimer && clearTimeout(self.nextSlideTimer),
+              self.nextSlide(a)),
+            (self.mouseDownRegion = 0);
+        }
+      });
+    if (self.imgs.length == 0)
+      for (var d = 0, e = self.$$slides.length; d < e; d++) {
+        var f = new Image();
+        self.imgs.push(f), (f.src = self.$$slides[d].getAttribute("data-src"));
+      }
+    self.imgs.length > 0 &&
+      (self.imgs[0].onload = function () {
+        self.loadingStep();
+      }),
+      self.requestAnimationFrame(function () {
+        self.nextFrame();
+      });
+  }
+
+  ParticleImage.prototype.swapList = function (a, b, c) {
+    a == null
+      ? (a = new Particle(this))
+      : b.first == a
+        ? a.next != null
+          ? ((a.next.prev = null), (b.first = a.next))
+          : (b.first = null)
+        : a.next == null
+          ? (a.prev.next = null)
+          : ((a.prev.next = a.next), (a.next.prev = a.prev)),
+      c.first == null
+        ? ((c.first = a), (a.prev = null), (a.next = null))
+        : ((a.next = c.first),
+          (c.first.prev = a),
+          (c.first = a),
+          (a.prev = null));
+  };
+  ParticleImage.prototype.parseColor = function (a) {
+    var b,
+      a = a.replace(" ", "");
+    if ((b = /^#([\da-fA-F]{2})([\da-fA-F]{2})([\da-fA-F]{2})/.exec(a)))
+      b = [parseInt(b[1], 16), parseInt(b[2], 16), parseInt(b[3], 16)];
+    else if ((b = /^#([\da-fA-F])([\da-fA-F])([\da-fA-F])/.exec(a)))
+      b = [
+        parseInt(b[1], 16) * 17,
+        parseInt(b[2], 16) * 17,
+        parseInt(b[3], 16) * 17,
+      ];
+    else if (
+      (b = /^rgba\(([\d]+),([\d]+),([\d]+),([\d]+|[\d]*.[\d]+)\)/.exec(a))
+    )
+      b = [+b[1], +b[2], +b[3], +b[4]];
+    else if ((b = /^rgb\(([\d]+),([\d]+),([\d]+)\)/.exec(a)))
+      b = [+b[1], +b[2], +b[3]];
+    else return null;
+    isNaN(b[3]) && (b[3] = 1), (b[3] *= 255);
+    return b;
+  };
+  ParticleImage.prototype.loadingStep = function () {
+    var a = this;
+    a.imagesLoaded++;
+    if (a.imagesLoaded >= 3 || a.showArrowControls == !1)
+      a.resize(),
+        a.slideDelay > 0 &&
+          (a.nextSlideTimer = setTimeout(function () {
+            a.nextSlide();
+          }, 1e3 * a.slideDelay));
+  };
+  ParticleImage.prototype.$ = function (a, b, c) {
+    var d = this;
+    if (a[0] == ".") {
+      var e = a.substr(1);
+      b || (b = d.$$children);
+      var f = [];
+      for (var g = 0, h = b.length; g < h; g++)
+        b[g].className && b[g].className == e && f.push(b[g]);
+      return f.length == 0 ? null : f.length == 1 && !c ? f[0] : f;
+    }
+    return document.getElementById(a.substr(1));
+  };
+  ParticleImage.prototype.nextFrame = function () {
+    var a = this;
+    (a.mouseDownRegion == 1 && a.mx < a.cw / 2) ||
+    (a.mouseDownRegion == -1 && a.mx > a.cw / 2)
+      ? (a.swipeOffset = a.mx - a.cw / 2)
+      : (a.swipeOffset = 0);
+    var b = a.pxlBuffer.first,
+      c = null;
+    while (b != null) (c = b.next), b.move(), (b = c);
+    a.drawParticles();
+    if (a.frame++ % 25 == 0 && (a.cw != a.getCw() || a.ch != a.getCh())) {
+      var d = a.getCh(),
+        e = a.getCw();
+      a.ch != e &&
+        typeof a.onWidthChange == "function" &&
+        a.onWidthChange(a, e),
+        a.ch != d &&
+          typeof a.onHeightChange == "function" &&
+          a.onHeightChange(a, d),
+        typeof a.onSizeChange == "function" && a.onSizeChange(a, e, d),
+        a.resize();
+    }
+    setTimeout(function () {
+      a.requestAnimationFrame(function () {
+        a.nextFrame();
+      });
+    }, 15);
+  };
+  ParticleImage.prototype.nextSlide = function (a) {
+    var b = this;
+    b.nextSlideTimer != null && b.imgs.length > 1
+      ? ((b.currImg =
+          (b.currImg + b.imgs.length + (a ? a : 1)) % b.imgs.length),
+        b.resize(),
+        b.slideDelay > 0 &&
+          (b.nextSlideTimer = setTimeout(function () {
+            b.nextSlide();
+          }, 1e3 * b.slideDelay)))
+      : b.slideDelay > 0 &&
+        (b.nextSlideTimer = setTimeout(function () {
+          b.nextSlide();
+        }, 1e3 * b.slideDelay)),
+      typeof b.onNextSlide == "function" && b.onNextSlide(b.currImg);
+  };
+  ParticleImage.prototype.drawParticles = function () {
+    var a = this,
+      b = a.ctx.createImageData(a.cw, a.ch),
+      c = b.data,
+      d,
+      e,
+      f,
+      g,
+      h,
+      i,
+      j = a.pxlBuffer.first;
+    while (j != null) {
+      (e = ~~j.x), (f = ~~j.y);
+      for (g = e; g < e + a.ptlSize && g >= 0 && g < a.cw; g++)
+        for (h = f; h < f + a.ptlSize && h >= 0 && h < a.ch; h++)
+          (d = (h * b.width + g) * 4),
+            (i = typeof j.color == "function" ? j.color() : j.color),
+            (c[d + 0] = i[0]),
+            (c[d + 1] = i[1]),
+            (c[d + 2] = i[2]),
+            (c[d + 3] = i[3]);
+      j = j.next;
+    }
+    (b.data = c), a.ctx.putImageData(b, 0, 0);
+  };
+
+  ParticleImage.prototype.getPixelFromImageData = function (a, b, c) {
+    var d = this,
+      e = [];
+    for (var f = 0; f < a.width; f += d.ptlGap + 1)
+      for (var g = 0; g < a.height; g += d.ptlGap + 1)
+        (i = (g * a.width + f) * 4),
+          a.data[i + 3] > 0 &&
+            e.push({
+              x: b + f,
+              y: c + g,
+              color:
+                d.monochrome == !0
+                  ? [d.colorArr[0], d.colorArr[1], d.colorArr[2], d.colorArr[3]]
+                  : [a.data[i], a.data[i + 1], a.data[i + 2], a.data[i + 3]],
+            });
+    return e;
+  };
+
+  ParticleImage.prototype.init = function (a) {
+    var b = this;
+    if (b.imgs.length > 0) {
+      (b.$srcCanv.width = b.imgs[b.currImg].width),
+        (b.$srcCanv.height = b.imgs[b.currImg].height),
+        b.srcCtx.clearRect(0, 0, b.$srcCanv.width, b.$srcCanv.height),
+        b.srcCtx.drawImage(b.imgs[b.currImg], 0, 0);
+      var c = b.getPixelFromImageData(
+        b.srcCtx.getImageData(0, 0, b.$srcCanv.width, b.$srcCanv.height),
+        ~~(b.cw / 2 - b.$srcCanv.width / 2),
+        ~~(b.ch / 2 - b.$srcCanv.height / 2)
+      );
+      if (b.showArrowControls == !0) {
+        b.prevCtx.clearRect(0, 0, b.$prevCanv.width, b.$prevCanv.height),
+          b.prevCtx.drawImage(b.imgControlPrev, 0, 0);
+        var d = b.getPixelFromImageData(
+          b.prevCtx.getImageData(0, 0, b.$prevCanv.width, b.$prevCanv.height),
+          b.arrowPadding,
+          ~~(b.ch / 2 - b.$prevCanv.height / 2)
+        );
+        for (var e = 0, f = d.length; e < f; e++)
+          (d[e].color = function () {
+            return b.mx >= 0 && b.mx < b.arrowPadding * 2 + b.$prevCanv.width
+              ? b.hoverColorArr
+              : b.colorArr;
+          }),
+            c.push(d[e]);
+        b.nextCtx.clearRect(0, 0, b.$nextCanv.width, b.$nextCanv.height),
+          b.nextCtx.drawImage(b.imgControlNext, 0, 0);
+        var g = b.getPixelFromImageData(
+          b.nextCtx.getImageData(0, 0, b.$nextCanv.width, b.$nextCanv.height),
+          b.cw - b.arrowPadding - b.$nextCanv.width,
+          ~~(b.ch / 2 - b.$nextCanv.height / 2)
+        );
+        for (var e = 0, f = g.length; e < f; e++)
+          (g[e].color = function () {
+            return b.mx > 0 &&
+              b.mx > b.cw - (b.arrowPadding * 2 + b.$nextCanv.width)
+              ? b.hoverColorArr
+              : b.colorArr;
+          }),
+            c.push(g[e]);
+      }
+      if (b.currImg != b.lastImg || a == !0)
+        c.shuffle(), (b.lastImg = b.currImg);
+      var h = b.pxlBuffer.first;
+      for (var e = 0, f = c.length; e < f; e++) {
+        var i = null;
+        h != null
+          ? ((i = h), (h = h.next))
+          : (b.swapList(b.recycleBuffer.first, b.recycleBuffer, b.pxlBuffer),
+            (i = b.pxlBuffer.first)),
+          (i.gravityX = c[e].x),
+          (i.gravityY = c[e].y),
+          (i.color = c[e].color);
+      }
+      while (h != null)
+        (h.ttl = ~~(Math.random() * 10)),
+          (h.gravityY = ~~(b.ch * Math.random())),
+          (h.gravityX = ~~(b.cw * Math.random())),
+          (h = h.next);
+      b.$overlay.innerHTML = b.$$slides[b.currImg].innerHTML;
+    }
+  };
+  ParticleImage.prototype.getCw = function () {
+    var a = this;
+    return Math.min(
+      document.body.clientWidth,
+      a.width,
+      a.$container.clientWidth
+    );
+  };
+  ParticleImage.prototype.getCh = function () {
+    var a = this;
+    return Math.min(
+      document.body.clientHeight,
+      a.height,
+      a.$container.clientHeight
+    );
+  };
+  ParticleImage.prototype.resize = function () {
+    var a = this;
+    (a.cw = a.getCw()),
+      (a.ch = a.getCh()),
+      (a.$canv.width = a.cw),
+      (a.$canv.height = a.ch),
+      a.init(!0);
+  };
+  ParticleImage.prototype.setColor = function (a) {
+    var b = this;
+    b.colorArr = b.parseColor(a);
+  };
+  ParticleImage.prototype.setHoverColor = function (a) {
+    var b = this;
+    b.hoverColorArr = b.parseColor(a);
+  };
+  ParticleImage.prototype.requestAnimationFrame = function (a) {
+    var b = this,
+      c =
+        window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function (a) {
+          window.setTimeout(a, 1e3 / 60);
+        };
+    c(a);
+  };
+</script>
+
+<script is:inline>
+  var particleLogo = null;
+  var deferColor = "#ffffff";
+
+  const selfElement = document.querySelector("#particle-slider");
+  const canvasElement = document.querySelector("#particle-slider .draw");
+
+  var deferWidth = Math.floor(selfElement.clientWidth);
+  var deferHeight = Math.floor(selfElement.clientWidth);
+
+  function getLogoColor(theme = null) {
+    if (!theme) {
+      return window
+        .getComputedStyle(document.documentElement)
+        .getPropertyValue("--sl-color-accent");
+    }
+    return theme == "dark" ? "#ffffff" : "#000000";
+  }
+
+  function UpdateLogoColor(theme = null) {
+    const color = getLogoColor(theme);
+    if (!particleLogo) {
+      deferColor = color;
+      return;
+    }
+
+    particleLogo.setColor(color);
+    particleLogo.init(true);
+    return;
+  }
+
+  function onLoaded() {
+    var isMobile =
+      navigator.userAgent &&
+      navigator.userAgent.toLowerCase().indexOf("mobile") >= 0;
+    var isSmall = window.innerWidth < 800;
+    if (isMobile || isSmall) {
+      return; // for performance reasons
+    }
+
+    particleLogo = new ParticleImage({
+      ptlGap: 1,
+      ptlSize: 1,
+      width: deferWidth,
+      height: deferHeight,
+      restless: true,
+      color: deferColor,
+      monochrome: true,
+      slideDelay: 113,
+    });
+
+    canvasElement.style.width = `${deferWidth}px`;
+    canvasElement.style.height = `${deferHeight}px`;
+
+    window.addEventListener
+      ? window.addEventListener(
+          "click",
+          function () {
+            particleLogo.init(true);
+          },
+          false
+        )
+      : (window.onclick = function () {
+          particleLogo.init(true);
+        });
+  }
+
+  const observer = new MutationObserver((mutations) => {
+    for (let mutation of mutations) {
+      if (
+        mutation.type === "attributes" &&
+        mutation.attributeName === "data-theme"
+      ) {
+        const { theme } = mutation.target.dataset;
+        UpdateLogoColor(theme);
+        break;
+      }
+    }
+  });
+  observer.observe(document.documentElement, { attributes: true });
+
+  window.addEventListener
+    ? window.addEventListener("load", onLoaded, false)
+    : (window.onload = onLoaded);
+</script>
+
+<style></style>
