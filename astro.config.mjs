@@ -5,15 +5,25 @@ import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
+import fs from "fs";
 
-const BASE_URL = "fabric-wiki";
+var SITE_URL;
+fs.readFile("./public/CNAME", "utf-8", (err, data) => {
+  if (err) {
+    return;
+  }
+
+  SITE_URL = data.trim();
+});
+const BASE_URL = "";
 
 // https://astro.build/config
 export default defineConfig({
-  base: "/" + BASE_URL,
+  base: BASE_URL,
+  site: SITE_URL,
   trailingSlash: "always",
   markdown: {
-    remarkPlugins: [prefixLinks({ base: "/" + BASE_URL + "/" })],
+    remarkPlugins: [prefixLinks({ base: BASE_URL + "/" })],
   },
   integrations: [
     starlight({
