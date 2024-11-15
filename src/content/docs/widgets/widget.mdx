@@ -1,0 +1,85 @@
+---
+title: Widget
+description: API reference for the base Fabric `Widget`
+---
+
+**Inherits**: [`Gtk.Widget`](https://docs.gtk.org/gtk3/class.Widget.html) and [Service](../guide/services.mdx)
+
+**Import**: `from fabric.widgets.widget import Widget`
+
+
+The base widget implementation, Nearly every other Fabric widget inherits consturctor properties, properties and methods from this widget. This makes it simple to make a modification that is reflected across all other widgets down the line.
+
+### Constructor Properties
+
+| Property         | Type                                                                                | Description                                                                                                                                |
+| ---------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `name`           | `str \| None = None`                                                                | The name of this Widget. used for handling CSS properties (e.g. the a widget named "my-widget" can be selected using `#my-widget` in CSS.) |
+| `visible`        | `bool = True`                                                                       | Whether this Widget should be visible upon initialization or not.                                                                          |
+| `all_visible`    | `bool = False`                                                                      | Whether this Widget and **all of it's children** should be visible upon initialization or not.                                             |
+| `style`          | `str \| None = None`                                                                | Inline CSS style to be applied on this widget.                                                                                             |
+| `tooltip_text`   | `str \| None = None`                                                                | Tooltip (hover popup) text                                                                                                                 |
+| `tooltip_markup` | `str \| None = None`                                                                | Tooltip (hover popup) markup (defined in [Pango's markup standard](https://docs.gtk.org/Pango/pango_markup.html).)                         |
+| `h_align`        | `Literal["fill", "start", "end", "center", "baseline"] \| Gtk.Align \| None = None` | The horizontal alignment style.                                                                                                            |
+| `v_align`        | `Literal["fill", "start", "end", "center", "baseline"] \| Gtk.Align \| None = None` | The vertical alignment style.                                                                                                              |
+| `h_expand`       | `bool = False`                                                                      | Whether this Widget should expand on the horizontal axis or not.                                                                           |
+| `v_expand`       | `bool = False`                                                                      | Whether this Widget should expand on the vertical axis or not.                                                                             |
+| `size`           | `Iterable[int] \| int \| None = None`                                               | The size of this Widget to initially allocate (a single `int` to be used for both width and height or a `tuple` of `(width, height)`.)     |
+
+### Public Methods
+
+- `set_style`: Apply a string of CSS styles on the Widget.
+    ```python
+    def set_style(
+        self,
+        style: str, # The style as a CSS string.
+        compile: bool = True, # Whether to pass the given CSS over to our preprocessor (FASS), used for features like macros, constants, web-css variables and more.
+        append: bool = False, # Whether to "append" or replace the given stylesheet with the already existing styles list.
+        add_brackets: bool = True, # Whether to add curly brackets if missing or not.
+    ) -> None: ...
+    ```
+
+- `set_cursor`: Change the stlye of the cursor (pointer) to a named cursor or a `Pixbuf`.
+    ```python
+    def set_cursor(
+        self,
+        cursor: CURSOR_TYPE | Gdk.CursorType | Gdk.Cursor | None, # The source of the cursor to use, either be a named cursor or a RAW object for a cursor (`Gdk.CursorType` / `Gdk.Cursor`.)
+        pixbuf: GdkPixbuf.Pixbuf | None = None, # A `Pixbuf` buffer to use instead of a pre-existing cursor type.
+        x_offset: int = 0,
+        y_offset: int = 0,
+    ): ...
+    ```
+
+- `set_alignment`: Set the alignment mode for a given orientation.
+    ```python
+    def set_alignment(
+        self,
+        orientation: Literal["v", "vertical", "h", "horizontal"] | Gtk.Orientation,
+        alignment: Literal["fill", "start", "end", "center", "baseline"] | Gtk.Align,
+    ): ...
+    ```
+
+- `add_events`: Add a new event(s) mask (for widget with an events window.)
+    ```python
+    def add_events(
+        self, events: EVENT_TYPE | Gdk.EventMask | Iterable[EVENT_TYPE | Gdk.EventMask]
+    ): ...
+    ```
+
+- `add_style_class`: Add a CSS style class from this widget, a style class can be used to reference a widget that has a specific state in CSS (e.g. `#my-widget .my-class`.)
+    ```python
+    def add_style_class(self, class_name: str): ...
+    ```
+
+- `remove_style_class`: Remove a CSS style class from this widget.
+    ```python
+    def remove_style_class(self, class_name: str): ...
+    ```
+
+- `is_hovered`: Get whether this `Widget` is currently begin hovered or not.
+    ```python 
+    def is_hovered(
+        self,
+        event: Gdk.EventAny | None = None # An optional `Gdk.Event` to be used for the calculations (for more accuracy.)
+    ) -> bool: ...
+    ```

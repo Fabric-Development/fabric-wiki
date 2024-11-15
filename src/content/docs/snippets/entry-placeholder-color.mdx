@@ -1,0 +1,32 @@
+---
+title: Changing Entry's Placeholder Color
+---
+
+import { Aside } from "@astrojs/starlight/components";
+
+I've been recently trying to change the color of the search entry's placeholder in my applications launcher widget, it was so damn difficult to find resources on how to do so, I couldn't find any resources sadly so I had to look it up myself, I went over to Gtk's source code to find [this line](https://gitlab.gnome.org/GNOME/gtk/-/blob/gtk-3-24/gtk/gtkentry.c#L6313) which tries to _lookup_ a color from the `StyleContext` object, this gave me the hope that it's somewhere possible to change the color because it's not _hardcoded_ into the source code
+
+So I had to know what this mysterious function does, thankfully documentations exist, but as usual, programmers suck at writing docs, I couldn't get from where does this function "lookup" the asked color names from, so I knew I had to make my search again.
+
+Thankfully this time I wasn't empty handed, I found this [issue](https://gitlab.gnome.org/GNOME/gtk/-/issues/5262) which mentions this function specifically. in the comments there I've found [this specific comment](https://gitlab.gnome.org/GNOME/gtk/-/issues/5262#note_1574695) which mentions the `@define-color` CSS syntax.
+
+Now I knew it had something to do with the css color variables in Gtk's css syntax. in Fabric we compile those from normal css variables (AKA `--var-name`), so I launched a editor and edited my config to include this line in the `:vars` css selector
+
+```css
+--placeholder_text_color: red;
+```
+
+And thankfully it did work, it took it's time but it wasn't a wasted time :)
+
+<Aside>
+  Sadly, I couldn't find a way to scope a specific entry with this, so all
+  entries are going to have the same placeholder color
+</Aside>
+
+## TL;DR
+
+Put this inside your `:vars` css selector
+
+```css
+--placeholder_text_color: red;
+```

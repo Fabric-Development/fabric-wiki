@@ -1,0 +1,35 @@
+---
+title: Snippets Gallery
+sidebar:
+  order: 1
+---
+
+import {
+  Card,
+  CardGrid,
+  LinkButton,
+  Badge,
+  Icon,
+} from "@astrojs/starlight/components";
+import SnippetInfoCard from "../../../components/SnippetInfoCard.astro";
+
+<div class="columns-2 gap-0">
+    <SnippetInfoCard
+        name="Changing Entry's Placeholder Color"
+        description="Change the color of your Entry's placeholder color. since GTK doesn't really expose a way to do so this snippet can get around that limitation."
+        imageSrc="/assets/snippets-entry-placeholder-color.png"
+        author="EL-Darsh"
+        src="../entry-placeholder-color/"
+        tags={[["note", "Style"], "Snippet"]}
+    />
+
+    <SnippetInfoCard
+        name="Property Animator"
+        description="Animate a property within any service."
+        imageSrc="/assets/snippets-property-animator.gif"
+        author="EL-Darsh"
+        src="../property-animator/"
+        tags={[["note", "Service"], "Snippet"]}
+    />
+
+</div>
