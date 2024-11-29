@@ -4,109 +4,91 @@ sidebar:
   order: 3
 ---
 
-Fabricators are special classes that can grab you info from external shell commands or internal Python functions. Fabricators can also read streams of data like a shell command that stays running or a Python generator function.
+Fabricators are special [Services](./services.mdx) designed to retrieve information from external shell commands or internal Python functions. They can also handle continuous streams of data, such as output from a persistent shell command or a Python generator function.
 
-Fabricators give you some important options during initalization, including:
+Fabricators provide several key options during initialization, allowing you to:
 
-- The initial value the fabricator should be initialized with
-- Where to poll the data from, whether it is a Python function/generator or a shell command
-- The poll frequency: how often you want the fabricator to poll the function or command in milliseconds
-- Whether you want data as a stream (for polling data from generators and stream shell commands)
+- **Set an initial value**: Specify the default value when the Fabricator starts.
+- **Define the polling source**: Choose whether to poll data from a Python function/generator or a shell command.
+- **Configure the polling interval**: Determine how frequently the Fabricator polls the data source (in milliseconds).
+- **Enable streaming**: Handle continuous data streams, such as those from generators or streaming shell commands.
 
-So, let's look at some examples of using fabricators!
-
-## Media Player State
-
-This example utilizes a fabricator to read a stream from an external command (`playerctl -f status`) and print the current media status when it changes.
+## Examples
+practical examples of how to use Fabricators in your configurations:
 
 ```python
 from fabric import Application, Fabricator
 
-# create a fabricator to continuously monitor player state using the command
-player_fabricator = Fabricator(poll_from="playerctl -F status", stream=True)
 
-# define a function to handle state changes
-def print_state_change(fabricator, value): # notice that the first argument is the fabricator itself
-    print(f"player state changed: {value}")
+# lambda symbols
+# f: is the fabricator itself, v: is the new value
+counter_fabricator = Fabricator(
+    interval=50,  # ms
+    default_value=0,
+    poll_from=lambda f: f.get_value() + 1,
+    on_changed=lambda f, v: (
+        (f.stop(), print("Counter Stopped"))
+        if v == 43
+        else print(f"Counter Value: {v}")
+    ),
+)
 
-# connect the fabricator to the "changed" signal and register the handler
-player_fabricator.connect("changed", print_state_change)
+# example output:
+# Counter Value: 1
+# Counter Value: 2
+# Counter Value: 3
+# ...
+# Counter Value: 42
+# Counter Stopped
+
+weather_fabricator = Fabricator(
+    interval=1000 * 60,  # 1min
+    poll_from="curl https://wttr.in/?format=Weather+in+%l:+%t+(Feels+Like+%f),+%C+%c",
+    on_changed=lambda f, v: print(v.strip()),
+)
+
+# example output:
+# Weather in Homenland:, +15°C (Feels Like +15°C), Clear ☀️
+# ...
+
+date_fabricator = Fabricator(
+    interval=500,
+    poll_from="date",
+    on_changed=lambda f, v: print(f"Current Date: {v.strip()}"),
+)
+
+# example output:
+# current date and time: Fri Nov 29 03:45:32 AM EET 2024
+# current date and time: Fri Nov 29 03:45:32 AM EET 2024
+# ...
+
+# NOTE: this is just an example, the use of the Playerctl Python module would be a better idea
+player_fabricator = Fabricator(
+    stream=True,
+    poll_from="playerctl --follow metadata --format '[{{status}}] {{title}} - {{artist}}'",
+    on_changed=lambda f, v: print(v.strip()),
+)
+
+# example output:
+# [Playing] Something - HomenArtsHouse
+# [Paused] Something - HomenArtsHouse
+# [Playing] The Stars - HomenArtsHouse
+# ...
+
+
+# NOTE: this is just an example, the use of something like os would be better
+documents_fabricator = Fabricator(
+    interval=1000,  # 1 second
+    poll_from="du -sh /home/homan/Documents/",  # NOTE: edit this
+    on_changed=lambda f, v: print(f"Size of Documents: {v.split()[0]}"),
+)
+
+# example output:
+# Size of Documents: 1G
+# Size of Documents: 1.1G
+# ...
+
 
 app = Application()
-app.run() # run the event loop
-
-# output (may vary)
-# player state changed: playing
-# player state changed: paused
-# player state changed: playing
-# ...
-```
-
-## Periodic Date Updates
-
-in this example, we use a fabricator to poll data from the shell command `date` every 500ms and print the output of it.
-
-```python
-from fabric import Application, Fabricator
-
-# create a fabricator to periodically retrieve the date and time
-date_fabricator = Fabricator(poll_from="date", interval=500)  # 500 milliseconds
-
-# define a function to handle date updates
-def print_date(fabricator, value):
-    print(f"current date and time: {value.strip()}")
-
-# connect the fabricator to the "changed" signal and register the handler
-date_fabricator.connect("changed", print_date)
-
-app = Application()
-app.run() # run the event loop
-
-# output (may vary)
-# current date and time: Mon Mar  4 02:50:10 AM EET 2024
-# current date and time: Mon Mar  4 02:50:10 AM EET 2024
-# current date and time: Mon Mar  4 02:50:11 AM EET 2024
-# current date and time: Mon Mar  4 02:50:11 AM EET 2024
-# current date and time: Mon Mar  4 02:50:12 AM EET 2024
-# ...
-```
-
-## Advanced Polling
-
-In this example we fabricate a function instead of a shell command, and demonstrate how to use a stopping condition.
-
-```python
-from fabric import Application, Fabricator
-
-# global variable to track the counter
-number = 0
-
-def generate_number(fabricator):
-    global number
-    number += 1
-    return number
-
-# create a fabricator to poll the number generation function
-function_fabricator = Fabricator(poll_from=generate_number, interval=300)  # 300 milliseconds
-
-def handle_number(fabricator, value):
-    if value == 43:
-        fabricator.stop_polling()
-        print("fabricator stopped")
-    else:
-        print(f"generated number: {value}")
-
-# connect the fabricator to the "changed" signal and register the handler
-function_fabricator.connect("changed", handle_number)
-
-app = Application()
-app.run() # run the event loop
-
-# output
-# generated number: 1
-# generated number: 2
-# generated number: 3
-# ...
-# generated number: 42
-# fabricator stopped
+app.run()
 ```
