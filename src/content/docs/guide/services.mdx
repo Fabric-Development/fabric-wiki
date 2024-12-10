@@ -60,7 +60,7 @@ name_service = NameService()
 
 name_service.connect(
 					 "name-changed",
-					 lambda new_name: print(f"the name has changed, new name is {new_name}"
+					 lambda new_name: print(f"the name has changed, new name is {new_name}")
 )
 
 name_service.name = "Homan"
