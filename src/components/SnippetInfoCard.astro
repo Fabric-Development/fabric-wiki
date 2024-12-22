@@ -14,7 +14,7 @@ export interface Props {
 }
 
 const { name, author, description, imageSrc, src, tags } = Astro.props;
-const baseUrl = import.meta.env.BASE_URL;
+const BASE_URL = import.meta.env.BASE_URL;
 ---
 
 <a class="block mx-1 my-2" style="text-decoration: none;" href={src}>
@@ -23,7 +23,11 @@ const baseUrl = import.meta.env.BASE_URL;
       imageSrc && (
         <Image
           class={"w-full object-cover"}
-          src={imageSrc.startsWith("/") ? baseUrl + imageSrc : imageSrc}
+          src={
+            imageSrc.startsWith("/")
+              ? (BASE_URL == "/" ? "" : BASE_URL) + imageSrc
+              : imageSrc
+          }
           alt={
             "an image showcasing a snippet with " +
             ("a description that reads: " + description || "no description")

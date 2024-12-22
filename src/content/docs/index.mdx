@@ -12,11 +12,11 @@ hero:
     light: ../../assets/logo-light.svg
   actions:
     - text: See Guide
-      link: ./introduction/introduction/
+      link: /getting-started/introduction/
       icon: right-arrow
 
     - text: Snippets Gallery
-      link: ./snippets/gallery/
+      link: /snippets/gallery/
       icon: seti:svg
 
     - text: Join our Discord
@@ -25,14 +25,14 @@ hero:
       variant: minimal
 ---
 
-import { Image } from "astro:assets";
 import {
-  Card,
-  CardGrid,
   LinkButton,
+  CardGrid,
   Badge,
-  Icon,
+  Card,
+  Icon
 } from "@astrojs/starlight/components";
+import { Image } from "astro:assets";
 import FeatureCard from "../../components/FeatureCard.astro";
 import ShowcaseCard from "../../components/ShowcaseCard.astro";
 
@@ -101,7 +101,7 @@ import ShowcaseCard from "../../components/ShowcaseCard.astro";
   <ShowcaseCard
     name="Fabrika - فابريكا"
     author="EL-Darsh"
-    description="My (Darsh) setup, it has everything i need and it works very well!"
+    description="A setup that is fully equipped, finely tuned, and built to perform flawlessly!"
     imageSrc="/showcase/darsh-fabrika.png"
     src="https://example.com"
   />

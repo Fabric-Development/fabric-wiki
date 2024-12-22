@@ -1,4 +1,5 @@
 // @ts-check
+import starlightSidebarTopics from "starlight-sidebar-topics";
 import { prefixLinks } from "./src/plugins/CorrectURL";
 import starlightVersions from "starlight-versions";
 import { defineConfig } from "astro/config";
@@ -21,7 +22,7 @@ const BASE_URL = "";
 export default defineConfig({
   base: BASE_URL,
   site: SITE_URL,
-  trailingSlash: "always",
+  trailingSlash: "ignore",
   markdown: {
     remarkPlugins: [prefixLinks({ base: BASE_URL + "/" })],
   },
@@ -29,9 +30,46 @@ export default defineConfig({
     starlight({
       title: "Fabric",
       plugins: [
-        starlightVersions({
-          versions: [{ slug: "0.0.1", label: "v0.0.1" }],
-        }),
+        // starlightVersions({
+        //   versions: [{ slug: "0.0.1", label: "v0.0.1" }],
+        // }),
+        starlightSidebarTopics([
+          {
+            label: "Guides",
+            link: "/getting-started/introduction/",
+            icon: "open-book",
+            items: [
+              {
+                label: "Getting Started",
+                autogenerate: { directory: "getting-started" },
+              },
+              {
+                label: "Guide",
+                autogenerate: { directory: "guide" },
+              },
+              {
+                label: "Community Snippets",
+                autogenerate: { directory: "snippets" },
+              },
+              {
+                label: "Contributing",
+                autogenerate: { directory: "contributing" },
+                collapsed: true,
+              },
+            ],
+          },
+          {
+            label: "API Reference",
+            link: "/api/fabric/",
+            icon: "information",
+            items: [
+              {
+                label: "Parent Package",
+                autogenerate: { directory: "api" },
+              },
+            ],
+          },
+        ]),
       ],
       editLink: {
         baseUrl: "https://github.com/Fabric-Development/fabric-wiki/edit/",
@@ -45,28 +83,6 @@ export default defineConfig({
         github: "https://github.com/Fabric-Development/fabric",
         discord: "https://discord.gg/3sDbYc9SZP",
       },
-      sidebar: [
-        {
-          label: "Introduction",
-          autogenerate: { directory: "introduction" },
-        },
-
-        {
-          label: "Guide",
-          autogenerate: { directory: "guide" },
-        },
-
-        {
-          label: "Widgets",
-          autogenerate: { directory: "widgets" },
-        },
-
-        {
-          label: "Community Snippets",
-          autogenerate: { directory: "snippets" },
-        },
-      ],
-
       customCss: [
         "./src/tailwind.css",
         "./src/styles/custom.css",
@@ -92,4 +108,11 @@ export default defineConfig({
       include: "./src/components/*.[jsx|tsx]",
     }),
   ],
+  vite: {
+    resolve: {
+      alias: {
+        "@components": "/src/components",
+      },
+    },
+  },
 });

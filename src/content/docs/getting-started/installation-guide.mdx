@@ -1,8 +1,7 @@
 ---
-title: Installing Fabric
+title: "Installing Fabric"
 sidebar:
   order: 3
-slug: 0.0.1/introduction/installation-guide
 ---
 
 import { Aside, Steps, Tabs, TabItem } from "@astrojs/starlight/components";
@@ -65,33 +64,26 @@ import { Aside, Steps, Tabs, TabItem } from "@astrojs/starlight/components";
 The recommended way to install Fabric is through a [virtual environment](https://docs.python.org/3/library/venv).
 
 <Steps>
-  1. To install this way, first make a folder for your new project (which going to include your new config file):
-     ```bash
-     mkdir <your-folder-name>
-     ```
-
+1. To install this way, first make a folder for your new project (which going to include your new config file):
+    ```bash
+    mkdir <your-folder-name>
+    ```
 2. change directories to this new folder:
-
-   ```bash
-   cd <your-folder-name>
-   ```
-
+    ```bash
+    cd <your-folder-name>
+    ```
 3. Create a new virtual environment:
-
-   ```bash
-   python -m venv venv
-   ```
-
+    ```bash
+    python -m venv venv
+    ```
 4. Source the newly created virtual environment:
-
-   ```bash
-   source venv/bin/activate
-   ```
-
+    ```bash
+    source venv/bin/activate
+    ```
 5. You can now install Fabric in your newly-created virtual environment.
-   `bash
-     pip install git+https://github.com/Fabric-Development/fabric.git
-     `
+    ```bash
+    pip install git+https://github.com/Fabric-Development/fabric.git
+    ```
 </Steps>
 
 ### Global Install
@@ -99,9 +91,13 @@ The recommended way to install Fabric is through a [virtual environment](https:/
 Alternatively, you can install Fabric globally using the following command:
 
 <Aside type="tip">
-  If you're on Arch Linux, Fabric is available in the AUR under the name
+  **If you're on Arch Linux**, Fabric is available in the AUR under the name
   `python-fabric-git`. If you use a different distribution and you would like to
   install Fabric globally, use the following command.
+</Aside>
+
+<Aside type="tip">
+  **If you're on NixOS**, Fabric is available in the form of a Nix Flake, see this [PR](https://github.com/Fabric-Development/fabric/pull/42) for more info.
 </Aside>
 
 ```bash
@@ -112,4 +108,4 @@ This method is more prone to dependency issues.
 
 ---
 
-Congrats! Fabric is now installed, and you can run and use it as long as you would like. To get auto-completion and type annotation functionality in your text editor, head over to the [stubs installation guide](./installing-stubs.mdx).
+Congrats! Fabric is now installed, and you can run and use it as long as you would like. To get auto-completion and type annotation functionality in your text editor, head over to the [stubs installation guide](./stubs-guide.mdx).

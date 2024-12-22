@@ -1,4 +1,4 @@
-import * as path from 'path';
+import * as path from "path";
 import type { Definition, Link, Image, Root } from "mdast";
 import { visit } from "unist-util-visit";
 

@@ -1,0 +1,118 @@
+---
+import { Icon } from "@astrojs/starlight/components";
+
+export interface Props {
+  typeName: string;
+  typePrefix?: string;
+  typeArgList?: string;
+  returnType?: string;
+}
+
+const ICON_MAPPING = {
+  class: "puzzle",
+  signal: "rocket",
+  property: "list-format",
+
+  def: "setting",
+  function: "setting",
+  classmethod: "setting",
+  staticmethod: "setting",
+  static: "setting",
+};
+
+const { typeName, typePrefix, typeArgList, returnType } = Astro.props;
+
+// @ts-ignore
+const ICON_NAME = ICON_MAPPING[typePrefix.toLowerCase()];
+---
+
+<div class="type-signature">
+  {
+    ICON_NAME && (
+      <span>
+        <div class="icon-container">
+          <Icon name={ICON_NAME} />
+        </div>
+      </span>
+    )
+  }
+  {
+    typePrefix && (
+      <span class={`type-prefix ${typePrefix.toLowerCase()}`}>
+        {typePrefix}
+      </span>
+    )
+  }
+  <span class="type-name"> {typeName} </span>
+  {typeArgList && <span class={`type-args ${typeArgList}`}>{typeArgList}</span>}
+  {
+    returnType && (
+      <span class="type-return">
+        <Icon name="right-arrow" class="icon inline mb-[-.2rem]" />
+        {returnType}
+      </span>
+    )
+  }
+</div>
+
+<style>
+  * {
+    font-family: monospace;
+  }
+
+  .type-args,
+  .type-return {
+    font-weight: lighter;
+  }
+
+  .type-signature:has(
+      .type-prefix.member,
+      .type-prefix.type,
+      .type-prefix.attribute
+    )
+    > .type-name {
+    @apply text-sky-500 dark:text-sky-400;
+  }
+
+  .type-signature:has(.type-prefix.class) > .type-name {
+    @apply text-green-500 dark:text-green-400;
+  }
+
+  .type-signature:has(.type-prefix.property) > .type-name {
+    @apply text-blue-500 dark:text-blue-400;
+  }
+
+  .type-signature:has(
+      .type-prefix.static,
+      .type-prefix.staticmethod,
+      .type-prefix.classmethod,
+      .type-prefix.method,
+      .type-prefix.def
+    )
+    > .type-name {
+    @apply text-orange-400 dark:text-orange-300;
+  }
+
+  .type-signature:has(.type-prefix.signal) > .type-name {
+    @apply text-yellow-600 dark:text-yellow-400;
+  }
+
+  .type-prefix,
+  .type-return > .icon {
+    color: var(--sl-color-gray-3);
+    @apply text-gray-600 dark:text-gray-400;
+  }
+
+  .type-prefix {
+    font-style: italic;
+    font-weight: lighter;
+  }
+  .icon-container {
+    display: inline-block;
+    margin-bottom: -0.5rem;
+    background-color: var(--sl-color-gray-7);
+    border: 1px solid var(--sl-color-gray-3);
+    padding: 0.3rem;
+    border-radius: 0.3rem;
+  }
+</style>
