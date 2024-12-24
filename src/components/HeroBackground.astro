@@ -1,0 +1,228 @@
+---
+export interface Props {}
+
+const {} = Astro.props;
+---
+
+<div
+  class="hero-background absolute inset-0 top-0 left-0 w-[100svw] h-[100svh] -z-50"
+>
+  <canvas class="fixed top-0 left-0 w-[100svw] h-[100svh]"></canvas>
+</div>
+
+<script>
+  import * as Three from "three";
+  import DustTexture from "./assets/dust-texture.webp";
+  import FragmentShader from "./assets/fragment.glsl?raw";
+  import VertextShader from "./assets/vertex.glsl?raw";
+
+  export default class Fabric {
+    defaultUniforms: {} | undefined;
+    darkUniforms: {} | undefined;
+    lightUniforms: {} | undefined;
+
+    clock: Three.Clock;
+    canvas: HTMLElement;
+    canvasParent: HTMLElement | null;
+    camera: Three.Camera;
+    scene: Three.Scene;
+    renderer: Three.Renderer;
+    material: Three.Material | undefined;
+    geometry: Three.PlaneGeometry | undefined;
+    mesh: Three.Mesh | undefined;
+    uniforms: {};
+
+    constructor(defaultUniforms?: {}, darkUniforms?: {}, lightUniforms?: {}) {
+      const canvas = document.querySelector("canvas");
+      if (!canvas) {
+        throw new Error("couldn't query the canvas");
+      }
+
+      this.defaultUniforms = defaultUniforms;
+      this.darkUniforms = darkUniforms;
+      this.lightUniforms = lightUniforms;
+
+      const loader = new Three.TextureLoader();
+      this.uniforms =
+        this.defaultUniforms ||
+        Object.assign(
+          {
+            uInvert: { value: true },
+            uTime: { type: "f", value: 0.0 },
+            uScale: { value: 0.8 },
+            uDustOpacity: { value: 1.0 },
+            uTexture2: {
+              value: loader.load(DustTexture.src, (texture) => {
+                // texture.minFilter = Three.NearestFilter;
+                // texture.magFilter = Three.NearestFilter;
+
+                texture.wrapS = Three.MirroredRepeatWrapping;
+                texture.wrapT = Three.MirroredRepeatWrapping;
+                texture.needsUpdate = true;
+              }),
+            },
+          },
+          this.darkUniforms || {
+            uLightness: { value: 1 },
+            uColor: { value: new Three.Vector3(2, 2, 2) },
+          }
+        );
+
+      this.clock = new Three.Clock();
+      this.canvas = canvas;
+      this.canvasParent = canvas.parentElement;
+
+      const frustumSize = 1;
+      this.camera = new Three.OrthographicCamera(
+        frustumSize / -2,
+        frustumSize / 2,
+        frustumSize / 2,
+        frustumSize / -2,
+        -1000,
+        1000
+      );
+
+      this.scene = new Three.Scene();
+      this.renderer = new Three.WebGLRenderer({
+        failIfMajorPerformanceCaveat: true,
+        canvas: this.canvas,
+        antialias: true,
+        alpha: true,
+      });
+      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      this.settings();
+      this.resize();
+      this.addObjects();
+      this.render();
+      this.setUpResize();
+      this.animate();
+      this.updateColor(null);
+      const observer = new MutationObserver((mutations) => {
+        for (let mutation of mutations) {
+          if (
+            mutation.type === "attributes" &&
+            mutation.attributeName === "data-theme"
+          ) {
+            // @ts-ignore
+            const { theme } = mutation.target.dataset;
+            this.updateColor(theme);
+            break;
+          }
+        }
+      });
+      observer.observe(document.documentElement, { attributes: true });
+    }
+
+    updateColor(theme: string | null) {
+      if (!theme) {
+        theme = document.documentElement.dataset.theme as string | null;
+      }
+      if (theme == "dark") {
+        this.uniforms = Object.assign(this.uniforms, this.darkUniforms || {});
+        return;
+      }
+      this.uniforms = Object.assign(this.uniforms, this.lightUniforms || {});
+      return;
+    }
+
+    settings() {}
+
+    addObjects() {
+      this.material = new Three.ShaderMaterial({
+        fragmentShader: FragmentShader,
+        vertexShader: VertextShader,
+        blending: Three.NoBlending,
+        glslVersion: Three.GLSL3,
+        uniforms: this.uniforms,
+        depthWrite: false,
+        depthTest: false,
+      });
+
+      this.geometry = new Three.PlaneGeometry(2, 2);
+      this.mesh = new Three.Mesh(this.geometry, this.material);
+      this.scene.add(this.mesh);
+      this.canvasParent && this.canvasParent.classList.add("ready");
+    }
+
+    animate() {
+      // TODO: parallex mouse movement
+      // window.onmousemove = console.log;
+    }
+
+    render() {
+      this.material.uniforms.uTime.value = this.clock.getElapsedTime() * 0.4;
+
+      this.renderer.render(this.scene, this.camera);
+
+      // wait for next frame
+      requestAnimationFrame(this.render.bind(this));
+    }
+
+    calculateSize() {
+      return [
+        this.canvas.parentElement?.clientWidth || this.canvas.width,
+        this.canvas.parentElement?.clientHeight || this.canvas.height,
+      ] as Array<number>;
+    }
+
+    resize() {
+      const size = this.calculateSize();
+      const width = size[0];
+      const height = size[1];
+
+      this.renderer.setSize(width, height);
+      this.camera.aspect = width / height;
+
+      this.camera.updateMatrix();
+      this.renderer.render(this.scene, this.camera);
+    }
+
+    setUpResize() {
+      (window || this.canvasParent || this.canvas).addEventListener(
+        "resize",
+        this.resize.bind(this)
+      );
+    }
+  }
+
+  window.addEventListener("load", (event) => {
+    new Fabric(
+      undefined,
+      {
+        uLightness: { value: 1.4 },
+        uColor: { value: new Three.Vector3(2, 2, 2) },
+      },
+      {
+        uLightness: { value: 0.6 },
+        uColor: { value: new Three.Vector3(0.1, 0.1, 0.1) },
+      }
+    );
+  });
+</script>
+
+<style>
+  * {
+    transition: unset !important;
+  }
+
+  @keyframes animate-opacity {
+    from {
+      opacity: 0.1;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  div {
+    opacity: 0.1;
+  }
+
+  div.ready {
+    animation-name: animate-opacity;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: linear;
+  }
+</style>
