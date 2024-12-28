@@ -20,6 +20,7 @@ const {} = Astro.props;
     defaultUniforms: {} | undefined;
     darkUniforms: {} | undefined;
     lightUniforms: {} | undefined;
+    speed: number;
 
     clock: Three.Clock;
     canvas: HTMLElement;
@@ -32,7 +33,12 @@ const {} = Astro.props;
     mesh: Three.Mesh | undefined;
     uniforms: {};
 
-    constructor(defaultUniforms?: {}, darkUniforms?: {}, lightUniforms?: {}) {
+    constructor(
+      defaultUniforms?: {},
+      darkUniforms?: {},
+      lightUniforms?: {},
+      speed?: number
+    ) {
       const canvas = document.querySelector("canvas");
       if (!canvas) {
         throw new Error("couldn't query the canvas");
@@ -41,6 +47,7 @@ const {} = Astro.props;
       this.defaultUniforms = defaultUniforms;
       this.darkUniforms = darkUniforms;
       this.lightUniforms = lightUniforms;
+      this.speed = speed || 1;
 
       const loader = new Three.TextureLoader();
       this.uniforms =
@@ -95,23 +102,9 @@ const {} = Astro.props;
       this.resize();
       this.addObjects();
       this.render();
-      this.setUpResize();
       this.animate();
       this.updateColor(null);
-      const observer = new MutationObserver((mutations) => {
-        for (let mutation of mutations) {
-          if (
-            mutation.type === "attributes" &&
-            mutation.attributeName === "data-theme"
-          ) {
-            // @ts-ignore
-            const { theme } = mutation.target.dataset;
-            this.updateColor(theme);
-            break;
-          }
-        }
-      });
-      observer.observe(document.documentElement, { attributes: true });
+      this.setupEventHooks();
     }
 
     updateColor(theme: string | null) {
@@ -142,21 +135,22 @@ const {} = Astro.props;
       this.geometry = new Three.PlaneGeometry(2, 2);
       this.mesh = new Three.Mesh(this.geometry, this.material);
       this.scene.add(this.mesh);
-      this.canvasParent && this.canvasParent.classList.add("ready");
+
+      this.canvas.classList.add("ready");
     }
 
     animate() {
-      // TODO: parallex mouse movement
+      // TODO: parallax mouse movement
       // window.onmousemove = console.log;
     }
 
     render() {
-      this.material.uniforms.uTime.value = this.clock.getElapsedTime() * 0.4;
+      this.material.uniforms.uTime.value = this.clock.getElapsedTime() * this.speed;
 
       this.renderer.render(this.scene, this.camera);
 
       // wait for next frame
-      requestAnimationFrame(this.render.bind(this));
+      window.requestAnimationFrame(this.render.bind(this));
     }
 
     calculateSize() {
@@ -178,11 +172,28 @@ const {} = Astro.props;
       this.renderer.render(this.scene, this.camera);
     }
 
-    setUpResize() {
+    setupEventHooks() {
+      // resize events
       (window || this.canvasParent || this.canvas).addEventListener(
         "resize",
         this.resize.bind(this)
       );
+
+      // theme changing
+      const observer = new MutationObserver((mutations) => {
+        for (let mutation of mutations) {
+          if (
+            mutation.type === "attributes" &&
+            mutation.attributeName === "data-theme"
+          ) {
+            // @ts-ignore
+            const { theme } = mutation.target.dataset;
+            this.updateColor(theme);
+            break;
+          }
+        }
+      });
+      observer.observe(document.documentElement, { attributes: true });
     }
   }
 
@@ -195,8 +206,9 @@ const {} = Astro.props;
       },
       {
         uLightness: { value: 0.6 },
-        uColor: { value: new Three.Vector3(0.1, 0.1, 0.1) },
-      }
+        uColor: { value: new Three.Vector3(0.12, 0.12, 0.12) },
+      },
+      0.4
     );
   });
 </script>
@@ -206,23 +218,12 @@ const {} = Astro.props;
     transition: unset !important;
   }
 
-  @keyframes animate-opacity {
-    from {
-      opacity: 0.1;
-    }
-    to {
-      opacity: 1;
-    }
+  canvas {
+    opacity: 0;
+    transition: opacity 2s ease !important;
   }
 
-  div {
-    opacity: 0.1;
-  }
-
-  div.ready {
-    animation-name: animate-opacity;
-    animation-duration: 1s;
-    animation-fill-mode: forwards;
-    animation-timing-function: linear;
+  canvas.ready {
+    opacity: 1;
   }
 </style>

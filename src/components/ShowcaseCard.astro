@@ -7,15 +7,17 @@ export interface Props {
   author: string;
   description?: string;
   imageSrc: string;
-  src?: string
+  src?: string;
 }
 
 const { name, author, description, imageSrc, src } = Astro.props;
 const BASE_URL = import.meta.env.BASE_URL;
-
 ---
+
 <article class="card mx-auto rounded-xl overflow-hidden">
-  <div class="card-text-container absolute inset-0 flex flex-col justify-between items-stretch m-0">
+  <div
+    class="card-text-container absolute inset-0 flex flex-col justify-between items-stretch m-0"
+  >
     <div class="card-upper-section">
       <h2 class="card-text card-name text-4xl font-black">{name}</h2>
       <h6 class="card-text card-description">{description}</h6>
@@ -25,18 +27,22 @@ const BASE_URL = import.meta.env.BASE_URL;
       <h6 class="card-text card-author">
         Author: <b>{author}</b>
       </h6>
-      {src && (
-        <LinkButton
-          target={"_blank"}
-          class="card-source-button"
-          icon="external"
-          href={src}
-        />
-      )}
+      {
+        src && (
+          <LinkButton
+            target={"_blank"}
+            class="card-source-button"
+            icon="external"
+            href={src}
+          />
+        )
+      }
     </div>
   </div>
   <Image
-    src={imageSrc.startsWith("/") ? ((BASE_URL == "/" ? "" : BASE_URL) + imageSrc) : imageSrc}
+    src={imageSrc.startsWith("/")
+      ? (BASE_URL == "/" ? "" : BASE_URL) + imageSrc
+      : imageSrc}
     alt={"a showcase image with " +
       ("a description that reads: " + description || "no description")}
     width={512}
@@ -65,7 +71,11 @@ const BASE_URL = import.meta.env.BASE_URL;
 
   .card-text-container {
     opacity: 0;
-    background: linear-gradient(349deg, rgba(0, 0, 0, 0) 0%, var(--sl-color-black) 100%);
+    background: linear-gradient(
+      349deg,
+      rgba(0, 0, 0, 0) 0%,
+      var(--sl-color-black) 100%
+    );
     transition: opacity 0.3s ease;
   }
 
@@ -83,7 +93,8 @@ const BASE_URL = import.meta.env.BASE_URL;
     max-width: 90%;
   }
 
-  .card-author, .card-description {
+  .card-author,
+  .card-description {
     font-size: clamp(0.8rem, 1.5vw, 1rem) !important;
     color: var(--sl-color-gray-2) !important;
   }

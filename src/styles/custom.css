@@ -2,6 +2,10 @@
 	transition: ease-in-out 0.1s;
 }
 
+body {
+	overflow-x: clip;
+}
+
 :root {
 	--sl-font: "Jost", "Readex Pro", sans-serif;
 }
@@ -24,7 +28,7 @@
 }
 
 /* Light mode colors. */
-:root[data-theme='light'] {
+:root[data-theme="light"] {
 	--bg-glare-hsl: 0, 0%, 0%;
 	--sl-color-accent-low: #f5f5f5;
 	--sl-color-accent: #000000;
@@ -47,10 +51,6 @@
 		radial-gradient(var(--overlay-white), transparent 65%) no-repeat 50% calc(100% + 20rem) / 60rem 30rem;
 } */
 
-[data-has-hero] .hero {
-	min-height: 90vh;
-}
-
 [data-has-hero] header {
 	border-bottom: 1px solid transparent;
 	background-color: transparent;
@@ -69,10 +69,11 @@
 }
 
 .site-title span {
-	font-weight: 900;
-	/* Fabric's logo has it's text in ALL CAPS */
-	font-variant-caps: all-petite-caps;
 	color: var(--sl-color-white);
+	font-weight: 900;
+
+	/* Our logo's text is in all caps */
+	font-variant-caps: all-petite-caps;
 }
 
 .glare-wrapper {
