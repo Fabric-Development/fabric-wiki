@@ -1,7 +1,7 @@
 ---
 title: Services
 sidebar:
-  order: 2
+  order: 3
 ---
 
 import { Aside } from "@astrojs/starlight/components";
@@ -207,7 +207,7 @@ Since `GObject.Property` automatically emits a `notify::property_name` signal wh
 
 To connect a callback function that listens to property changes, there are several approaches:
 
-1. **Using `connect` with `notify::property_name`**  
+1. **Using `connect` with `notify::property_name`**
    This is the most explicit way to connect to a property notification signal.
 
    ```python
@@ -218,7 +218,7 @@ To connect a callback function that listens to property changes, there are sever
    example_service.status = "Running"
    ```
 
-2. **Using a Direct Argument in `Service` Constructor**  
+2. **Using a Direct Argument in `Service` Constructor**
    Since we pass `**kwargs` over to the `super` which's a `Serivce`, You can also pass the callback directly as a keyword argument when initializing the `Service`, using `notify_<property_name_in_snake_case>` as the argument name.
 
    ```python
@@ -300,3 +300,12 @@ The builder pattern simplifies service initialization, enabling you to configure
 - **Cleaner Code**: Reduces the need for multiple lines of initialization logic, resulting in less boilerplate code.
 
 This pattern is ideal when working with `Services` that require property setting, signal connections, and other initialization logic in a clear and concise way.
+
+
+## List of builtin services
+
+- [Audio](https://wiki.ffpy.org/api/services/audio/)
+- [Bluetooth](https://wiki.ffpy.org/api/services/bluetooth/)
+- [Hyprland](https://wiki.ffpy.org/api/services/hyprland/)
+- [Notifications](https://wiki.ffpy.org/api/services/notifications/)
+- [System Tray](https://wiki.ffpy.org/api/services/system_tray/)
