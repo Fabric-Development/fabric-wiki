@@ -1,0 +1,290 @@
+---
+title: Styling & Theming
+sidebar:
+  order: 4
+---
+
+import { Aside } from "@astrojs/starlight/components";
+
+
+This page covers the process of adding CSS styling to your widgets, providing you with everything you need to get started on styling your desktop.
+
+## GTK & CSS
+
+Fabric allows you to easily style your widgets using CSS. Since Fabric is built on GTK, any styling that applies to GTK also applies to Fabric.
+
+To help you get started with CSS styling in Fabric/GTK, We recommend the following resources:
+
+- [CSS Tutorial](https://www.w3schools.com/css/)
+- [GTK3 CSS Overview](https://docs.gtk.org/gtk3/css-overview.html)
+- [GTK3 CSS Properties Overview](https://docs.gtk.org/gtk3/css-properties.html)
+
+<Aside type="caution">
+  Although GTK supports many CSS features, not everything exists on the web is
+  supposed to work on GTK. Always refer to GTK's documentation to verify what's
+  supported.
+</Aside>
+
+## Fabric's CSS Compiler (FASS)
+
+Fabric includes a CSS pre-processor called FASS which converts web-like CSS into GTK-specific syntax, such as turning web CSS variables into GTK's `@define-*` variables. Additionally, FASS offers several useful features like:
+
+- Calling Python functions from CSS
+- Pre-processor macros
+- Constants
+
+FASS is ready to use out of the box and it is used by default when setting your style sheet via `Application.set_stylesheet_*` functions, to disable FASS, all you have to do is to pass `compile=False` to the function that sets your style sheet
+
+<Aside type="tip">FASS is fully compatible with GTK's native CSS styles.</Aside>
+
+### Features Overview
+
+This is a brief list of features supported by the FASS module
+
+**Web CSS Variables**:
+When you write normal CSS variables and pass it into FASS, it will get compiled into GTK's own variables format.
+
+To define a variable you need to put them inside the `:vars` CSS selector so that the resulted `@define-*` variable is set in the global scope.
+
+**Example**:
+
+```css
+:vars {
+  --my-color: red;
+}
+
+#my-widget {
+  background-color: var(--my-color);
+}
+```
+
+The above snippet will compile to...
+
+```css
+@define-color my-color red;
+
+#my-widget {
+  background-color: @my-color;
+}
+```
+
+**Constants**
+Constants are basically variables that you can't change their values and they can hold any type of values
+
+**Example**
+
+```css
+@define size-xl 12rem;
+@define wide-edges 2rem 4rem;
+
+#my-widget {
+  padding: apply(size-xl);
+}
+
+#my-container {
+  padding: apply(wide-edges);
+}
+```
+
+The above snippet will compile to...
+
+```css
+#my-widget {
+  padding: 12rem;
+}
+
+#my-container {
+  padding: 2rem 4rem;
+}
+```
+
+**Macros / Functions / Mixins**
+They all mean one thing, a function that takes in arguments and on that it returns a template with the given parameters
+
+**Example**:
+
+```css
+@define my-macro(--color, --margin, --padding) {
+  color: --color;
+  margin: --margin;
+  padding: --padding;
+}
+
+#my-widget {
+  @apply my-macro(red, 0.5rem, 1rem);
+}
+```
+
+The above snippet will compile to...
+
+```css
+#my-widget {
+  color: red;
+  margin: 0.5rem;
+  padding: 1rem;
+}
+```
+
+**Calling Python Functions**
+FASS enables you of calling a set of exposed Python functions by the user and use their result as a style template, you can pass in parameters to your Python function from CSS
+
+**Example**
+
+In the Python side of things:
+
+```python
+# ...
+app = Application(...)
+
+app.set_stylesheet_from_file(
+    "./style.css",
+    exposed_functions={
+        "my-function": lambda prop, value: f"{prop}: {value};"
+    },
+)
+```
+
+In the `style.css` file:
+
+```css
+#my-widget {
+  @apply my-function(margin, 0.5rem);
+  @apply my-function(padding, 1rem);
+}
+```
+
+The above snippet will compile to...
+
+```css
+#my-widget {
+  margin: 0.5rem;
+  padding: 1rem;
+}
+```
+
+### Why FASS?
+
+The main idea of having a built-in CSS compiler is to bridge the gap and difference between GTK's own way of defining style sheets and how web technologies handle that, also the introduction of FASS makes users able to use normal CSS integrations, like, editors (LSPs) and simple class-based CSS libraries, using FASS is not a must since its introduction only helps with the development experience of Fabric's users. You can use any other CSS compiler in favor of Fabric's own, at the end of the day, FASS is just a chain of regular expressions so it is nowhere near what's out there.
+
+## Best Practices
+
+Styling best practices on GTK shouldn't really vary a lot from web styling, those best practices include **naming conventions**, **usage of names (ids) and classes** and **consistent size units**, the following text highlights everything you might need to get up and start styling with best practices, yet, you should know that this is not a complete list!
+
+### Widget Types, Names and Class Names
+
+In web, CSS style selectors are, **types**, **IDs** and **classes**, the following table shows a comparison between web CSS and GTK CSS and the usage of each selector
+| Web CSS | GTK CSS | Syntax | Description |
+| ------- | ------- | ------ | ----------- |
+| Type (element's type) | Type (widget's type) | `widget-type` (no prefix/suffix) | Selects all widgets of a specific type (e.g., `button`, `label`).<br/><br/>**Note**: It's generally not recommended to use type selectors as they can lead to broad and hard-to-maintain styles. |
+| IDs | Names | `#widget-name` (hashtag prefixed name) | Selects a specific widget with the given name.<br/><br/>**Usage**: Use for uniquely named widgets (e.g. `#main-button`, `#sidebar`).<br/><br/>**Avoid**: Using names for state or variant styling (e.g. `#focused`, `#inactive`, `#blue-button`). |
+| Classes | Classes | `.widget-class` (dot prefixed name) | Selects widgets with a specific class or set of classes.<br/><br/>**Usage**: Best for applying reusable styles for specific states or variants (e.g. `.primary`, `.disabled`, `.highlight`). |
+
+For more on CSS selectors we encourage you reading [this awesome blog](https://css-tricks.com/css-selectors/).
+
+### Naming Conventions
+
+We really encourage adhering to `kebab-case` when writing anything CSS-related, like file names, selectors and variables.
+
+That also means sticking to the following simple rules:
+
+- DO NOT use anything other than `kebab-case`.
+- DO NOT mix cases.
+- DO NOT use anything other than `-` in your names for separating words.
+- DO NOT follow a `-` with another `-`.
+
+**Examples of BAD Styles**:
+
+```css
+#My_Widget {
+  /* ... */
+}
+#My-Widget {
+  /* ... */
+}
+
+#myWidget {
+  /* ... */
+}
+
+#my-widget .Class--name {
+  /* ... */
+}
+```
+
+**Examples of GOOD Styles**:
+
+```css
+#my-widget {
+  /* ... */
+}
+
+#my-widget .class-name {
+  /* ... */
+}
+```
+
+## Default Styles
+
+If you don't style your configuration it will use the default GTK theme as its stylesheet, to get rid of the default stylesheet and start styling your widgets from the ground up you can start by adding a `style.css` file or if you're going to use multiple CSS files add them inside the `styles/` folder and name your starting point `style.css`.
+
+In the `style.css` file you'll need to add the following couple of lines...
+
+```css
+* {
+  all: unset;
+}
+```
+
+This basically ensures that any other already set stylesheets reflect nothing on your widgets.
+
+Later you can load the starting point CSS file by using the `Application.set_stylesheet_from_file("path/to/style.css")` method.
+
+## Inline Styles
+
+Additionally, you can write styles inside of your widget's definition.
+
+<Aside type="note">
+  Inline style definitions are automatically compiled for you, to disable that
+  you will need to use the `set_style()` method with `compile=False` as an extra
+  parameter.
+</Aside>
+
+```python
+Label(
+    style="color: red; font-size: 1rem;"
+)
+# for the sake of this example we're using the Label widget
+# any other fabric widget should work the same way
+```
+
+## Inspecting Your Styles
+
+Unsure why something is (style wise) broken?
+The [GTK inspector](https://wiki.gnome.org/Projects/GTK/Inspector) window includes a ton of style debugging tools for you!
+
+To show the inspector you can use the `inspect=True` keyword argument in your `Application` class instance's definition.
+
+Alternatively you can use the command line environment variable.
+
+```sh
+GTK_DEBUG=interactive python config.py
+```
+
+## Reload Styles on Change
+
+Use this snippet to make it so that style sheets are reloaded once your CSS files change.
+
+```python
+app = Application(...)
+
+def apply_stylesheet(*_):
+    return app.set_stylesheet_from_file(
+        get_relative_path("./styles/style.css")
+    )
+
+style_monitor = monitor_file(get_relative_path("./styles"))
+style_monitor.connect("changed", apply_stylesheet)
+apply_stylesheet() # initial styling
+
+# ...
+```
