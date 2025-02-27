@@ -1,0 +1,73 @@
+---
+title: Theming
+sidebar:
+  order: 2
+---
+
+Since the widget toolkit is **GTK** theming is done with **CSS**.
+
+- [CSS tutorial](https://www.w3schools.com/css/)
+- [GTK3 CSS Overview wiki](https://docs.gtk.org/gtk3/css-overview.html)
+- [GTK3 CSS Properties Overview wiki](https://docs.gtk.org/gtk3/css-properties.html)
+- [GTK4 CSS Overview wiki](https://docs.gtk.org/gtk4/css-overview.html)
+- [GTK4 CSS Properties Overview wiki](https://docs.gtk.org/gtk4/css-properties.html)
+
+
+import { Aside } from "@astrojs/starlight/components";
+
+
+<Aside>
+While many features are available in GTK, you can't assume that everything that works on the web will function the same way in GTK.
+Refer to the GTK documentation to check what's supported.
+</Aside>
+
+
+So far every widget you made used your default GTK theme.
+To make them more custom, you can apply stylesheets to them.
+
+## From file at startup
+
+You can pass a path to a file as a string in `app.set_stylesheet_from_file`
+
+```python [app.py]
+app.set_stylesheet_from_file(get_relative_path("./style.css"))
+```
+
+<Aside>
+When using relative paths, for example `./style.css` keep in mind that they
+will be relative to the current working directory.
+</Aside>
+
+## Css Property on Widgets
+
+```ts
+Label(
+    style = "color: blue; padding: 1em;",
+    label = "hello",
+)
+```
+
+## Inspector
+
+If you are not sure about the widget hierarchy or any CSS selector,
+you can use the [GTK inspector](https://wiki.gnome.org/Projects/GTK/Inspector)
+
+```sh
+# to bring up the inspector run
+GTK_DEBUG=interactive python app.py
+```
+
+
+## Autoreload Css
+
+````python
+
+def apply_style(app: Application):
+    logger.info("[Main] CSS applied")
+    app.set_stylesheet_from_file(get_relative_path("styles/main.css"))
+
+
+css_file = monitor_file(get_relative_path("styles"))
+css_file.connect("changed", lambda *_: apply_style(app))
+
+```
