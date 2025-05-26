@@ -13,6 +13,7 @@ import { Aside, Steps, Tabs, TabItem } from "@astrojs/starlight/components";
 
     * Arch Linux: `sudo pacman -S python` for the most recent version
     * OpenSUSE: `sudo zypper install python311` for the most recent version of Python 3.11
+    * Fedora: It already comes with Python preinstalled, but if it doesn't: `sudo dnf in python`
 
 2. **Install the Dependencies**
 
@@ -51,6 +52,13 @@ import { Aside, Steps, Tabs, TabItem } from "@astrojs/starlight/components";
        gtk-layer-shell-devel libgirepository-1_0-1 libgirepository-2_0-0
        gobject-introspection-devel python311 python311-pip python311-gobject
        python311-gobject-cairo python311-pycairo python311-loguru pkgconf`
+     </TabItem>
+     <TabItem label="Fedora">
+       _(tested on Fedora 42)_
+
+       * `sudo dnf install gtk3-devel cairo-devel gtk-layer-shell-devel 
+       glib2 gobject-introspection-devel python python-pip python3-gobject 
+       python3-cairo python3-loguru pkgconf`
      </TabItem>
    </Tabs>
 
