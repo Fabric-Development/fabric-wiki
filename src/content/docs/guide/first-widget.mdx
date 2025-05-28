@@ -23,7 +23,7 @@ window = Window( # creates a new instance of the Window class and assign it to t
   all_visible=True # to make the window and all of its children appear once the config runs
 )
 
-app = Application("default", window) # define a new config named "defualt" which holds `window`
+app = Application("default", window) # define a new config named "default" which holds `window`
 app.run() # run the event loop (run the config)
 ```
 
@@ -65,7 +65,7 @@ if __name__ == "__main__":
     box_1.add(box_2) # append box_2 inside box_1 along with the label already in there
 
     window = Window(child=box_1) # there's no need showing this window using `show_all()`; it'll show them itself because the children are already passed
-    app = Application("default", window) # define a new config named "defualt" which holds `window`
+    app = Application("default", window) # define a new config named "default" which holds `window`
 
     app.run() # run the event loop (run the config)
 
