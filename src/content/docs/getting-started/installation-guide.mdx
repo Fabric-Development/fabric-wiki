@@ -56,8 +56,8 @@ import { Aside, Steps, Tabs, TabItem } from "@astrojs/starlight/components";
      <TabItem label="Fedora">
        _(tested on Fedora 42)_
 
-       * `sudo dnf install gtk3-devel cairo-devel gtk-layer-shell-devel 
-       glib2 gobject-introspection-devel python3-devel python-pip 
+       * `sudo dnf install gtk3-devel cairo-devel gtk-layer-shell-devel
+       glib2 gobject-introspection-devel python3-devel python-pip
        python3-gobject python3-cairo python3-loguru pkgconf`
      </TabItem>
    </Tabs>
@@ -104,15 +104,85 @@ Alternatively, you can install Fabric globally using the following command:
   install Fabric globally, use the following command.
 </Aside>
 
-<Aside type="tip">
-  **If you're on NixOS**, Fabric is available in the form of a Nix Flake, see this [PR](https://github.com/Fabric-Development/fabric/pull/42) for more info.
-</Aside>
-
 ```bash
 pip install git+https://github.com/Fabric-Development/fabric.git
 ```
 
 This method is more prone to dependency issues.
+
+### Nix
+
+Fabric can also be installed via Nix Flake.
+
+<Steps>
+1. Add Fabric to the flake's inputs:
+    ```nix
+    {
+      inputs = {
+        nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+        fabric = {
+          url = "github:Fabric-Development/fabric";
+          # ! Important to override
+          # Nix will not allow overriding dependencies if the input
+          # doesn't follow your system pkgs
+          inputs.nixpkgs.follows = "nixpkgs";
+        };
+      };
+    }
+    ```
+
+2. Then, add the following to ``nixpkgs.overlays``:
+    ```nix
+    fabric.overlays.default
+    ```
+
+3. Then you can add the following to ``environment.systemPackages`` or ``home.packages``:
+    ```nix
+    pkgs.python-fabric
+    ```
+
+    or optionally, for exposing any additional packages to Fabric use `extraPackages`, and/or for any additional Python dependencies use `extraDependencies` as follows:
+    ```nix
+    # `environment.systemPackages` is also fine
+    home.packages = [
+      (pkgs.python-fabric.override {
+        extraPackages = [
+          # Add additional packages here
+          # For example:
+          pkgs.pipewire
+        ];
+        extraDependencies = [
+          # Add extra Python dependencies here
+          # For example:
+          pkgs.python3Packages.pillow
+        ];
+      })
+    ];
+    ```
+
+    You can make Fabric accessible to the system Python interpreter, for it to be used by the LSP server of your text editor, by doing this instead:
+    ```nix
+    # `environment.systemPackages` is also works the same way
+    home.packages = [
+      (python3.withPackages (ps: pkgs.python-fabric.override {
+        extraPackages = [
+          # Add additional packages here
+          # For example:
+          pkgs.pipewire
+        ];
+        extraDependencies = with ps; [
+          # Add extra Python dependencies here
+          # For example:
+          pillow
+        ];
+      }))
+    ];
+    ```
+</Steps>
+
+<Aside>
+    When installed via Nix, to run Fabric you should use the command `fabric` instead of `python -m fabric`.
+</Aside>
 
 ---
 
