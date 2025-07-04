@@ -115,7 +115,7 @@ This method is more prone to dependency issues.
 Fabric can also be installed via Nix Flake.
 
 <Steps>
-1. Add Fabric to the flake's inputs:
+1. Add Fabric to flake inputs:
     ```nix
     {
       inputs = {
@@ -131,17 +131,17 @@ Fabric can also be installed via Nix Flake.
     }
     ```
 
-2. Then, add the following to ``nixpkgs.overlays``:
+2. Add the following to `nixpkgs.overlays`:
     ```nix
     fabric.overlays.default
     ```
 
-3. Then you can add the following to ``environment.systemPackages`` or ``home.packages``:
+3. You can add the following to ``environment.systemPackages`` or ``home.packages``:
     ```nix
     pkgs.python-fabric
     ```
 
-    or optionally, for exposing any additional packages to Fabric use `extraPackages`, and/or for any additional Python dependencies use `extraDependencies` as follows:
+    Optionally, for exposing any additional packages to Fabric use `extraPackages`. For additional Python dependencies use `extraDependencies` as follows:
     ```nix
     # `environment.systemPackages` is also fine
     home.packages = [
@@ -160,9 +160,9 @@ Fabric can also be installed via Nix Flake.
     ];
     ```
 
-    You can make Fabric accessible to the system Python interpreter, for it to be used by the LSP server of your text editor, by doing this instead:
+    You can make Fabric accessible to your global Python installation, this might be useful for LSP servers to detect Fabric:
     ```nix
-    # `environment.systemPackages` is also works the same way
+    # `environment.systemPackages` works also the same way
     home.packages = [
       (python3.withPackages (ps: pkgs.python-fabric.override {
         extraPackages = [
@@ -181,7 +181,7 @@ Fabric can also be installed via Nix Flake.
 </Steps>
 
 <Aside>
-    When installed via Nix, to run Fabric you should use the command `fabric` instead of `python -m fabric`.
+    You can now run Fabric using the command `fabric` instead of `python -m fabric`.
 </Aside>
 
 ---
