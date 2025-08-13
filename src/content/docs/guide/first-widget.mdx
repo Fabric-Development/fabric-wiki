@@ -42,7 +42,7 @@ This code first imports Fabric and the widgets we need to use -- a Window and a 
 Now let's demonstrate some boxes with some labels.
 
 ```python
-import fabric # importing the base pacakge
+import fabric # importing the base package
 from fabric import Application # prepare the application class which manages multi-config setups
 from fabric.widgets.box import Box # gets the Box class
 from fabric.widgets.label import Label # gets the Label class
@@ -145,31 +145,31 @@ Let's begin by importing some additional widgets:
 
 <Tabs>
   <TabItem label="Wayland">
-  
+
   ```python
   ...
   from fabric.widgets.datetime import DateTime
   from fabric.widgets.centerbox import CenterBox
   from fabric.widgets.wayland import WaylandWindow as Window  # Replace the previous Window import with this
   ```
-  
+
   </TabItem>
   <TabItem label="X11">
-  
+
   ```python
   ...
   from fabric.widgets.datetime import DateTime
   from fabric.widgets.centerbox import CenterBox
   from fabric.widgets.x11 import X11Window as Window  # Replace the previous Window import with this
   ```
-  
+
   </TabItem>
 </Tabs>
 
 You might be wondering why we specifically use the `WaylandWindow` or `X11Window` classes. This distinction becomes clearer when you understand the differences between regular windows and _layer_ windows:
 
 - **Regular `Window`**: This is a typical window that can be moved, closed, minimized, or maximized by your window manager. Regular windows are more suited for desktop applications rather than desktop widgets.
-  
+
 - **_Layer_ Window (`WaylandWindow` and `X11Window`)**: This transforms a standard application window into a desktop widget. Each display protocol has its own specific window type: `X11Window` for X11/XOrg and `WaylandWindow` for the Wayland protocol.
 
 ### Writing the Widget
@@ -189,7 +189,7 @@ To organize our code, we will create a `StatusBar` class that inherits from the 
                     **kwargs
                 )
         ```
-        
+
         <h4>Understanding the Arguments</h4>
 
         Let's take a closer look at the arguments used in the `StatusBar` class:
@@ -336,5 +336,5 @@ Here's the full code to create your simple status bar:
 
 Congratulations! 🎉 You've just created your first basic status bar using Fabric. After this tutorial you should end up with something that looks like this.
 ![Status Bar Example](/assets/first-widget-bar.png)
- 
+
 For a more advanced bar example, check out [this example](https://github.com/Fabric-Development/fabric/tree/main/examples/bar).
