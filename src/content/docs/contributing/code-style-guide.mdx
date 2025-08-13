@@ -62,9 +62,9 @@ if unexpected_feature is True:
     ...
 
 # This is much more concise and clear than
-x = "the unknown guy" if unexcpected_feature is True else None
-y = "idk" if unexcpected_feature is True else None
-z = 4002 if unexcpected_feature is True else None
+x = "the unknown guy" if unexpected_feature is True else None
+y = "idk" if unexpected_feature is True else None
+z = 4002 if unexpected_feature is True else None
 ```
 
 ## Commit Messages
@@ -86,7 +86,7 @@ feat: Add `balloons` argument to `Universe.celebrating_koalas`
 ```
 
 ```
-fix: Check for fradulent koalas before allocating balloons
+fix: Check for fraudulent koalas before allocating balloons
 ```
 
 Types can be `feat`, `fix`, or others. For more examples and information on things like breaking changes, visit the specification.
