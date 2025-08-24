@@ -1,0 +1,204 @@
+---
+title: "Window Manager Specials"
+sidebar:
+  order: 5
+---
+
+Fabric focuses on ease of use and tries to avoid introducing [boilerplate code](https://en.wikipedia.org/wiki/Boilerplate_code) to the user as much as it can. That's why we provide you with everything you might need out of the box. One of these things is window manager-specific extras, which include `Service` classes for communicating with your favorite window manager without external scripts, and widgets for interacting with the window manager visually (e.g., workspaces, active windows, and keyboard language indicators). This makes you just a couple of lines away from having a complete and functional desktop shell.
+
+# Window Manager Abstractions
+
+To create a consistent development experience, Fabric provides a set of abstract base widgets. These widgets define a common API for functionalities like displaying workspaces or the active window title. You'll use the specialized versions of these (e.g., `HyprlandWorkspaces`, `I3ActiveWindow`) which come pre-configured to work with their respective window managers.
+
+## WorkspaceButton
+
+A specialized `Button` used by the `Workspaces` widget to represent a single workspace. It automatically manages its visual state based on events from the window manager.
+
+- **Properties as CSS Classes:** The button's state properties (`active`, `urgent`, `empty`) are automatically applied as CSS classes to the widget. This makes styling incredibly simple.
+
+  ```css
+  #workspaces > button {
+    background-color: #555;
+  }
+  #workspaces > button.active {
+    background-color: #a4b27c;
+  }
+  #workspaces > button.urgent {
+    background-color: #f04747;
+  }
+  #workspaces > button.empty {
+    background-color: gray;
+  }
+  ```
+
+## Workspaces
+
+A container widget that dynamically displays a set of `WorkspaceButton`s. It listens for events from the window manager (as defined in the specific implementation) to automatically add, remove, and update the state of each button.
+
+- **`buttons`**: This is a list of predefined `WorkspaceButton`s useful for those who are looking to having a fixed number of workspaces present in the widget. If a newly created workspace wasn't found in the predefined list the `Workspace` widget will fallback to the `buttons_factory` function.
+- **`buttons_factory`**: Allows you to provide a function that customizes the creation of each `WorkspaceButton` based on the input argument to the function which's the ID of the workspace that is required to be created. You can set custom labels, icons, or change any other property and at the end you return the created `WorkspaceButton`. Also, you can return `None` to ignore the creation of that button.
+
+## ActiveWindow
+
+A widget that displays information about the currently focused window. It listens for focus change events from the window manager (as defined in the specific implementation) and updates its content dynamically.
+
+- **`formatter`**: A `FormattedString` (see down for examples.) provides `win_title` for the title of the window and `win_class` for the (initial) class of the window.
+
+## Language
+
+A widget that shows the current keyboard layout. It's designed to listen for layout change events from the window manager.
+
+- **`keyboard`**: A regex pattern used to target a specific keyboard device by name (useful if you have multiple input devices.)
+- **`formatter`**: A `FormattedString` (see down for examples.) provides `language`.
+
+### The FormattedString Class
+
+The `FormattedString` class is a core utility in Fabric that provides a dynamic templating system for your widgets. Instead of just displaying static text, you can create templates that react to the widget's state and apply custom logic.
+
+It works by taking a string with placeholders (`{...}` similar to that of f-strings') and a set of functions or variables you provide. The widget itself supplies context-specific variables (like `win_title` & `win_class` for `ActiveWindow` or `language` for `Language`).
+
+Import: `from fabric.utils import FormattedString`
+
+**Example: Truncating a Window Title**
+
+A long window title can break the layout of your bar. `FormattedString` can solve this elegantly.
+
+1. **Define a `truncate` function** (import it from `fabric.utils.helpers`).
+2. **Create a `FormattedString` instance**, passing the function in.
+3. **Pass the formatter** to the `ActiveWindow` widget.
+
+```python
+from fabric.utils import FormattedString, truncate
+from fabric.hyprland.widgets import HyprlandActiveWindow
+
+# `win_title` is provided by the widget to the formatter at runtime
+# `truncate` is a function we provide
+formatter = FormattedString(
+    "{'Desktop' if not win_title else truncate(win_title, 42)}",
+    truncate=truncate,
+)
+
+active_window = HyprlandActiveWindow(formatter=formatter)
+```
+
+Here, `win_title` is automatically passed by `HyprlandActiveWindow` whenever the focused window changes. Our `truncate` function is then called with this title, ensuring the label never exceeds 42 characters.
+
+**Use Case with Language Indicators**
+
+This is where `FormattedString` truly shines (_as if it never did already_). Window managers often report full layout names like `English (US)` or `Arabic`, which are too long for a status bar. You can use `FormattedString` to convert these to shorter, more convenient names like `ENG` and `ARA`.
+
+```python
+from fabric.hyprland.widgets import HyprlandLanguage
+from fabric.utils import FormattedString
+
+# define a simple function to handle the replacement logic
+# `language` is the variable provided by the HyprlandLanguage widget to the context of the FormattedString object
+language_widget = HyprlandLanguage(
+    formatter=FormattedString(
+        "{replace_lang(language)}",
+        replace_lang=lambda lang: lang[:3].upper() # use only first 3 letters converted to uppercase
+    )
+)
+```
+
+In this example:
+
+- `HyprlandLanguage` detects a layout change and gets the new name (e.g., "English (US)").
+- It calls the formatter, passing `language="English (US)"`.
+- Our `replace_lang` lambda is executed with this value.
+- The `replace_lang` function returns `"ENG"` since it takes the first 3 letters converted to uppercase.
+
+# Hyprland
+
+Fabric comes with a suite of widgets and a service for Hyprland out of the box.
+
+## The Hyprland Service
+
+The `Hyprland` service class provides a direct, real-time connection to the Hyprland IPC socket, enabling you to send commands and listen to events without extra dependencies.
+
+Import: `from fabric.hyprland import Hyprland`
+
+### Sending Commands
+
+Send any `hyprctl` command as a string. The service handles the socket communication.
+
+```python
+from fabric.hyprland.service import Hyprland
+Hyprland.send_command("dispatch workspace e+1")
+```
+
+_Notice that we don't need to initialize the `Hyprland` class? that's intentional._
+
+### Listening to Events
+
+Listen to any Hyprland IPC event by connecting to the `event` signal with the event name as the detail.
+
+```python
+from fabric.hyprland.service import Hyprland, HyprlandEvent
+hyprland_connection = Hyprland()
+hyprland_connection.connect("event::workspacev2", lambda s, e: print(e.data))
+```
+
+## HyprlandWorkspaces
+
+This widget listens to `createworkspacev2`, `destroyworkspacev2`, `workspacev2`, and `focusedmonv2` events to automatically manage and display your workspaces.
+
+Import: `from fabric.hyprland.widgets import HyprlandWorkspaces`
+
+## HyprlandActiveWindow
+
+This widget listens to `activewindow` and `closewindow` events to display the title of the active window and updates automatically on focus changes.
+
+Import: `from fabric.hyprland.widgets import HyprlandActiveWindow`
+
+## HyprlandLanguage
+
+This widget listens to the `activelayout` event to show the current keyboard layout.
+
+Import: `from fabric.hyprland.widgets import HyprlandLanguage`
+
+# I3 And Sway
+
+Since `v0.0.2`, Fabric comes with a suite similar to Hyprland's but for i3 and Sway.
+
+## The I3 Service
+
+The `I3` service connects to the IPC socket for both i3 and Sway.
+
+Import: `from fabric.i3 import I3`
+
+### Sending Commands
+
+Similar to Hyprland's, you can send any i3 or sway command. For getting data, you must specify the correct message type.
+
+```python
+from fabric.i3.service import I3, I3MessageType
+workspaces_reply = I3.send_command("", message_type=I3MessageType.GET_WORKSPACES)
+```
+
+### Listening to Events
+
+Events are handled by connecting to detailed signals, which are derived from the i3 IPC event names.
+
+```python
+from fabric.i3.service import I3, I3Event
+i3_connection = I3()
+i3_connection.connect("event::window::focus", lambda s, e: print(e.data))
+```
+
+## I3Workspaces
+
+A `Workspaces` widget for i3/Sway that listens to `workspace::focus`, `workspace::init`, and `workspace::empty` events.
+Import: `from fabric.i3.widgets import I3Workspaces`
+
+## I3ActiveWindow
+
+An `ActiveWindow` widget for i3/Sway that listens to `window::focus`, `window::title`, and `window::close` events to provide an indicator for active windows (same API as `HyprlandActiveWindow`.)
+
+Import: `from fabric.i3.widgets import I3ActiveWindow`
+
+## I3Language (Sway Only)
+
+A `Language` widget that listens to the `input::xkb_layout` event. This widget works **only with Sway**, as the standard i3 IPC does not provide events for keyboard layout changes. Same API as `HyprlandLanguage`.
+
+Import: `from fabric.i3.widgets import I3Language`
