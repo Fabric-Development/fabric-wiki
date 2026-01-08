@@ -44,6 +44,15 @@ This might happen if the `GDK_BACKEND` environment variable is set to `x11` or a
 
 If your compositor supports the protocol, you can fix this issue by setting the `GDK_BACKEND` variable to `wayland` (e.g. `env GDK_BACKEND=wayland python config.py`.)
 
+Double check your import module. Make sure you import the correct module
+```py
+# Wrong ❌
+from fabric.widgets.window import Window
+
+# Correct ✅
+from fabric.widgets.wayland import WaylandWindow as Window
+```
+
 ### My eventbox isn't eventboxing properly
 
 If you're on [Hyprland](https://hyprland.org), this is a known issue with hyprland layer surfaces. (last known version to be working fine is `0.28.0`)
