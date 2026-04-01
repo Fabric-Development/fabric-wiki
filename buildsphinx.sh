@@ -45,7 +45,7 @@ source venv/bin/activate
 
 log "Installing required Python packages..."
 pip install -e .
-pip install sphinx==8.2.0 recommonmark sphinx-markdown-builder sphinxawesome-theme sphinx-toolbox
+pip install sphinx==8.1.3 recommonmark sphinx-markdown-builder==0.6.7  sphinxawesome-theme sphinx-toolbox==3.8.1 
 
 log "Building Sphinx documentation..."
 cd docs
