@@ -52,12 +52,30 @@ If you're not on Hyprland, provide more information through a [GitHub issue](htt
 
 ### My widget isn't blurring its background on Hyprland
 
-Add these lines to your Hyprland config:
+Add these lines to your Hyprland config based on the version you have...
 
+For Hyprland < v0.53.0:
 ```conf
-layerrule = blur on, match:namespace fabric
-layerrule = ignore_alpha 0, match:namespace fabric
+layerrule = blur, fabric.*
+layerrule = ignorezero, fabric.*
 ```
+
+For Hyprland >= v0.53.0:
+```conf
+layerrule = blur on, match:namespace fabric.*
+layerrule = ignore_alpha 0, match:namespace fabric.*
+```
+
+And for Lua:
+```lua
+hl.layer_rule({
+    match = { namespace = "^fabric.*" },
+    blur = true,
+    ignorealpha = 0,
+})
+```
+
+_Make sure to change the snippet if you've changed your Fabric's window namespace._
 
 ---
 
