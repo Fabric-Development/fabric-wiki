@@ -30,7 +30,9 @@ const BASE_URL = import.meta.env.BASE_URL;
           }
           alt={
             "an image showcasing a snippet with " +
-            ("a description that reads: " + description || "no description")
+            (description
+              ? `a description that reads: ${description}`
+              : "no description")
           }
           width={512}
           height={512}
@@ -45,7 +47,7 @@ const BASE_URL = import.meta.env.BASE_URL;
         <h2 class="card-text card-name text-3xl font-bold m-0">
           {name}
         </h2>
-        <div class="my-2">
+        <div class="flex flex-wrap gap-1">
           {
             tags &&
               tags.map((t) =>
@@ -53,7 +55,7 @@ const BASE_URL = import.meta.env.BASE_URL;
                   <Badge text={t} />
                 ) : (
                   <Badge variant={t[0]} text={t[1]} />
-                )
+                ),
               )
           }
         </div>

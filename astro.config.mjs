@@ -1,10 +1,9 @@
 // @ts-check
 import starlightSidebarTopics from "starlight-sidebar-topics";
 import { prefixLinks } from "./src/plugins/CorrectURL";
-import starlightVersions from "starlight-versions";
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
-import tailwind from "@astrojs/tailwind";
+import tailwind from "@tailwindcss/vite";
 import react from "@astrojs/react";
 import fs from "fs";
 
@@ -18,21 +17,21 @@ fs.readFile("./public/CNAME", "utf-8", (err, data) => {
 });
 const BASE_URL = "";
 
+
 // https://astro.build/config
 export default defineConfig({
   base: BASE_URL,
   site: SITE_URL,
   trailingSlash: "ignore",
+
   markdown: {
     remarkPlugins: [prefixLinks({ base: BASE_URL + "/" })],
   },
+
   integrations: [
     starlight({
       title: "Fabric",
       plugins: [
-        // starlightVersions({
-        //   versions: [{ slug: "0.0.1", label: "v0.0.1" }],
-        // }),
         starlightSidebarTopics([
           {
             label: "Guides",
@@ -41,19 +40,19 @@ export default defineConfig({
             items: [
               {
                 label: "Getting Started",
-                autogenerate: { directory: "getting-started" },
+                items: [{ autogenerate: { directory: "getting-started" } }],
               },
               {
                 label: "Guide",
-                autogenerate: { directory: "guide" },
+                items: [{ autogenerate: { directory: "guide" } }],
               },
               {
                 label: "Community Snippets",
-                autogenerate: { directory: "snippets" },
+                items: [{ autogenerate: { directory: "snippets" } }],
               },
               {
                 label: "Contributing",
-                autogenerate: { directory: "contributing" },
+                items: [{ autogenerate: { directory: "contributing" } }],
                 collapsed: true,
               },
             ],
@@ -65,7 +64,7 @@ export default defineConfig({
             items: [
               {
                 label: "Parent Package",
-                autogenerate: { directory: "api" },
+                items: [{ autogenerate: { directory: "api" } }],
               },
             ],
           },
@@ -79,10 +78,18 @@ export default defineConfig({
         light: "./src/assets/logo-light.svg",
         replacesTitle: false,
       },
-      social: {
-        github: "https://github.com/Fabric-Development/fabric",
-        discord: "https://discord.gg/3sDbYc9SZP",
-      },
+      social: [
+        {
+          icon: "github",
+          label: "GitHub",
+          href: "https://github.com/Fabric-Development/fabric",
+        },
+        {
+          icon: "discord",
+          label: "Discord",
+          href: "https://discord.gg/3sDbYc9SZP",
+        },
+      ],
       customCss: [
         "./src/tailwind.css",
         "./src/styles/custom.css",
@@ -102,13 +109,15 @@ export default defineConfig({
         "@fontsource/readex-pro/600.css",
         "@fontsource/readex-pro/700.css",
       ],
+      components: { Hero: "./src/components/Hero.astro" }
+      
     }),
-    tailwind({ applyBaseStyles: false }),
     react({
       include: "./src/components/*.[jsx|tsx]",
     }),
   ],
   vite: {
+    plugins: [tailwind()],
     resolve: {
       alias: {
         "@components": "/src/components",

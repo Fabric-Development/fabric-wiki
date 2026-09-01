@@ -15,7 +15,7 @@ const { icon, title, body } = Astro.props;
 <div class="feature-card">
   <Tilt
     client:idle
-    className="feature-card-inner m-0 p-0 w-[100%] h-[100%] min-h-50"
+    className="feature-card-inner m-0 p-0 w-full h-full min-h-50"
     glareEnable={true}
     glareMaxOpacity={0.8}
     glareColor="var(--sl-color-gray-3)"
@@ -28,7 +28,7 @@ const { icon, title, body } = Astro.props;
     tiltReverse={true}
   >
     <article
-      class="card flex flex-col flex-grow basis-auto self-stretch w-[100%] h-[100%] border border-solid rounded-lg m-0"
+      class="card flex flex-col grow basis-auto self-stretch w-full h-full border border-solid rounded-lg m-0"
     >
       <h4 class="title font-bold gap-4 items-center">
         <!-- @ts-ignore -->

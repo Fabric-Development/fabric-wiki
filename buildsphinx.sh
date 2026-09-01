@@ -35,7 +35,7 @@ if [ -d "$temp_folder" ] && [ "${1:-}" != "clean" ]; then
 else
     log "Cloning a fresh copy of Fabric's source..."
     clean_up
-    git clone $fabric_repo_url -b $default_branch "$temp_folder"
+    git clone $fabric_repo_url -b $default_branch "$temp_folder" --depth=1
 fi
 
 log "Setting up Python virtual environment..."
