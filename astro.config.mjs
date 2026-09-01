@@ -1,5 +1,6 @@
 // @ts-check
 import starlightSidebarTopics from "starlight-sidebar-topics";
+import starlightPydocs, { pydocsSidebarGroup } from 'starlight-pydocs';
 import { prefixLinks } from "./src/plugins/CorrectURL";
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
@@ -69,7 +70,12 @@ export default defineConfig({
             ],
           },
         ]),
+        // starlightPydocs({
+        //   packages: [{ name: "fabric", search: ["./.ignore-me-fabric-tmp"], docstringStyle: "sphinx" }],
+        // }),
       ],
+      // sidebar: [{ label: 'API reference', items: [pydocsSidebarGroup] }],
+
       editLink: {
         baseUrl: "https://github.com/Fabric-Development/fabric-wiki/edit/",
       },

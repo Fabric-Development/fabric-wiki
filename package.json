@@ -29,6 +29,7 @@
     "react-parallax-tilt": "^1.7.239",
     "rollup": "^4.29.1",
     "sharp": "^0.35.4",
+    "starlight-pydocs": "^0.2.1",
     "starlight-sidebar-topics": "^0.8.0",
     "tailwindcss": "^4.3.3",
     "three": "^0.171.0",

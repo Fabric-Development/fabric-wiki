@@ -76,32 +76,62 @@ import { Aside, Steps, Tabs, TabItem } from "@astrojs/starlight/components";
 
 The recommended way to install Fabric is through a [virtual environment](https://docs.python.org/3/library/venv).
 
-<Steps>
-1. To install this way, first make a folder for your new project (which is going to include your new config file):
-    ```bash
-    mkdir <your-folder-name>
-    ```
-2. change directories to this new folder:
-    ```bash
-    cd <your-folder-name>
-    ```
-3. Create a new virtual environment:
-    ```bash
-    python -m venv venv
-    ```
-4. Source the newly created virtual environment:
-    ```bash
-    source venv/bin/activate
-    ```
-5. You can now install Fabric in your newly-created virtual environment.
-    ```bash
-    pip install git+https://github.com/Fabric-Development/fabric.git
-    ```
-</Steps>
+<Tabs>
+  <TabItem label="Manual">
+    <Steps>
+    1. To install this way, first make a folder for your new project (which is going to include your new config file):
+        ```bash
+        mkdir <your-config-folder>
+        ```
+    2. Switch to this new folder:
+        ```bash
+        cd <your-config-folder>
+        ```
+    3. Create a new virtual environment:
+        ```bash
+        python -m venv venv
+        ```
+    4. Source the newly created virtual environment:
+        ```bash
+        source venv/bin/activate
+        ```
+    5. You can now install Fabric in your newly-created virtual environment.
+        ```bash
+        pip install git+https://github.com/Fabric-Development/fabric.git
+        ```
+    </Steps>
+  </TabItem>
+  <TabItem label="Fabric CLI">
+    Alternatively, you can install Fabric through its CLI, you first need to the [Fabric CLI](https://github.com/Fabric-Development/fabric-cli) utility first.
+    <Steps>
+    1. To install this way, first make a folder for your new project (which is going to include your new config file):
+        ```bash
+        mkdir <your-config-folder>
+        ```
+    2. Change to this new folder:
+        ```bash
+        cd <your-config-folder>
+        ```
+    3. Create a new virtual environment:
+        ```bash
+        fabric-cli init
+        ```
+        An interactive dialog should appear, it will guide you from there...
+    </Steps>
+  </TabItem>
+</Tabs>
+    
+_`<your-config-folder>` is common to be `~/.config/fabric`_
 
 ### Global Install
 
 Alternatively, you can install Fabric globally using the following command:
+
+<Aside type="caution">
+  Unless you are on NixOS, installing Fabric globally **is NOT recommended** and can easily cause issues
+  as you're being tied to your system's distribution packages.
+</Aside>
+
 
 <Aside type="tip">
   **If you're on Arch Linux**, Fabric is available in the AUR under the name
