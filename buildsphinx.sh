@@ -5,11 +5,8 @@ set -euo pipefail
 project_root=$(realpath "$(dirname "$0")")
 temp_folder="$project_root/.ignore-me-fabric-tmp"
 dest_folder="$project_root/src/content/docs/api/"
-# fabric_repo_url="https://github.com/Fabric-Development/fabric"
-
-# temporary until it's merged
-fabric_repo_url="https://github.com/its-darsh/fabric"
-default_branch="sphinx"
+fabric_repo_url="https://github.com/Fabric-Development/fabric"
+default_branch="main"
 
 log() {
     echo -e "\033[1;32m[INFO]\033[0m $1"
